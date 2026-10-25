@@ -38,7 +38,7 @@ Pour l'instant : armes seulement (`data/equipment/weapons/*.json`), test en loca
 - La liste d'effets de l'attaque : ajout, suppression et changement de type.
 - Liste des armes : tri par nom, type ou rareté, filtres « Type : … » et
   « Rareté : … », groupes par type ou par rareté. Le tri par rareté suit
-  l'ordre alphabétique des valeurs (COMMON, EPIC, LEGENDARY…).
+  l'ordre de rareté grâce aux valeurs R0_COMMON … R4_LEGENDARY.
 
 ## Avant toute publication
 

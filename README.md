@@ -36,6 +36,9 @@ Pour l'instant : armes seulement (`data/equipment/weapons/*.json`), test en loca
 - Nom du fichier d'une nouvelle arme : tiré du nom (« Hache de guerre » doit
   donner `hache_de_guerre.json`, en minuscules avec des `_`).
 - La liste d'effets de l'attaque : ajout, suppression et changement de type.
+- Liste des armes : tri par nom, type ou rareté, filtres « Type : … » et
+  « Rareté : … », groupes par type ou par rareté. Le tri par rareté suit
+  l'ordre alphabétique des valeurs (COMMON, EPIC, LEGENDARY…).
 
 ## Avant toute publication
 

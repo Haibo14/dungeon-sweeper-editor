@@ -15,6 +15,8 @@ Pour l'instant : armes seulement (`data/equipment/weapons/*.json`), test en loca
    « Live Server » de VS Code.
 2. Ouvrir `http://localhost:8080/admin/` dans **Chrome, Edge ou Brave**. Le
    mode local utilise l'API File System Access, absente de Firefox et Safari.
+   Le navigateur intégré de l'application Claude ne convient pas : il annule
+   la fenêtre de choix de dossier.
 3. Cliquer sur **« Work with Local Repository »** et choisir la **racine du
    dépôt du jeu** (le dossier qui contient `project.godot`).
 4. Les modifications sont écrites directement dans les fichiers, sans commit.
@@ -27,7 +29,8 @@ Pour l'instant : armes seulement (`data/equipment/weapons/*.json`), test en loca
   indentation de 2 espaces, pas de tabulation, fins de ligne LF, `}` suivi
   d'un saut de ligne final, clés dans l'ordre des champs de la config.
 - Champs laissés vides : ils doivent rester absents du fichier
-  (`omit_empty_optional_fields`), le jeu prenant alors la valeur par défaut.
+  (`output.omit_empty_optional_fields`), le jeu prenant alors la valeur par
+  défaut.
   À vérifier surtout pour les booléens (un `false` écrit est sans effet, mais
   ajoute du bruit au diff).
 - Nom du fichier d'une nouvelle arme : tiré du nom (« Hache de guerre » doit

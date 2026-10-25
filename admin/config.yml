@@ -10,6 +10,11 @@ slug:
   encoding: "ascii"
   clean_accents: true
   sanitize_replacement: "_"
+output:
+  omit_empty_optional_fields: true
+  json:
+    indent_style: "space"
+    indent_size: 2
 collections:
   - name: "weapons"
     label: "Armes"
@@ -21,7 +26,6 @@ collections:
     create: true
     identifier_field: "display_name"
     summary: "{{display_name}}"
-    omit_empty_optional_fields: true
     fields:
       - name: "display_name"
         label: "Nom"

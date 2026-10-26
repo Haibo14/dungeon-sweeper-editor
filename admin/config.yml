@@ -2,7 +2,7 @@
 # Champs tirés des JSON Schema du dépôt du jeu (schema/). Ne contient aucune donnée de jeu.
 backend:
   name: "github"
-  repo: "<COMPTE>/dungeon-sweeper"
+  repo: "Haibo14/DungeonSweeper"
   branch: "balance"
 media_folder: "assets/import"
 public_folder: "/assets/import"

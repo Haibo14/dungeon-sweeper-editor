@@ -1,12 +1,67 @@
 # dungeon-sweeper-editor
 
 Éditeur web des données d'équilibrage de DungeonSweeper, basé sur
-[Sveltia CMS](https://github.com/sveltia/sveltia-cms). Ce dépôt ne contient que
-l'interface (`admin/index.html`) et sa configuration (`admin/config.yml`) :
-aucune donnée de jeu, aucun secret. Les données sont les fichiers JSON du dépôt
-du jeu (format : `docs/data.md` de ce dépôt).
+[Sveltia CMS](https://github.com/sveltia/sveltia-cms) (licence MIT,
+`admin/sveltia-cms.LICENSE.txt`). Ce dépôt public ne contient que l'interface
+et sa configuration : **aucune donnée de jeu, aucun secret**. Les données sont
+les fichiers JSON du dépôt privé `Haibo14/DungeonSweeper` (format :
+`docs/data.md` de ce dépôt).
 
-Pour l'instant : armes seulement (`data/equipment/weapons/*.json`), test en local.
+Pour l'instant : armes seulement (`data/equipment/weapons/*.json`).
+
+## Contenu
+
+- `admin/index.html` : charge Sveltia et lui indique sa config (chemins
+  relatifs : sur GitHub Pages, le site vit sous `/dungeon-sweeper-editor/`).
+- `admin/config.yml` : collection des armes ; `backend: github`,
+  `repo: Haibo14/DungeonSweeper`, `branch: balance`.
+- `admin/sveltia-cms.js` et `admin/chunks/` : Sveltia CMS **0.252.0**, copié
+  dans le dépôt plutôt que chargé depuis un CDN (un script externe modifié
+  pourrait voler le token GitHub).
+- `.nojekyll` : GitHub Pages sert les fichiers tels quels.
+
+## Ce qui vient encore de l'extérieur
+
+Le script principal et ses morceaux de code (`chunks/`) sont servis par ce
+dépôt. Sveltia télécharge encore, depuis des CDN :
+
+- la traduction de son interface (`unpkg.com/@sveltia/cms@0.252.0/locales/…`,
+  fichier JSON) et une vérification de nouvelle version (`package.json`) ;
+- ses polices (`cdn.jsdelivr.net/fontsource/…`) ;
+- des bibliothèques propres à certains widgets (carte, code, PDF…), que la
+  config actuelle n'utilise pas.
+
+Pour bloquer tout script externe, il faudrait une Content Security Policy
+(`<meta http-equiv="Content-Security-Policy">`), à mettre au point et tester
+avec une vraie connexion GitHub.
+
+## Mettre à jour Sveltia
+
+Sans Node.js, à la main (ce que fait `npm i @sveltia/cms`) :
+
+1. Lire la version et l'empreinte publiées :
+   `https://registry.npmjs.org/@sveltia/cms/<version>` (champs `dist.tarball`
+   et `dist.integrity`).
+2. Télécharger l'archive `.tgz` et vérifier son empreinte SHA-512 :
+   `openssl dgst -sha512 -binary cms-<version>.tgz | openssl base64 -A` doit
+   donner la valeur de `dist.integrity` (sans le préfixe `sha512-`).
+3. Copier depuis l'archive : `package/dist/sveltia-cms.js` → `admin/`,
+   `package/dist/chunks/*.js` → `admin/chunks/`,
+   `package/dist/chunks/assets/*.js` → `admin/chunks/assets/` (supprimer les
+   anciens), `package/LICENSE.txt` → `admin/sveltia-cms.LICENSE.txt`.
+4. Mettre à jour le numéro de version dans ce README et dans `index.html`.
+
+## Publier sur GitHub Pages
+
+Une fois ce dépôt poussé : Settings → Pages → « Deploy from a branch », branche
+`main`, dossier `/ (root)`. L'éditeur est alors à
+`https://haibo14.github.io/dungeon-sweeper-editor/admin/`.
+
+Connexion : « Sign In with GitHub » demande un serveur d'authentification
+OAuth (`backend.base_url`, non configuré). Sans lui, utiliser « Sign In Using
+Access Token » avec un jeton GitHub à accès limité au dépôt `DungeonSweeper`
+(contenu en lecture et écriture). Le jeton reste dans le navigateur ; ne
+jamais l'écrire dans ce dépôt.
 
 ## Tester en local
 
@@ -18,30 +73,20 @@ Pour l'instant : armes seulement (`data/equipment/weapons/*.json`), test en loca
    Le navigateur intégré de l'application Claude ne convient pas : il annule
    la fenêtre de choix de dossier.
 3. Cliquer sur **« Work with Local Repository »** et choisir la **racine du
-   dépôt du jeu** (le dossier qui contient `project.godot`).
+   dépôt du jeu** (le dossier qui contient `project.godot`). Sveltia travaille
+   sur la branche sortie dans ce dossier.
 4. Les modifications sont écrites directement dans les fichiers, sans commit.
    Les relire avec `git diff` dans le dépôt du jeu, puis les commiter
    soi-même sur une branche.
 
 ## À observer pendant le test
 
-- Formatage écrit par le CMS, comparé à celui des fichiers actuels :
-  indentation de 2 espaces, pas de tabulation, fins de ligne LF, `}` suivi
-  d'un saut de ligne final, clés dans l'ordre des champs de la config.
-- Champs laissés vides : ils doivent rester absents du fichier
-  (`output.omit_empty_optional_fields`), le jeu prenant alors la valeur par
-  défaut.
-  À vérifier surtout pour les booléens (un `false` écrit est sans effet, mais
-  ajoute du bruit au diff).
-- Nom du fichier d'une nouvelle arme : tiré du nom (« Hache de guerre » doit
-  donner `hache_de_guerre.json`, en minuscules avec des `_`).
-- La liste d'effets de l'attaque : ajout, suppression et changement de type.
-- Liste des armes : tri par nom, type ou rareté, filtres « Type : … » et
-  « Rareté : … », groupes par type ou par rareté. Le tri par rareté suit
-  l'ordre de rareté grâce aux valeurs R0_COMMON … R4_LEGENDARY.
-
-## Avant toute publication
-
-- Épingler la version de Sveltia CMS dans `admin/index.html` (TODO).
-- Remplacer `<COMPTE>/dungeon-sweeper` dans `admin/config.yml` (backend
-  `github`, branche `balance`) par le vrai dépôt.
+- Formatage écrit par le CMS : indentation de 2 espaces, fins de ligne LF,
+  saut de ligne final, clés dans l'ordre des champs de la config.
+- Champs laissés vides : absents du fichier
+  (`output.omit_empty_optional_fields`), le jeu prend la valeur par défaut.
+- Nom du fichier d'une nouvelle arme : tiré du nom (« Hache de guerre » →
+  `hache_de_guerre.json`).
+- Effets de l'attaque : ajout, suppression, changement de type.
+- Liste des armes : tri, filtres et groupes par type et rareté.
+- Icône : vignette et choix dans la grille des PNG de `assets/icons/weapons/`.

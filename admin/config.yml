@@ -1,4 +1,4 @@
-# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes uniquement).
+# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes et armures).
 # Champs tirés des JSON Schema du dépôt du jeu (schema/). Ne contient aucune donnée de jeu.
 backend:
   name: "github"
@@ -138,7 +138,7 @@ collections:
         public_folder: "/assets/icons/weapons"
         choose_url: false
         accept: "image/png"
-        hint: "Une des 720 icônes de assets/icons/weapons/ (<famille>_<matériau>, découpées des atlas par build_weapon_icons.gd). Ne pas en ajouter ici : elles viennent des atlas."
+        hint: "Une des 720 icônes de assets/icons/weapons/ (<famille>_<matériau>, découpées des atlas par build_icons.gd). Ne pas en ajouter ici : elles viennent des atlas."
       - name: "effects"
         label: "Effets de l'objet"
         label_singular: "Effet"
@@ -498,3 +498,230 @@ collections:
                 step: 1
                 required: false
                 hint: "Vide = 1."
+  - name: "armors"
+    label: "Armures"
+    label_singular: "Armure"
+    description: "Armures du jeu (tête, torse, jambes, pieds) : un fichier JSON par armure (format : docs/data.md du dépôt du jeu)."
+    folder: "data/equipment/armors"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "display_name"
+    summary: "{{display_name}}"
+    sortable_fields:
+      fields:
+        - "display_name"
+        - "slot"
+        - "rarity"
+      default:
+        field: "slot"
+        direction: "ascending"
+    view_filters:
+      filters:
+        - name: "slot_head"
+          label: "Emplacement : Tête"
+          field: "slot"
+          eq: "Head"
+        - name: "slot_chest"
+          label: "Emplacement : Torse"
+          field: "slot"
+          eq: "Chest"
+        - name: "slot_legs"
+          label: "Emplacement : Jambes"
+          field: "slot"
+          eq: "Legs"
+        - name: "slot_feet"
+          label: "Emplacement : Pieds"
+          field: "slot"
+          eq: "Feet"
+        - name: "rarity_r0_common"
+          label: "Rareté : Commun"
+          field: "rarity"
+          eq: "R0_COMMON"
+        - name: "rarity_r1_uncommon"
+          label: "Rareté : Peu commun"
+          field: "rarity"
+          eq: "R1_UNCOMMON"
+        - name: "rarity_r2_rare"
+          label: "Rareté : Rare"
+          field: "rarity"
+          eq: "R2_RARE"
+        - name: "rarity_r3_epic"
+          label: "Rareté : Épique"
+          field: "rarity"
+          eq: "R3_EPIC"
+        - name: "rarity_r4_legendary"
+          label: "Rareté : Légendaire"
+          field: "rarity"
+          eq: "R4_LEGENDARY"
+    view_groups:
+      groups:
+        - name: "slot"
+          label: "Emplacement"
+          field: "slot"
+        - name: "rarity"
+          label: "Rareté"
+          field: "rarity"
+    fields:
+      - name: "display_name"
+        label: "Nom"
+        widget: "string"
+        required: true
+        hint: "Nom affiché en jeu. Donne aussi le nom du fichier d'une nouvelle armure (« Casque de fer » → casque_de_fer.json)."
+      - name: "texture"
+        label: "Icône"
+        widget: "image"
+        required: false
+        media_folder: "/assets/icons/equipment"
+        public_folder: "/assets/icons/equipment"
+        choose_url: false
+        accept: "image/png"
+        hint: "Une des 600 icônes de assets/icons/equipment/ (découpées des 4 atlas d'équipement par build_icons.gd). Ne pas en ajouter ici : elles viennent des atlas."
+      - name: "effects"
+        label: "Effets de l'objet"
+        label_singular: "Effet"
+        widget: "list"
+        required: false
+        hint: "Pas encore appliqués en jeu : laisser vide."
+        typeKey: "type"
+        types:
+          - name: "DamageEffect"
+            label: "Dégâts"
+            widget: "object"
+            hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "HealEffect"
+            label: "Soin"
+            widget: "object"
+            hint: "Rend des PV au porteur, sans dépasser son maximum."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "StrengthEffect"
+            label: "Force"
+            widget: "object"
+            hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "WeaknessEffect"
+            label: "Faiblesse"
+            widget: "object"
+            hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Nombre de PV, de charges… Vide = 1."
+      - name: "rarity"
+        label: "Rareté"
+        widget: "select"
+        required: true
+        hint: "Rareté dans les coffres et prix chez le marchand. Toujours écrite (filtres et groupes de cette liste)."
+        options:
+          - label: "Commun"
+            value: "R0_COMMON"
+          - label: "Peu commun"
+            value: "R1_UNCOMMON"
+          - label: "Rare"
+            value: "R2_RARE"
+          - label: "Épique"
+            value: "R3_EPIC"
+          - label: "Légendaire"
+            value: "R4_LEGENDARY"
+      - name: "slot"
+        label: "Emplacement"
+        widget: "select"
+        required: true
+        hint: "Partie du corps où se porte l'armure. Toujours écrit (filtres et groupes de cette liste)."
+        options:
+          - label: "Tête"
+            value: "Head"
+          - label: "Torse"
+            value: "Chest"
+          - label: "Jambes"
+            value: "Legs"
+          - label: "Pieds"
+            value: "Feet"
+      - name: "armor"
+        label: "Armure"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        hint: "Ajoutée à l'armure du personnage, qui donne des points de bouclier en combat. Vide = 1."
+      - name: "damage_reduction"
+        label: "Réduction de dégâts"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        hint: "Retirée de chaque coup reçu, jamais en dessous de 1 dégât. Vide = 0."
+      - name: "max_health"
+        label: "PV max en plus"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        hint: "En points de vie (1 point = un demi-cœur), tant que l'armure est portée. Vide = 0."
+      - name: "thorns"
+        label: "Épines"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        hint: "Dégâts renvoyés au monstre chaque fois que son attaque touche le personnage. Vide = 0."
+      - name: "dodge_chance"
+        label: "Esquive (%)"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 100
+        step: 1
+        required: false
+        hint: "Chance d'esquiver chaque attaque de monstre (équipement léger), cumulée avec les autres objets et les artéfacts, plafonnée. Vide = 0."
+      - name: "block_chance"
+        label: "Blocage (%)"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 100
+        step: 1
+        required: false
+        hint: "Chance de bloquer chaque attaque de monstre (armure lourde), cumulée avec les autres objets et les artéfacts, plafonnée. Vide = 0."

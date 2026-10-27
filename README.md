@@ -7,13 +7,14 @@ et sa configuration : **aucune donnée de jeu, aucun secret**. Les données sont
 les fichiers JSON du dépôt privé `Haibo14/DungeonSweeper` (format :
 `docs/data.md` de ce dépôt).
 
-Pour l'instant : armes seulement (`data/equipment/weapons/*.json`).
+Pour l'instant : armes (`data/equipment/weapons/*.json`) et armures
+(`data/equipment/armors/*.json`).
 
 ## Contenu
 
 - `admin/index.html` : charge Sveltia et lui indique sa config (chemins
   relatifs : sur GitHub Pages, le site vit sous `/dungeon-sweeper-editor/`).
-- `admin/config.yml` : collection des armes ; `backend: github`,
+- `admin/config.yml` : collections des armes et des armures ; `backend: github`,
   `repo: Haibo14/DungeonSweeper`, `branch: balance`.
 - `admin/sveltia-cms.js` et `admin/chunks/` : Sveltia CMS **0.252.0**, copié
   dans le dépôt plutôt que chargé depuis un CDN (un script externe modifié
@@ -88,5 +89,7 @@ jamais l'écrire dans ce dépôt.
 - Nom du fichier d'une nouvelle arme : tiré du nom (« Hache de guerre » →
   `hache_de_guerre.json`).
 - Effets de l'attaque : ajout, suppression, changement de type.
-- Liste des armes : tri, filtres et groupes par type et rareté.
-- Icône : vignette et choix dans la grille des PNG de `assets/icons/weapons/`.
+- Liste des armes : tri, filtres et groupes par type et rareté ; liste des
+  armures : par emplacement et rareté.
+- Icône : vignette et choix dans la grille des PNG de `assets/icons/weapons/`
+  (armes) ou `assets/icons/equipment/` (armures).

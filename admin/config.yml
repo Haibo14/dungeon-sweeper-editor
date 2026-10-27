@@ -929,7 +929,7 @@ collections:
   - name: "levels"
     label: "Étages"
     label_singular: "Étage"
-    description: "Étages du donjon : un fichier JSON par étage (format : docs/data.md du dépôt du jeu). Le nombre et l'ordre des étages se règlent encore dans data/dungeon_data.tres : ni création ni suppression ici."
+    description: "Étages du donjon : un fichier JSON par étage (format : docs/data.md du dépôt du jeu). L'ordre et le nombre des étages se règlent dans data/dungeon_data.tres (level_refs, level_count) : ni création ni suppression ici. Plus de .tres d'étages ni de monstres : tout se règle ici."
     folder: "data/levels"
     extension: "json"
     format: "json"

@@ -9,8 +9,8 @@ les fichiers JSON du dépôt privé `Haibo14/DungeonSweeper` (format :
 
 Pour l'instant : armes (`data/equipment/weapons/*.json`), armures
 (`data/equipment/armors/*.json`), monstres (`data/monsters/*.json`) et étages
-(`data/levels/*.json`, sans création ni suppression : leur liste est encore
-dans `data/dungeon_data.tres`).
+(`data/levels/*.json`, sans création ni suppression : leur ordre est
+dans `level_refs` de `data/dungeon_data.tres`).
 
 ## Contenu
 

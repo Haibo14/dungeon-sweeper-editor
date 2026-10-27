@@ -340,103 +340,161 @@ collections:
         step: 1
         required: false
         hint: "En cases : 1 = les 8 cases autour, au-delà sans diagonales. Vide = 1."
-      - name: "strikes"
-        label: "Frappes par tour"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 5
-        step: 1
+      - name: "traits"
+        label: "Traits"
+        label_singular: "Trait"
+        widget: "list"
         required: false
-        hint: "Les suivantes visent la même cible, ou le monstre à portée le plus proche une fois la cible morte. Vide = 1."
-      - name: "recovery_turns"
-        label: "Tours de récupération"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 5
-        step: 1
-        required: false
-        hint: "Tours passés après chaque tour d'attaque. Vide = 0."
-      - name: "ricochets"
-        label: "Ricochets"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 5
-        step: 1
-        required: false
-        hint: "Rebonds de chaque coup vers le monstre le plus proche pas encore touché. Vide = 0."
-      - name: "targets"
-        label: "Cibles par frappe"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 5
-        step: 1
-        required: false
-        hint: "La cible, puis les autres monstres à portée les plus proches. Vide = 1."
-      - name: "splash_radius"
-        label: "Rayon d'éclaboussure"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 3
-        step: 1
-        required: false
-        hint: "Distance autour de la cible, diagonales comprises, où les monstres subissent aussi l'attaque. 0 = aucune. Vide = 0."
-      - name: "ignores_shield"
-        label: "Ignore le bouclier"
-        widget: "boolean"
-        required: false
-        hint: "Chaque coup passe outre les points de bouclier. Vide = non."
-      - name: "break_shield_chance"
-        label: "Brise-bouclier (%)"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 100
-        step: 1
-        required: false
-        hint: "Chance par coup de retirer tout le bouclier de la cible avant les dégâts. Vide = 0."
-      - name: "opening_hit_damage"
-        label: "Dégâts du premier coup"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Ajoutés au premier coup sur chaque monstre d'un combat. Vide = 0."
-      - name: "ignores_resistance"
-        label: "Ignore la résistance"
-        widget: "boolean"
-        required: false
-        hint: "Frappe à pleine puissance quelle que soit la résistance de la cible. Vide = non."
-      - name: "parry_chance"
-        label: "Parade (%)"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 100
-        step: 1
-        required: false
-        hint: "Chance de parer chaque attaque d'un monstre (cumulée avec les artéfacts, plafonnée). Vide = 0."
-      - name: "shield_gain"
-        label: "Bouclier par frappe"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Points de bouclier gagnés à chaque frappe, perdus en fin de combat. Vide = 0."
-      - name: "thorns"
-        label: "Épines"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Dégâts renvoyés au monstre à chaque attaque reçue (ajoutés à ceux de l'armure). Vide = 0."
+        hint: "Propriétés spéciales de l'arme : n'ajouter que celles qu'elle a, une seule de chaque sorte (la première compte)."
+        typeKey: "type"
+        types:
+          - name: "MultiStrikeTrait"
+            label: "Frappes multiples"
+            widget: "object"
+            hint: "Plusieurs attaques par tour : les suivantes visent la même cible, ou le monstre à portée le plus proche une fois la cible morte."
+            fields:
+              - name: "strikes"
+                label: "Frappes par tour"
+                widget: "number"
+                value_type: "int"
+                min: 2
+                max: 5
+                step: 1
+                required: false
+                hint: "Vide = 2."
+          - name: "RecoveryTrait"
+            label: "Récupération"
+            widget: "object"
+            hint: "Le personnage passe des tours après chaque tour où il a attaqué."
+            fields:
+              - name: "turns"
+                label: "Tours passés"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 5
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "RicochetTrait"
+            label: "Ricochets"
+            widget: "object"
+            hint: "Après chaque coup, le coup rebondit vers le monstre le plus proche pas encore touché, avec les dégâts de l'attaque."
+            fields:
+              - name: "count"
+                label: "Rebonds"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 5
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "MultiTargetTrait"
+            label: "Cibles multiples"
+            widget: "object"
+            hint: "Chaque frappe touche la cible, puis les autres monstres à portée les plus proches, chacun prenant toute l'attaque."
+            fields:
+              - name: "targets"
+                label: "Cibles par frappe"
+                widget: "number"
+                value_type: "int"
+                min: 2
+                max: 5
+                step: 1
+                required: false
+                hint: "Vide = 2."
+          - name: "SplashTrait"
+            label: "Éclaboussure"
+            widget: "object"
+            hint: "Après chaque coup, les autres monstres autour de la cible (diagonales comprises) subissent aussi les dégâts de l'attaque."
+            fields:
+              - name: "radius"
+                label: "Rayon"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 3
+                step: 1
+                required: false
+                hint: "1 = les 8 cases autour de la cible. Vide = 1."
+          - name: "ShieldPierceTrait"
+            label: "Perce-bouclier"
+            widget: "object"
+            hint: "Chaque coup (ricochets et éclaboussure compris) passe outre les points de bouclier de la cible."
+            fields: []
+          - name: "ShieldBreakTrait"
+            label: "Brise-bouclier"
+            widget: "object"
+            hint: "À chaque coup, une chance de retirer tout le bouclier de la cible avant les dégâts."
+            fields:
+              - name: "chance"
+                label: "Chance (%)"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 100
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "OpeningHitTrait"
+            label: "Premier coup"
+            widget: "object"
+            hint: "Dégâts ajoutés au premier coup sur chaque monstre d'un combat (pas aux ricochets ni à l'éclaboussure)."
+            fields:
+              - name: "damage"
+                label: "Dégâts en plus"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ResistancePierceTrait"
+            label: "Ignore la résistance"
+            widget: "object"
+            hint: "Frappe à pleine puissance quelle que soit la résistance de la cible."
+            fields: []
+          - name: "ParryTrait"
+            label: "Parade"
+            widget: "object"
+            hint: "Chance de parer chaque attaque d'un monstre (cumulée avec les artéfacts, plafonnée)."
+            fields:
+              - name: "chance"
+                label: "Chance (%)"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 100
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ShieldGainTrait"
+            label: "Bouclier par frappe"
+            widget: "object"
+            hint: "Points de bouclier gagnés à chaque frappe, perdus en fin de combat."
+            fields:
+              - name: "amount"
+                label: "Points"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ThornsTrait"
+            label: "Épines"
+            widget: "object"
+            hint: "Dégâts renvoyés au monstre à chaque attaque reçue (ajoutés à ceux de l'armure)."
+            fields:
+              - name: "damage"
+                label: "Dégâts"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."

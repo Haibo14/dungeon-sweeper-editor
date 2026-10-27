@@ -1,4 +1,4 @@
-# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes et armures).
+# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres et étages).
 # Champs tirés des JSON Schema du dépôt du jeu (schema/). Ne contient aucune donnée de jeu.
 backend:
   name: "github"
@@ -725,3 +725,561 @@ collections:
         step: 1
         required: false
         hint: "Chance de bloquer chaque attaque de monstre (armure lourde), cumulée avec les autres objets et les artéfacts, plafonnée. Vide = 0."
+  - name: "monsters"
+    label: "Monstres"
+    label_singular: "Monstre"
+    description: "Monstres du jeu : un fichier JSON par monstre (format : docs/data.md du dépôt du jeu). Un nouveau monstre n'apparaît que dans les étages qui le listent : l'ajouter aux choix de « Danger » des étages dans config.yml."
+    folder: "data/monsters"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "display_name"
+    summary: "{{display_name}}"
+    sortable_fields:
+      fields:
+        - "display_name"
+        - "max_health"
+      default:
+        field: "display_name"
+        direction: "ascending"
+    fields:
+      - name: "display_name"
+        label: "Nom"
+        widget: "string"
+        required: true
+        hint: "Nom affiché en jeu. Donne aussi le nom du fichier d'un nouveau monstre (« Rat géant » → rat_geant.json)."
+      - name: "spawn_weight"
+        label: "Poids hors liste d'étage"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        step: 0.1
+        required: false
+        hint: "Seulement pour un étage sans sa propre liste de dangers (aucun aujourd'hui) : chances relatives parmi les monstres, 0 = jamais. Vide = 1."
+      - name: "max_health"
+        label: "PV max"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 99
+        step: 1
+        required: false
+        hint: "Vide = 2."
+      - name: "attacks"
+        label: "Attaques"
+        label_singular: "Attaque"
+        widget: "list"
+        required: false
+        hint: "À chaque tour de combat, le monstre utilise ses attaques dans l'ordre, puis recommence."
+        summary: "{{fields.display_name}}"
+        fields:
+          - name: "display_name"
+            label: "Nom de l'attaque"
+            widget: "string"
+            required: false
+            hint: "Vide = \"Attack\"."
+          - name: "effects"
+            label: "Effets de l'attaque"
+            label_singular: "Effet"
+            widget: "list"
+            required: false
+            hint: "Appliqués dans l'ordre à chaque coup."
+            typeKey: "type"
+            types:
+              - name: "DamageEffect"
+                label: "Dégâts"
+                widget: "object"
+                hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "HealEffect"
+                label: "Soin"
+                widget: "object"
+                hint: "Rend des PV au porteur, sans dépasser son maximum."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "StrengthEffect"
+                label: "Force"
+                widget: "object"
+                hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "WeaknessEffect"
+                label: "Faiblesse"
+                widget: "object"
+                hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    hint: "Nombre de PV, de charges… Vide = 1."
+      - name: "attack_range"
+        label: "Portée"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
+      - name: "movement"
+        label: "Déplacement"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 2."
+      - name: "armor"
+        label: "Armure"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
+      - name: "resistance"
+        label: "Résistance"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        hint: "Dégâts retirés de chaque coup reçu (sauf armes qui ignorent la résistance). Vide = 0."
+      - name: "sprite_frames"
+        label: "Apparence"
+        widget: "select"
+        required: false
+        hint: "Animations du monstre (idle et run). Vide = dessiné comme un « M »."
+        options:
+          - label: "chort"
+            value: "/assets/sprites/dungeon_tileset_ii/chort.tres"
+          - label: "doc"
+            value: "/assets/sprites/dungeon_tileset_ii/doc.tres"
+          - label: "goblin"
+            value: "/assets/sprites/dungeon_tileset_ii/goblin.tres"
+          - label: "ice_zombie"
+            value: "/assets/sprites/dungeon_tileset_ii/ice_zombie.tres"
+          - label: "imp"
+            value: "/assets/sprites/dungeon_tileset_ii/imp.tres"
+          - label: "masked_orc"
+            value: "/assets/sprites/dungeon_tileset_ii/masked_orc.tres"
+          - label: "muddy"
+            value: "/assets/sprites/dungeon_tileset_ii/muddy.tres"
+          - label: "necromancer"
+            value: "/assets/sprites/dungeon_tileset_ii/necromancer.tres"
+          - label: "orc_shaman"
+            value: "/assets/sprites/dungeon_tileset_ii/orc_shaman.tres"
+          - label: "orc_warrior"
+            value: "/assets/sprites/dungeon_tileset_ii/orc_warrior.tres"
+          - label: "skeleton"
+            value: "/assets/sprites/dungeon_tileset_ii/skeleton.tres"
+          - label: "slug"
+            value: "/assets/sprites/dungeon_tileset_ii/slug.tres"
+          - label: "swampy"
+            value: "/assets/sprites/dungeon_tileset_ii/swampy.tres"
+          - label: "tiny_slug"
+            value: "/assets/sprites/dungeon_tileset_ii/tiny_slug.tres"
+          - label: "tiny_zombie"
+            value: "/assets/sprites/dungeon_tileset_ii/tiny_zombie.tres"
+          - label: "wogol"
+            value: "/assets/sprites/dungeon_tileset_ii/wogol.tres"
+          - label: "zombie"
+            value: "/assets/sprites/dungeon_tileset_ii/zombie.tres"
+          - label: "pumpkin_dude"
+            value: "/assets/sprites/dungeon_tileset_ii/pumpkin_dude.tres"
+          - label: "big_demon (grand, 32 px de large, jamais essayé)"
+            value: "/assets/sprites/dungeon_tileset_ii/big_demon.tres"
+          - label: "big_zombie (grand, 32 px de large, jamais essayé)"
+            value: "/assets/sprites/dungeon_tileset_ii/big_zombie.tres"
+          - label: "ogre (grand, 32 px de large, jamais essayé)"
+            value: "/assets/sprites/dungeon_tileset_ii/ogre.tres"
+  - name: "levels"
+    label: "Étages"
+    label_singular: "Étage"
+    description: "Étages du donjon : un fichier JSON par étage (format : docs/data.md du dépôt du jeu). Le nombre et l'ordre des étages se règlent encore dans data/dungeon_data.tres : ni création ni suppression ici."
+    folder: "data/levels"
+    extension: "json"
+    format: "json"
+    create: false
+    delete: false
+    summary: "{{filename}}"
+    fields:
+      - name: "min_room_count"
+        label: "Salles : nombre min"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 50
+        step: 1
+        required: false
+        hint: "Le nombre de salles est tiré entre le min et le max. Vide = 6."
+      - name: "max_room_count"
+        label: "Salles : nombre max"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 50
+        step: 1
+        required: false
+        hint: "Vide = 8."
+      - name: "min_room_size"
+        label: "Salles : taille min"
+        widget: "number"
+        value_type: "int"
+        min: 3
+        max: 30
+        step: 1
+        required: false
+        hint: "Largeur et hauteur de chaque salle, tirées séparément entre le min et le max. Vide = 6."
+      - name: "max_room_size"
+        label: "Salles : taille max"
+        widget: "number"
+        value_type: "int"
+        min: 3
+        max: 30
+        step: 1
+        required: false
+        hint: "Vide = 12."
+      - name: "mine_density"
+        label: "Densité de dangers"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        max: 0.5
+        step: 0.01
+        required: false
+        hint: "Part des cases d'une salle qui portent un danger (0.15 = 15 %). Vide = 0.15."
+      - name: "hazards"
+        label: "Dangers"
+        label_singular: "Danger"
+        widget: "list"
+        required: false
+        hint: "Pièges et monstres de l'étage, chacun avec son poids parmi ceux de sa sorte (chaque case tire d'abord piège ou monstre selon la chance de monstre du donjon). Vide = liste par défaut du donjon."
+        summary: "{{fields.hazard}} ({{fields.weight}})"
+        fields:
+          - name: "hazard"
+            label: "Danger"
+            widget: "select"
+            required: true
+            hint: "Pièges : fichiers .tres, pas encore en JSON. Monstres : collection « Monstres »."
+            options:
+              - label: "Piège : Spike trap"
+                value: "/data/traps/spike_trap.tres"
+              - label: "Piège : Blade trap"
+                value: "/data/traps/blade_trap.tres"
+              - label: "Piège : Fire trap"
+                value: "/data/traps/fire_trap.tres"
+              - label: "Monstre : Chort"
+                value: "monsters/chort"
+              - label: "Monstre : Doc"
+                value: "monsters/doc"
+              - label: "Monstre : Goblin"
+                value: "monsters/goblin"
+              - label: "Monstre : Ice Zombie"
+                value: "monsters/ice_zombie"
+              - label: "Monstre : Imp"
+                value: "monsters/imp"
+              - label: "Monstre : Masked Orc"
+                value: "monsters/masked_orc"
+              - label: "Monstre : Muddy"
+                value: "monsters/muddy"
+              - label: "Monstre : Necromancer"
+                value: "monsters/necromancer"
+              - label: "Monstre : Orc Shaman"
+                value: "monsters/orc_shaman"
+              - label: "Monstre : Orc Warrior"
+                value: "monsters/orc_warrior"
+              - label: "Monstre : Skeleton"
+                value: "monsters/skeleton"
+              - label: "Monstre : Slug"
+                value: "monsters/slug"
+              - label: "Monstre : Swampy"
+                value: "monsters/swampy"
+              - label: "Monstre : Tiny Slug"
+                value: "monsters/tiny_slug"
+              - label: "Monstre : Tiny Zombie"
+                value: "monsters/tiny_zombie"
+              - label: "Monstre : Wogol"
+                value: "monsters/wogol"
+              - label: "Monstre : Zombie"
+                value: "monsters/zombie"
+          - name: "weight"
+            label: "Poids"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            step: 0.1
+            required: false
+            hint: "Chances relatives parmi les dangers de sa sorte sur l'étage : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
+      - name: "max_monsters_per_group"
+        label: "Monstres max par combat"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        step: 1
+        required: false
+        hint: "Plafond de monstres d'un même combat ; les monstres en trop deviennent des pièges. 0 = pas de limite. Vide = 0."
+      - name: "loot_profile"
+        label: "Coffres"
+        widget: "object"
+        required: false
+        collapsed: true
+        hint: "Contenu du coffre de chaque salle terminée. Vide = réglages par défaut du jeu."
+        fields:
+          - name: "min_items"
+            label: "Récompenses : nombre min"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 10
+            step: 1
+            required: false
+            hint: "Équipements ou potions par coffre, tirés entre le min et le max. Vide = 1."
+          - name: "max_items"
+            label: "Récompenses : nombre max"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 10
+            step: 1
+            required: false
+            hint: "Vide = 2."
+          - name: "equipment_weight"
+            label: "Poids : équipement"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Chances relatives de chaque sorte de récompense. Vide = 60."
+          - name: "potion_weight"
+            label: "Poids : potion"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 25."
+          - name: "common_weight"
+            label: "Poids : commun"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Chances relatives de chaque rareté (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
+          - name: "uncommon_weight"
+            label: "Poids : peu commun"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 25."
+          - name: "rare_weight"
+            label: "Poids : rare"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 10."
+          - name: "epic_weight"
+            label: "Poids : épique"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 4."
+          - name: "legendary_weight"
+            label: "Poids : légendaire"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 1."
+          - name: "potions"
+            label: "Potions"
+            label_singular: "Potion"
+            widget: "list"
+            required: false
+            hint: "Potions possibles, chacune avec son poids. Vide = aucune potion."
+            summary: "{{fields.potion}} ({{fields.weight}})"
+            fields:
+              - name: "potion"
+                label: "Potion"
+                widget: "select"
+                required: true
+                hint: "Fichiers .tres, pas encore en JSON."
+                options:
+                  - label: "Red potion"
+                    value: "/data/potions/red_potion.tres"
+                  - label: "Blue potion"
+                    value: "/data/potions/blue_potion.tres"
+              - name: "weight"
+                label: "Poids"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 100
+                step: 0.1
+                required: false
+                hint: "Vide = 1."
+          - name: "min_gold"
+            label: "Or : min"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: false
+            hint: "Or de chaque coffre, tiré entre le min et le max. Vide = 5."
+          - name: "max_gold"
+            label: "Or : max"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: false
+            hint: "0 = pas d'or. Vide = 20."
+      - name: "loot_items"
+        label: "Équipement des coffres"
+        label_singular: "Objet"
+        widget: "list"
+        required: false
+        hint: "Références « equipment/weapons/<id> » ou « equipment/armors/<id> ». Vide = tout l'équipement du jeu."
+        field:
+          name: "item"
+          label: "Objet"
+          widget: "string"
+      - name: "shop"
+        label: "Marchand"
+        widget: "object"
+        required: false
+        collapsed: true
+        hint: "Salle du marchand de l'étage. Vide = pas de marchand."
+        fields:
+          - name: "room_size"
+            label: "Taille de la salle"
+            widget: "number"
+            value_type: "int"
+            min: 3
+            max: 12
+            step: 1
+            required: false
+            hint: "En cases. Vide = 5."
+          - name: "item_count"
+            label: "Objets en vente"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 10
+            step: 1
+            required: false
+            hint: "Jamais deux objets du même emplacement. Vide = 3."
+          - name: "potion_count"
+            label: "Potions en vente"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 10
+            step: 1
+            required: false
+            hint: "Vide = 2."
+          - name: "price_multiplier"
+            label: "Multiplicateur du prix des potions"
+            widget: "number"
+            value_type: "float"
+            min: 0.1
+            max: 10
+            step: 0.1
+            required: false
+            hint: "Prix = valeur en or × multiplicateur, arrondi au-dessus, au moins 1. Vide = 2."
+          - name: "common_weight"
+            label: "Poids : commun"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Chances relatives de chaque rareté (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
+          - name: "uncommon_weight"
+            label: "Poids : peu commun"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 25."
+          - name: "rare_weight"
+            label: "Poids : rare"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 10."
+          - name: "epic_weight"
+            label: "Poids : épique"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 4."
+          - name: "legendary_weight"
+            label: "Poids : légendaire"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            hint: "Vide = 1."

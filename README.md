@@ -7,14 +7,16 @@ et sa configuration : **aucune donnée de jeu, aucun secret**. Les données sont
 les fichiers JSON du dépôt privé `Haibo14/DungeonSweeper` (format :
 `docs/data.md` de ce dépôt).
 
-Pour l'instant : armes (`data/equipment/weapons/*.json`) et armures
-(`data/equipment/armors/*.json`).
+Pour l'instant : armes (`data/equipment/weapons/*.json`), armures
+(`data/equipment/armors/*.json`), monstres (`data/monsters/*.json`) et étages
+(`data/levels/*.json`, sans création ni suppression : leur liste est encore
+dans `data/dungeon_data.tres`).
 
 ## Contenu
 
 - `admin/index.html` : charge Sveltia et lui indique sa config (chemins
   relatifs : sur GitHub Pages, le site vit sous `/dungeon-sweeper-editor/`).
-- `admin/config.yml` : collections des armes et des armures ; `backend: github`,
+- `admin/config.yml` : collections des armes, armures, monstres et étages ; `backend: github`,
   `repo: Haibo14/DungeonSweeper`, `branch: balance`.
 - `admin/sveltia-cms.js` et `admin/chunks/` : Sveltia CMS **0.252.0**, copié
   dans le dépôt plutôt que chargé depuis un CDN (un script externe modifié

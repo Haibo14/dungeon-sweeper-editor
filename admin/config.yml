@@ -728,13 +728,16 @@ collections:
   - name: "monsters"
     label: "Monstres"
     label_singular: "Monstre"
-    description: "Monstres du jeu : un fichier JSON par monstre (format : docs/data.md du dépôt du jeu). Un nouveau monstre n'apparaît que dans les étages qui le listent : l'ajouter aux choix de « Danger » des étages dans config.yml."
+    description: "Monstres du jeu : un fichier JSON par monstre (format : docs/data.md du dépôt du jeu). Un nouveau monstre n'apparaît que dans les étages qui le listent : l'ajouter aux choix de « Danger » des étages dans config.yml. Son icône vient de scripts/tools/build_icons.gd (à relancer après un nouveau monstre ou un changement d'apparence)."
     folder: "data/monsters"
     extension: "json"
     format: "json"
     create: true
     identifier_field: "display_name"
     summary: "{{display_name}}"
+    media_folder: "/assets/icons/monsters"
+    public_folder: "/assets/icons/monsters"
+    thumbnail: "/assets/icons/monsters/{{slug}}.png"
     sortable_fields:
       fields:
         - "display_name"

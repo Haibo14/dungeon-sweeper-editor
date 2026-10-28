@@ -125,6 +125,17 @@ collections:
           label: "Rareté"
           field: "rarity"
     fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
       - name: "display_name"
         label: "Nom"
         widget: "string"
@@ -563,6 +574,17 @@ collections:
           label: "Rareté"
           field: "rarity"
     fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
       - name: "display_name"
         label: "Nom"
         widget: "string"
@@ -746,6 +768,17 @@ collections:
         field: "display_name"
         direction: "ascending"
     fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
       - name: "display_name"
         label: "Nom"
         widget: "string"
@@ -940,6 +973,17 @@ collections:
     delete: false
     summary: "{{filename}}"
     fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
       - name: "min_room_count"
         label: "Salles : nombre min"
         widget: "number"
@@ -1297,6 +1341,17 @@ collections:
     identifier_field: "display_name"
     summary: "{{display_name}}"
     fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
       - name: "display_name"
         label: "Nom"
         widget: "string"
@@ -1427,6 +1482,17 @@ collections:
           label: "Rareté"
           field: "rarity"
     fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
       - name: "display_name"
         label: "Nom"
         widget: "string"
@@ -1908,6 +1974,11 @@ collections:
         label: "Réglages du donjon"
         file: "data/dungeon/dungeon.json"
         fields:
+          - name: "design_notes"
+            label: "À implémenter"
+            widget: "text"
+            required: false
+            hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
           - name: "level_count"
             label: "Nombre d'étages"
             widget: "number"
@@ -2111,6 +2182,17 @@ collections:
     identifier_field: "display_name"
     summary: "{{display_name}}"
     fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
       - name: "display_name"
         label: "Nom"
         widget: "string"
@@ -2161,6 +2243,11 @@ collections:
         label: "Prix de l'équipement"
         file: "data/prices/equipment_prices.json"
         fields:
+          - name: "design_notes"
+            label: "À implémenter"
+            widget: "text"
+            required: false
+            hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
           - name: "common_buy_price"
             label: "Achat : commun"
             widget: "number"
@@ -2260,6 +2347,11 @@ collections:
         label: "Réglages du joueur"
         file: "data/player/player.json"
         fields:
+          - name: "design_notes"
+            label: "À implémenter"
+            widget: "text"
+            required: false
+            hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
           - name: "max_health"
             label: "PV max"
             widget: "number"

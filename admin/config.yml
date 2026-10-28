@@ -1454,290 +1454,448 @@ collections:
             value: "R3_EPIC"
           - label: "Légendaire"
             value: "R4_LEGENDARY"
-      - name: "gold"
-        label: "Immédiat : or"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 9999
-        step: 1
+      - name: "effects"
+        label: "Effets"
+        label_singular: "Effet"
+        widget: "list"
         required: false
-        hint: "Or reçu en le prenant. Vide = 0."
-      - name: "max_health"
-        label: "Immédiat : PV max"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "PV max gagnés pour toujours (1 = un demi-cœur), soignés aussi en le prenant. Vide = 0."
-      - name: "lasting_shield"
-        label: "Immédiat : bouclier durable"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Points de bouclier durable reçus en le prenant. Vide = 0."
-      - name: "max_health_loss"
-        label: "Immédiat : PV max perdus"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Artéfact maudit : PV max perdus en le prenant, jamais sous 1 ni mortel. Vide = 0."
-      - name: "bonus_damage"
-        label: "Passif : dégâts bonus"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Dégâts en plus à chaque coup de l'attaque du personnage (ricochets compris). Vide = 0."
-      - name: "starting_weakness"
-        label: "Passif : faiblesse au départ"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Charges de faiblesse du personnage au début de chaque combat. Vide = 0."
-      - name: "echo"
-        label: "Passif : écho"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Chaque coup du personnage inflige aussi ces dégâts à chacun des autres monstres du combat. Vide = 0."
-      - name: "armor"
-        label: "Passif : armure"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Points de bouclier en combat, ajoutés à ceux de l'équipement. Vide = 0."
-      - name: "damage_reduction"
-        label: "Passif : réduction de dégâts"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Retirée de chaque coup reçu, jamais sous 1. Vide = 0."
-      - name: "thorns"
-        label: "Passif : épines"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Dégâts renvoyés au monstre dont l'attaque touche. Vide = 0."
-      - name: "dodge_chance"
-        label: "Passif : esquive (%)"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 100
-        step: 1
-        required: false
-        hint: "Chance d'esquiver chaque attaque, ajoutée à celle de l'armure (total plafonné). Vide = 0."
-      - name: "block_chance"
-        label: "Passif : blocage (%)"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 100
-        step: 1
-        required: false
-        hint: "Chance de bloquer chaque attaque, ajoutée à celle de l'armure (total plafonné). Vide = 0."
-      - name: "parry_chance"
-        label: "Passif : parade (%)"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 100
-        step: 1
-        required: false
-        hint: "Chance de parer chaque attaque, ajoutée à celle de l'arme (total plafonné). Vide = 0."
-      - name: "first_hit_damage"
-        label: "Passif : premier coup"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Dégâts en plus du premier coup de chaque combat (pas ses ricochets, éclaboussures ni écho). Vide = 0."
-      - name: "monster_weakness"
-        label: "Passif : faiblesse des monstres"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Charges de faiblesse de chaque monstre au début de chaque combat. Vide = 0."
-      - name: "heal_on_kill"
-        label: "Passif : soin par monstre tué"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "PV rendus pour chaque monstre tué en combat. Vide = 0."
-      - name: "strength_per_hit_taken"
-        label: "Passif : force par coup reçu"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 9
-        step: 1
-        required: false
-        hint: "Charges de force gagnées chaque fois qu'une attaque de monstre touche, jusqu'à la fin du combat. Vide = 0."
-      - name: "surprise_shield"
-        label: "Passif : bouclier si surpris"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Points de bouclier quand un monstre ouvre le combat par surprise, avant son attaque. Vide = 0."
-      - name: "extra_strikes"
-        label: "Passif : attaques en plus"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 9
-        step: 1
-        required: false
-        hint: "Attaques par tour ajoutées à celles de l'arme. Vide = 0."
-      - name: "strength_per_strike"
-        label: "Passif : force par attaque"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 9
-        step: 1
-        required: false
-        hint: "Charges de force gagnées après chaque attaque du personnage, jusqu'à la fin du combat. Vide = 0."
-      - name: "damage_per_hundred_gold"
-        label: "Passif : dégâts selon l'or"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Dégâts en plus à chaque coup par tranche d'or possédée (tranche : champ suivant). Vide = 0."
-      - name: "damage_gold_step"
-        label: "Passif : tranche d'or"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 9999
-        step: 1
-        required: false
-        hint: "Or par tranche du champ précédent. Vide = 100."
-      - name: "revives"
-        label: "Passif : résurrection"
-        widget: "boolean"
-        required: false
-        hint: "Une fois dans la partie, à 0 PV, le personnage revient avec la moitié de ses PV max ; l'artéfact se brise. Non = absent."
-      - name: "reveal_range"
-        label: "Donjon : portée de révélation"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 9
-        step: 1
-        required: false
-        hint: "Cases ajoutées à la portée de révélation. Vide = 0."
-      - name: "trap_damage_reduction"
-        label: "Donjon : dégâts des pièges réduits"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "Retirés de chaque piège qui se déclenche (un piège peut ne plus rien faire). Vide = 0."
-      - name: "trap_avoid_chance"
-        label: "Donjon : pièges évités (%)"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 100
-        step: 1
-        required: false
-        hint: "Chance qu'un piège révélé ne se déclenche pas. Vide = 0."
-      - name: "gold_per_disarmed_trap"
-        label: "Donjon : or par piège désarmé"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 999
-        step: 1
-        required: false
-        hint: "Or reçu pour chaque piège désarmé (drapeau et entouré). Vide = 0."
-      - name: "shop_discount"
-        label: "Donjon : remise du marchand (%)"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 100
-        step: 1
-        required: false
-        hint: "Pourcentage retiré des prix (total plafonné). Vide = 0."
-      - name: "extra_chest_rewards"
-        label: "Donjon : récompenses en plus"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 9
-        step: 1
-        required: false
-        hint: "Récompenses ajoutées à chaque coffre. Vide = 0."
-      - name: "heal_on_room_cleared"
-        label: "Donjon : soin par salle terminée"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        hint: "PV rendus à chaque salle terminée. Vide = 0."
-      - name: "traps_flagged_on_entry"
-        label: "Donjon : pièges marqués à l'entrée"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 9
-        step: 1
-        required: false
-        hint: "Pièges cachés marqués d'un drapeau au hasard en entrant pour la première fois dans une salle. Vide = 0."
-      - name: "monsters_flagged_on_entry"
-        label: "Donjon : monstres marqués à l'entrée"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 9
-        step: 1
-        required: false
-        hint: "Monstres cachés marqués d'un drapeau au hasard en entrant pour la première fois dans une salle. Vide = 0."
+        hint: "Ce que fait l'artéfact, en général un seul effet. Des effets de même sorte s'additionnent. Immédiat : donné une fois en le prenant ; passif et donjon : tant qu'on le garde."
+        typeKey: "type"
+        types:
+          - name: "GoldArtifactEffect"
+            label: "Immédiat : or"
+            widget: "object"
+            hint: "Or reçu en le prenant."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9999
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "MaxHealthArtifactEffect"
+            label: "Immédiat : PV max"
+            widget: "object"
+            hint: "PV max gagnés pour toujours (1 = un demi-cœur), soignés aussi en le prenant."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "LastingShieldArtifactEffect"
+            label: "Immédiat : bouclier durable"
+            widget: "object"
+            hint: "Points de bouclier durable reçus en le prenant."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "MaxHealthLossArtifactEffect"
+            label: "Immédiat : PV max perdus"
+            widget: "object"
+            hint: "Artéfact maudit : PV max perdus en le prenant, jamais sous 1 ni mortel."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "BonusDamageArtifactEffect"
+            label: "Passif : dégâts bonus"
+            widget: "object"
+            hint: "Dégâts en plus à chaque coup de l'attaque du personnage (ricochets compris)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "StartingWeaknessArtifactEffect"
+            label: "Passif : faiblesse au départ"
+            widget: "object"
+            hint: "Charges de faiblesse du personnage au début de chaque combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "EchoArtifactEffect"
+            label: "Passif : écho"
+            widget: "object"
+            hint: "Chaque coup du personnage inflige aussi ces dégâts à chacun des autres monstres du combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ArmorArtifactEffect"
+            label: "Passif : armure"
+            widget: "object"
+            hint: "Points de bouclier en combat, ajoutés à ceux de l'équipement."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "DamageReductionArtifactEffect"
+            label: "Passif : réduction de dégâts"
+            widget: "object"
+            hint: "Retirée de chaque coup reçu, jamais sous 1."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ThornsArtifactEffect"
+            label: "Passif : épines"
+            widget: "object"
+            hint: "Dégâts renvoyés au monstre dont l'attaque touche."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "DodgeArtifactEffect"
+            label: "Passif : esquive (%)"
+            widget: "object"
+            hint: "Chance d'esquiver chaque attaque, ajoutée à celle de l'armure (total plafonné)."
+            fields:
+              - name: "amount"
+                label: "Chance (%)"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 100
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "BlockArtifactEffect"
+            label: "Passif : blocage (%)"
+            widget: "object"
+            hint: "Chance de bloquer chaque attaque, ajoutée à celle de l'armure (total plafonné)."
+            fields:
+              - name: "amount"
+                label: "Chance (%)"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 100
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ParryArtifactEffect"
+            label: "Passif : parade (%)"
+            widget: "object"
+            hint: "Chance de parer chaque attaque, ajoutée à celle de l'arme (total plafonné)."
+            fields:
+              - name: "amount"
+                label: "Chance (%)"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 100
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "FirstHitArtifactEffect"
+            label: "Passif : premier coup"
+            widget: "object"
+            hint: "Dégâts en plus du premier coup de chaque combat (pas ses ricochets, éclaboussures ni écho)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "MonsterWeaknessArtifactEffect"
+            label: "Passif : faiblesse des monstres"
+            widget: "object"
+            hint: "Charges de faiblesse de chaque monstre au début de chaque combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "HealOnKillArtifactEffect"
+            label: "Passif : soin par monstre tué"
+            widget: "object"
+            hint: "PV rendus pour chaque monstre tué en combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "StrengthPerHitTakenArtifactEffect"
+            label: "Passif : force par coup reçu"
+            widget: "object"
+            hint: "Charges de force gagnées chaque fois qu'une attaque de monstre touche, jusqu'à la fin du combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "SurpriseShieldArtifactEffect"
+            label: "Passif : bouclier si surpris"
+            widget: "object"
+            hint: "Points de bouclier quand un monstre ouvre le combat par surprise, avant son attaque."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ExtraStrikesArtifactEffect"
+            label: "Passif : attaques en plus"
+            widget: "object"
+            hint: "Attaques par tour ajoutées à celles de l'arme."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "StrengthPerStrikeArtifactEffect"
+            label: "Passif : force par attaque"
+            widget: "object"
+            hint: "Charges de force gagnées après chaque attaque du personnage, jusqu'à la fin du combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "GoldDamageArtifactEffect"
+            label: "Passif : dégâts selon l'or"
+            widget: "object"
+            hint: "Dégâts en plus à chaque coup par tranche d'or possédée."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+              - name: "gold_step"
+                label: "Tranche d'or"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9999
+                step: 1
+                required: false
+                hint: "Or par tranche. Vide = 100."
+          - name: "ReviveArtifactEffect"
+            label: "Passif : résurrection"
+            widget: "object"
+            hint: "Une fois dans la partie, à 0 PV, le personnage revient avec la moitié de ses PV max ; l'artéfact se brise."
+            fields: []
+          - name: "RevealRangeArtifactEffect"
+            label: "Donjon : portée de révélation"
+            widget: "object"
+            hint: "Cases ajoutées à la portée de révélation."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "TrapDamageReductionArtifactEffect"
+            label: "Donjon : dégâts des pièges réduits"
+            widget: "object"
+            hint: "Retirés de chaque piège qui se déclenche (un piège peut ne plus rien faire)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "TrapAvoidArtifactEffect"
+            label: "Donjon : pièges évités (%)"
+            widget: "object"
+            hint: "Chance qu'un piège révélé ne se déclenche pas."
+            fields:
+              - name: "amount"
+                label: "Chance (%)"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 100
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "GoldPerDisarmedTrapArtifactEffect"
+            label: "Donjon : or par piège désarmé"
+            widget: "object"
+            hint: "Or reçu pour chaque piège désarmé (drapeau et entouré)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 999
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ShopDiscountArtifactEffect"
+            label: "Donjon : remise du marchand (%)"
+            widget: "object"
+            hint: "Pourcentage retiré des prix (total plafonné)."
+            fields:
+              - name: "amount"
+                label: "Remise (%)"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 100
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "ExtraChestRewardsArtifactEffect"
+            label: "Donjon : récompenses en plus"
+            widget: "object"
+            hint: "Récompenses ajoutées à chaque coffre."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "HealOnRoomClearedArtifactEffect"
+            label: "Donjon : soin par salle terminée"
+            widget: "object"
+            hint: "PV rendus à chaque salle terminée."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "TrapsFlaggedArtifactEffect"
+            label: "Donjon : pièges marqués à l'entrée"
+            widget: "object"
+            hint: "Pièges cachés marqués d'un drapeau au hasard en entrant pour la première fois dans une salle."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                hint: "Vide = 1."
+          - name: "MonstersFlaggedArtifactEffect"
+            label: "Donjon : monstres marqués à l'entrée"
+            widget: "object"
+            hint: "Monstres cachés marqués d'un drapeau au hasard en entrant pour la première fois dans une salle."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                hint: "Vide = 1."
   - name: "dungeon"
     label: "Donjon"
     description: "Réglages du donjon (format : docs/data.md du dépôt du jeu) : un seul fichier, data/dungeon/dungeon.json."

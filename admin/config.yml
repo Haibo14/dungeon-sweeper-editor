@@ -1,4 +1,4 @@
-# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, pièges, artéfacts et donjon).
+# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, pièges, artéfacts, potions, prix, joueur et donjon).
 # Champs tirés des JSON Schema du dépôt du jeu (schema/). Ne contient aucune donnée de jeu.
 backend:
   name: "github"
@@ -1152,12 +1152,12 @@ collections:
                 label: "Potion"
                 widget: "select"
                 required: true
-                hint: "Fichiers .tres, pas encore en JSON."
+                hint: "Collection « Potions »."
                 options:
                   - label: "Red potion"
-                    value: "/data/potions/red_potion.tres"
+                    value: "potions/red_potion"
                   - label: "Blue potion"
-                    value: "/data/potions/blue_potion.tres"
+                    value: "potions/blue_potion"
               - name: "weight"
                 label: "Poids"
                 widget: "number"
@@ -1935,7 +1935,497 @@ collections:
             label: "Prix de l'équipement"
             widget: "select"
             required: false
-            hint: "Prix d'achat et de vente par rareté (fichier .tres, pas encore en JSON). Vide = prix par défaut du script."
+            hint: "Prix d'achat et de vente par rareté (collection « Prix »). Vide = prix par défaut du script."
             options:
               - label: "equipment_prices"
-                value: "/data/equipment_prices.tres"
+                value: "prices/equipment_prices"
+  - name: "potions"
+    label: "Potions"
+    label_singular: "Potion"
+    description: "Potions du jeu : un fichier JSON par potion (format : docs/data.md du dépôt du jeu). Une nouvelle potion n'apparaît que dans les coffres des étages qui la listent : l'ajouter aux choix de « Potion » des étages dans config.yml."
+    folder: "data/potions"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "display_name"
+    summary: "{{display_name}}"
+    fields:
+      - name: "display_name"
+        label: "Nom"
+        widget: "string"
+        required: true
+        hint: "Nom affiché en jeu. Donne aussi le nom du fichier d'une nouvelle potion (« Potion verte » → potion_verte.json)."
+      - name: "texture"
+        label: "Icône"
+        widget: "image"
+        required: false
+        media_folder: "/assets/ui"
+        public_folder: "/assets/ui"
+        choose_url: false
+        accept: "image/png"
+        hint: "Image de assets/ui/ (red_potion, blue_potion). Une nouvelle image s'ajoute dans le dépôt du jeu avec sa fiche .md (docs/assets.md), pas ici."
+      - name: "heal"
+        label: "Soin"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        hint: "PV rendus, sans dépasser le maximum (1 = un demi-cœur). Vide = 0."
+      - name: "shield"
+        label: "Bouclier durable"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        hint: "Points de bouclier durable donnés : ils restent jusqu'à ce que des dégâts les usent. Vide = 0."
+      - name: "gold_value"
+        label: "Valeur en or"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 9999
+        step: 1
+        required: false
+        hint: "Le marchand la vend à cette valeur × le multiplicateur de prix de l'étage. Vide = 10."
+  - name: "prices"
+    label: "Prix"
+    description: "Prix de l'équipement par rareté (format : docs/data.md du dépôt du jeu) : un seul fichier, data/prices/equipment_prices.json."
+    format: "json"
+    files:
+      - name: "equipment_prices"
+        label: "Prix de l'équipement"
+        file: "data/prices/equipment_prices.json"
+        fields:
+          - name: "common_buy_price"
+            label: "Achat : commun"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 20)."
+          - name: "uncommon_buy_price"
+            label: "Achat : peu commun"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 50)."
+          - name: "rare_buy_price"
+            label: "Achat : rare"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 100)."
+          - name: "epic_buy_price"
+            label: "Achat : épique"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 200)."
+          - name: "legendary_buy_price"
+            label: "Achat : légendaire"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 400)."
+          - name: "common_sell_price"
+            label: "Vente : commun"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
+          - name: "uncommon_sell_price"
+            label: "Vente : peu commun"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
+          - name: "rare_sell_price"
+            label: "Vente : rare"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
+          - name: "epic_sell_price"
+            label: "Vente : épique"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
+          - name: "legendary_sell_price"
+            label: "Vente : légendaire"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
+  - name: "player"
+    label: "Joueur"
+    description: "Réglages du personnage (format : docs/data.md du dépôt du jeu) : un seul fichier, data/player/player.json."
+    format: "json"
+    files:
+      - name: "player"
+        label: "Réglages du joueur"
+        file: "data/player/player.json"
+        fields:
+          - name: "max_health"
+            label: "PV max"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 99
+            step: 1
+            required: true
+            hint: "1 point = un demi-cœur. Toujours écrit (défaut du script : 3)."
+          - name: "reveal_range"
+            label: "Portée de révélation"
+            widget: "number"
+            value_type: "float"
+            min: 1
+            max: 20
+            step: 0.1
+            required: true
+            hint: "En cases, en ligne droite entre les centres (une diagonale vaut 1,41). Toujours écrite (défaut du script : 2)."
+          - name: "attack"
+            label: "Attaque à mains nues"
+            widget: "object"
+            required: false
+            collapsed: false
+            hint: "Ce que fait le personnage à chaque tour de combat sans arme ; une arme équipée la remplace. Vide = le personnage n'attaque pas."
+            fields:
+              - name: "display_name"
+                label: "Nom de l'attaque"
+                widget: "string"
+                required: false
+                hint: "Vide = \"Attack\"."
+              - name: "effects"
+                label: "Effets de l'attaque"
+                label_singular: "Effet"
+                widget: "list"
+                required: false
+                hint: "Appliqués dans l'ordre à chaque coup."
+                typeKey: "type"
+                types:
+                  - name: "DamageEffect"
+                    label: "Dégâts"
+                    widget: "object"
+                    hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        hint: "Nombre de PV, de charges… Vide = 1."
+                  - name: "HealEffect"
+                    label: "Soin"
+                    widget: "object"
+                    hint: "Rend des PV au porteur, sans dépasser son maximum."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        hint: "Nombre de PV, de charges… Vide = 1."
+                  - name: "StrengthEffect"
+                    label: "Force"
+                    widget: "object"
+                    hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        hint: "Nombre de PV, de charges… Vide = 1."
+                  - name: "WeaknessEffect"
+                    label: "Faiblesse"
+                    widget: "object"
+                    hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "attack_range"
+            label: "Portée d'attaque"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: true
+            hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales ; remplacée par celle d'une arme équipée. Toujours écrite (défaut du script : 1)."
+          - name: "movement"
+            label: "Déplacement"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: true
+            hint: "Cases parcourues par tour de combat, diagonales comprises. Toujours écrit (défaut du script : 2)."
+          - name: "starting_weapon"
+            label: "Arme de départ"
+            widget: "select"
+            required: false
+            hint: "Équipée au début de la partie. Vide = mains nues."
+            options:
+              - label: "Battle axe"
+                value: "equipment/weapons/battle_axe"
+              - label: "Blood claw"
+                value: "equipment/weapons/blood_claw"
+              - label: "Blood estoc"
+                value: "equipment/weapons/blood_estoc"
+              - label: "Blood flail"
+                value: "equipment/weapons/blood_flail"
+              - label: "Blood katana"
+                value: "equipment/weapons/blood_katana"
+              - label: "Claw"
+                value: "equipment/weapons/claw"
+              - label: "Crossbow"
+                value: "equipment/weapons/crossbow"
+              - label: "Estoc"
+                value: "equipment/weapons/estoc"
+              - label: "Flail"
+                value: "equipment/weapons/flail"
+              - label: "Flame bow"
+                value: "equipment/weapons/flame_bow"
+              - label: "Flame crossbow"
+                value: "equipment/weapons/flame_crossbow"
+              - label: "Flame estoc"
+                value: "equipment/weapons/flame_estoc"
+              - label: "Flame flail"
+                value: "equipment/weapons/flame_flail"
+              - label: "Flame hammer"
+                value: "equipment/weapons/flame_hammer"
+              - label: "Flame katana"
+                value: "equipment/weapons/flame_katana"
+              - label: "Flame parrying dagger"
+                value: "equipment/weapons/flame_parrying_dagger"
+              - label: "Flame rapier"
+                value: "equipment/weapons/flame_rapier"
+              - label: "Flame shield"
+                value: "equipment/weapons/flame_shield"
+              - label: "Flame shuriken"
+                value: "equipment/weapons/flame_shuriken"
+              - label: "Flame sword"
+                value: "equipment/weapons/flame_sword"
+              - label: "Flame war axe"
+                value: "equipment/weapons/flame_war_axe"
+              - label: "Golden claw"
+                value: "equipment/weapons/golden_claw"
+              - label: "Golden crossbow"
+                value: "equipment/weapons/golden_crossbow"
+              - label: "Golden javelin"
+                value: "equipment/weapons/golden_javelin"
+              - label: "Golden parrying dagger"
+                value: "equipment/weapons/golden_parrying_dagger"
+              - label: "Golden rapier"
+                value: "equipment/weapons/golden_rapier"
+              - label: "Golden shuriken"
+                value: "equipment/weapons/golden_shuriken"
+              - label: "Golden sword"
+                value: "equipment/weapons/golden_sword"
+              - label: "Golden war axe"
+                value: "equipment/weapons/golden_war_axe"
+              - label: "Great axe"
+                value: "equipment/weapons/great_axe"
+              - label: "Iron crossbow"
+                value: "equipment/weapons/iron_crossbow"
+              - label: "Iron flail"
+                value: "equipment/weapons/iron_flail"
+              - label: "Iron hammer"
+                value: "equipment/weapons/iron_hammer"
+              - label: "Iron parrying dagger"
+                value: "equipment/weapons/iron_parrying_dagger"
+              - label: "Iron shuriken"
+                value: "equipment/weapons/iron_shuriken"
+              - label: "Javelin"
+                value: "equipment/weapons/javelin"
+              - label: "Katana"
+                value: "equipment/weapons/katana"
+              - label: "Knight sword"
+                value: "equipment/weapons/knight_sword"
+              - label: "Long bow"
+                value: "equipment/weapons/long_bow"
+              - label: "Nature shield"
+                value: "equipment/weapons/nature_shield"
+              - label: "Parrying dagger"
+                value: "equipment/weapons/parrying_dagger"
+              - label: "Rapier"
+                value: "equipment/weapons/rapier"
+              - label: "Recurve bow"
+                value: "equipment/weapons/recurve_bow"
+              - label: "Short bow"
+                value: "equipment/weapons/short_bow"
+              - label: "Shuriken"
+                value: "equipment/weapons/shuriken"
+              - label: "Steel claw"
+                value: "equipment/weapons/steel_claw"
+              - label: "Steel estoc"
+                value: "equipment/weapons/steel_estoc"
+              - label: "Steel javelin"
+                value: "equipment/weapons/steel_javelin"
+              - label: "Steel katana"
+                value: "equipment/weapons/steel_katana"
+              - label: "Steel shield"
+                value: "equipment/weapons/steel_shield"
+              - label: "Steel sword"
+                value: "equipment/weapons/steel_sword"
+              - label: "War hammer"
+                value: "equipment/weapons/war_hammer"
+          - name: "starting_head"
+            label: "Casque de départ"
+            widget: "select"
+            required: false
+            hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+            options:
+              - label: "Antlered helm"
+                value: "equipment/armors/antlered_helm"
+              - label: "Bear head hood"
+                value: "equipment/armors/bear_head_hood"
+              - label: "Blood rune helm"
+                value: "equipment/armors/blood_rune_helm"
+              - label: "Copper cap"
+                value: "equipment/armors/copper_cap"
+              - label: "Frost warden helm"
+                value: "equipment/armors/frost_warden_helm"
+              - label: "Golden flame helm"
+                value: "equipment/armors/golden_flame_helm"
+              - label: "Horned flame helm"
+                value: "equipment/armors/horned_flame_helm"
+              - label: "Iron helmet"
+                value: "equipment/armors/iron_helmet"
+              - label: "Leather cap"
+                value: "equipment/armors/leather_cap"
+              - label: "Leather helmet"
+                value: "equipment/armors/leather_helmet"
+              - label: "Mail coif"
+                value: "equipment/armors/mail_coif"
+              - label: "Studded leather helmet"
+                value: "equipment/armors/studded_leather_helmet"
+          - name: "starting_chest"
+            label: "Torse de départ"
+            widget: "select"
+            required: false
+            hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+            options:
+              - label: "Bear fur coat"
+                value: "equipment/armors/bear_fur_coat"
+              - label: "Bone spiked plate"
+                value: "equipment/armors/bone_spiked_plate"
+              - label: "Bronze cuirass"
+                value: "equipment/armors/bronze_cuirass"
+              - label: "Chain mail"
+                value: "equipment/armors/chain_mail"
+              - label: "Ember jerkin"
+                value: "equipment/armors/ember_jerkin"
+              - label: "Frost warden plate"
+                value: "equipment/armors/frost_warden_plate"
+              - label: "Iron breastplate"
+                value: "equipment/armors/iron_breastplate"
+              - label: "Leaf tunic"
+                value: "equipment/armors/leaf_tunic"
+              - label: "Leather jerkin"
+                value: "equipment/armors/leather_jerkin"
+              - label: "Ruby plate"
+                value: "equipment/armors/ruby_plate"
+              - label: "Studded brigandine"
+                value: "equipment/armors/studded_brigandine"
+          - name: "starting_legs"
+            label: "Jambes de départ"
+            widget: "select"
+            required: false
+            hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+            options:
+              - label: "Bear fur trousers"
+                value: "equipment/armors/bear_fur_trousers"
+              - label: "Blood rune tassets"
+                value: "equipment/armors/blood_rune_tassets"
+              - label: "Bronze greaves"
+                value: "equipment/armors/bronze_greaves"
+              - label: "Chain mail leggings"
+                value: "equipment/armors/chain_mail_leggings"
+              - label: "Copper shin guards"
+                value: "equipment/armors/copper_shin_guards"
+              - label: "Frost warden leggings"
+                value: "equipment/armors/frost_warden_leggings"
+              - label: "Frostweave trousers"
+                value: "equipment/armors/frostweave_trousers"
+              - label: "Golden flame leggings"
+                value: "equipment/armors/golden_flame_leggings"
+              - label: "Leather trousers"
+                value: "equipment/armors/leather_trousers"
+              - label: "Steel greaves"
+                value: "equipment/armors/steel_greaves"
+              - label: "Studded trousers"
+                value: "equipment/armors/studded_trousers"
+          - name: "starting_feet"
+            label: "Pieds de départ"
+            widget: "select"
+            required: false
+            hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+            options:
+              - label: "Bone spiked boots"
+                value: "equipment/armors/bone_spiked_boots"
+              - label: "Elven boots"
+                value: "equipment/armors/elven_boots"
+              - label: "Frost warden boots"
+                value: "equipment/armors/frost_warden_boots"
+              - label: "Hobnailed boots"
+                value: "equipment/armors/hobnailed_boots"
+              - label: "Iron boots"
+                value: "equipment/armors/iron_boots"
+              - label: "Leather boots"
+                value: "equipment/armors/leather_boots"
+              - label: "Ruby sabatons"
+                value: "equipment/armors/ruby_sabatons"
+              - label: "Steel sabatons"
+                value: "equipment/armors/steel_sabatons"

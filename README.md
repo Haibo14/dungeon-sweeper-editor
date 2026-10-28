@@ -9,15 +9,17 @@ les fichiers JSON du dépôt privé `Haibo14/DungeonSweeper` (format :
 
 Pour l'instant : armes (`data/equipment/weapons/*.json`), armures
 (`data/equipment/armors/*.json`), monstres (`data/monsters/*.json`), pièges
-(`data/traps/*.json`), artéfacts (`data/artifacts/*.json`), étages
+(`data/traps/*.json`), artéfacts (`data/artifacts/*.json`), potions
+(`data/potions/*.json`), étages
 (`data/levels/*.json`, sans création ni suppression : leur ordre est dans
-la collection « Donjon ») et réglages du donjon (`data/dungeon/dungeon.json`).
+la collection « Donjon »), réglages du donjon (`data/dungeon/dungeon.json`), prix
+(`data/prices/equipment_prices.json`) et joueur (`data/player/player.json`).
 
 ## Contenu
 
 - `admin/index.html` : charge Sveltia et lui indique sa config (chemins
   relatifs : sur GitHub Pages, le site vit sous `/dungeon-sweeper-editor/`).
-- `admin/config.yml` : collections des armes, armures, monstres, étages, pièges, artéfacts et donjon ; `backend: github`,
+- `admin/config.yml` : collections des armes, armures, monstres, étages, pièges, artéfacts, potions, prix, joueur et donjon ; `backend: github`,
   `repo: Haibo14/DungeonSweeper`, `branch: balance`.
 - `admin/sveltia-cms.js` et `admin/chunks/` : Sveltia CMS **0.252.0**, copié
   dans le dépôt plutôt que chargé depuis un CDN (un script externe modifié

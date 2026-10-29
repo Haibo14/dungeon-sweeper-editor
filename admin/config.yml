@@ -2241,7 +2241,7 @@ collections:
         hint: "Le marchand la vend à cette valeur × le multiplicateur de prix de l'étage. Vide = 10."
   - name: "prices"
     label: "Prix"
-    description: "Prix de l'équipement par rareté (format : docs/data.md du dépôt du jeu) : un seul fichier, data/prices/equipment_prices.json."
+    description: "Prix de l'équipement par rareté et prix de vente des potions (format : docs/data.md du dépôt du jeu) : un seul fichier, data/prices/equipment_prices.json."
     format: "json"
     files:
       - name: "equipment_prices"
@@ -2343,6 +2343,15 @@ collections:
             step: 1
             required: true
             hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
+          - name: "potion_sell_price"
+            label: "Vente : potion"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or reçu pour toute potion vendue depuis un coffre (bouton Sell ou Quick resolve). Le prix d'achat chez le marchand reste la valeur en or de chaque potion. Toujours écrit (défaut du script : 10)."
   - name: "player"
     label: "Joueur"
     description: "Réglages du personnage (format : docs/data.md du dépôt du jeu) : un seul fichier, data/player/player.json."

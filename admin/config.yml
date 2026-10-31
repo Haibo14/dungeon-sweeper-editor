@@ -1096,6 +1096,40 @@ collections:
             step: 0.1
             required: false
             hint: "Chances relatives parmi les dangers de sa sorte sur l'étage : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
+          - name: "rules"
+            label: "Règles"
+            label_singular: "Règle"
+            widget: "list"
+            required: false
+            hint: "Monstres seulement (refusé sur un piège) : limites de ce monstre sur cet étage, n'ajouter que celles qui servent. Au moins un monstre de l'étage doit rester sans règle."
+            typeKey: "type"
+            types:
+              - name: "MaxPerRoomRule"
+                label: "Maximum par salle"
+                widget: "object"
+                hint: "Au plus ce nombre de ce monstre dans une salle ; les autres cases tirent parmi les autres monstres."
+                fields:
+                  - name: "limit"
+                    label: "Maximum"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    step: 1
+                    required: false
+                    hint: "Vide = 1."
+              - name: "MaxPerGroupRule"
+                label: "Maximum par groupe"
+                widget: "object"
+                hint: "Au plus ce nombre de ce monstre dans un combat : un groupe de dangers voisins, ou les groupes autour d'une même case sûre (comme « Monstres max par combat »)."
+                fields:
+                  - name: "limit"
+                    label: "Maximum"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    step: 1
+                    required: false
+                    hint: "Vide = 1."
       - name: "max_monsters_per_group"
         label: "Monstres max par combat"
         widget: "number"

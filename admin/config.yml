@@ -214,6 +214,20 @@ collections:
                 step: 1
                 required: false
                 hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "ShieldBreakEffect"
+            label: "Brise-bouclier"
+            widget: "object"
+            hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Dégâts sans bouclier. Vide = 1."
       - name: "rarity"
         label: "Rareté"
         widget: "select"
@@ -342,6 +356,20 @@ collections:
                     step: 1
                     required: false
                     hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "ShieldBreakEffect"
+                label: "Brise-bouclier"
+                widget: "object"
+                hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    hint: "Dégâts sans bouclier. Vide = 1."
       - name: "attack_range"
         label: "Portée"
         widget: "number"
@@ -668,6 +696,20 @@ collections:
                 step: 1
                 required: false
                 hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "ShieldBreakEffect"
+            label: "Brise-bouclier"
+            widget: "object"
+            hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Dégâts sans bouclier. Vide = 1."
       - name: "rarity"
         label: "Rareté"
         widget: "select"
@@ -883,6 +925,20 @@ collections:
                     step: 1
                     required: false
                     hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "ShieldBreakEffect"
+                label: "Brise-bouclier"
+                widget: "object"
+                hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    hint: "Dégâts sans bouclier. Vide = 1."
       - name: "attack_range"
         label: "Portée"
         widget: "number"
@@ -1492,6 +1548,20 @@ collections:
                 step: 1
                 required: false
                 hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "ShieldBreakEffect"
+            label: "Brise-bouclier"
+            widget: "object"
+            hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Dégâts sans bouclier. Vide = 1."
       - name: "sprite_frames"
         label: "Animation"
         widget: "select"
@@ -2518,6 +2588,20 @@ collections:
                         step: 1
                         required: false
                         hint: "Nombre de PV, de charges… Vide = 1."
+                  - name: "ShieldBreakEffect"
+                    label: "Brise-bouclier"
+                    widget: "object"
+                    hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        hint: "Dégâts sans bouclier. Vide = 1."
           - name: "attack_range"
             label: "Portée d'attaque"
             widget: "number"

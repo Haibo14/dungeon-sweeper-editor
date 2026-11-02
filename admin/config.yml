@@ -642,6 +642,20 @@ collections:
             widget: "object"
             hint: "Avant d'attaquer, le personnage se replace, dans la limite de son déplacement (illimité au premier tour), sur la case la plus éloignée des monstres d'où sa cible reste à portée."
             fields: []
+          - name: "MovementTrait"
+            label: "Déplacement"
+            widget: "object"
+            hint: "Cases ajoutées au déplacement du personnage à chaque tour de combat (négatif : ralentit), cumulées avec l'armure ; déplacement total au moins 1."
+            fields:
+              - name: "cells"
+                label: "Cases"
+                widget: "number"
+                value_type: "int"
+                min: -9
+                max: 9
+                step: 1
+                required: false
+                hint: "Vide = 1. Négatif = malus."
   - name: "armors"
     label: "Armures"
     label_singular: "Armure"
@@ -944,6 +958,15 @@ collections:
         step: 1
         required: false
         hint: "Chance de bloquer chaque attaque de monstre (armure lourde), cumulée avec les autres objets et les artéfacts, plafonnée. Vide = 0."
+      - name: "movement"
+        label: "Déplacement"
+        widget: "number"
+        value_type: "int"
+        min: -9
+        max: 9
+        step: 1
+        required: false
+        hint: "Cases ajoutées au déplacement du personnage à chaque tour de combat (négatif : ralentit), cumulées avec les autres objets ; déplacement total au moins 1. Vide = 0."
   - name: "monsters"
     label: "Monstres"
     label_singular: "Monstre"

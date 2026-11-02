@@ -1175,6 +1175,101 @@ collections:
         step: 1
         required: false
         hint: "Dégâts retirés de chaque coup reçu (sauf armes qui ignorent la résistance). Vide = 0."
+      - name: "behaviors"
+        label: "Comportements"
+        label_singular: "Comportement"
+        widget: "list"
+        required: false
+        hint: "Comportements spéciaux en combat : n'ajouter que ceux qu'il a, un seul de chaque sorte (le premier compte). Vide = monstre ordinaire."
+        typeKey: "type"
+        types:
+          - name: "StealGoldBehavior"
+            label: "Vol d'or"
+            widget: "object"
+            hint: "S'il surprend le personnage (révélé sans drapeau), il vole de l'or au lieu d'attaquer, puis s'enfuit. Marqué d'un drapeau, il combat normalement."
+            fields:
+              - name: "amount"
+                label: "Or volé"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 999
+                step: 1
+                required: false
+                hint: "Au plus l'or du personnage. Vide = 10."
+          - name: "RageBehavior"
+            label: "Rage"
+            widget: "object"
+            hint: "Chaque coup du personnage qui lui fait des dégâts (bouclier compris) lui donne de la force jusqu'à la fin du combat."
+            fields:
+              - name: "amount"
+                label: "Force par coup"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Charges de force gagnées à chaque coup reçu. Vide = 1."
+          - name: "SummonBehavior"
+            label: "Invocation"
+            widget: "object"
+            hint: "Au lieu de marcher et d'attaquer, il invoque un monstre par tour à côté de lui, qui rejoint le combat en dernier. Après ses invocations, il s'enfuit à son tour suivant. Un monstre sans attaque doit avoir ce comportement."
+            fields:
+              - name: "monster"
+                label: "Monstre invoqué"
+                widget: "select"
+                required: true
+                hint: "Collection « Monstres ». Un monstre invoqué n'invoque jamais à son tour."
+                options:
+                  - label: "Chort"
+                    value: "monsters/chort"
+                  - label: "Doc"
+                    value: "monsters/doc"
+                  - label: "Goblin"
+                    value: "monsters/goblin"
+                  - label: "Ice Zombie"
+                    value: "monsters/ice_zombie"
+                  - label: "Imp"
+                    value: "monsters/imp"
+                  - label: "Masked Orc"
+                    value: "monsters/masked_orc"
+                  - label: "Muddy"
+                    value: "monsters/muddy"
+                  - label: "Necromancer"
+                    value: "monsters/necromancer"
+                  - label: "Orc Shaman"
+                    value: "monsters/orc_shaman"
+                  - label: "Orc Warrior"
+                    value: "monsters/orc_warrior"
+                  - label: "Skeleton"
+                    value: "monsters/skeleton"
+                  - label: "Slug"
+                    value: "monsters/slug"
+                  - label: "Swampy"
+                    value: "monsters/swampy"
+                  - label: "Tiny Slug"
+                    value: "monsters/tiny_slug"
+                  - label: "Tiny Zombie"
+                    value: "monsters/tiny_zombie"
+                  - label: "Wogol"
+                    value: "monsters/wogol"
+                  - label: "Zombie"
+                    value: "monsters/zombie"
+              - name: "count"
+                label: "Invocations"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Monstres invoqués, un par tour, avant de s'enfuir. Vide = 3."
+          - name: "PriorityTargetBehavior"
+            label: "Cible prioritaire"
+            widget: "object"
+            hint: "Le personnage le vise tant qu'un chemin mène à une case d'où le frapper, même si d'autres monstres sont à portée."
+            fields: []
       - name: "sprite_frames"
         label: "Apparence"
         widget: "select"

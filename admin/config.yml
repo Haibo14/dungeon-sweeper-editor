@@ -228,6 +228,56 @@ collections:
                 step: 1
                 required: false
                 hint: "Dégâts sans bouclier. Vide = 1."
+          - name: "StatusEffect"
+            label: "Statut"
+            widget: "object"
+            hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1."
+            fields:
+              - name: "status"
+                label: "Statut"
+                widget: "select"
+                required: true
+                hint: "Bonus : force, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                options:
+                  - label: "Force (+1 dégât par attaque)"
+                    value: "STRENGTH"
+                  - label: "Dégâts en moins (−1 dégât par attaque)"
+                    value: "FEEBLE"
+                  - label: "Faiblesse (+1 dégât subi par coup)"
+                    value: "WEAKNESS"
+                  - label: "Vitesse (+1 case de déplacement)"
+                    value: "HASTE"
+                  - label: "Lenteur (−1 case de déplacement)"
+                    value: "SLOW"
+                  - label: "Portée + (+1 de portée)"
+                    value: "RANGE_UP"
+                  - label: "Portée − (−1 de portée)"
+                    value: "RANGE_DOWN"
+              - name: "amount"
+                label: "Charges"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Nombre de charges données. Vide = 1."
+              - name: "duration"
+                label: "Durée"
+                widget: "select"
+                required: false
+                hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                options:
+                  - label: "Jusqu'à la fin du combat"
+                    value: "FIGHT"
+                  - label: "Jusqu'à la fin de l'étage"
+                    value: "FLOOR"
+              - name: "on_source"
+                label: "Au porteur"
+                widget: "boolean"
+                required: false
+                default: false
+                hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
       - name: "rarity"
         label: "Rareté"
         widget: "select"
@@ -370,6 +420,56 @@ collections:
                     step: 1
                     required: false
                     hint: "Dégâts sans bouclier. Vide = 1."
+              - name: "StatusEffect"
+                label: "Statut"
+                widget: "object"
+                hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1."
+                fields:
+                  - name: "status"
+                    label: "Statut"
+                    widget: "select"
+                    required: true
+                    hint: "Bonus : force, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                    options:
+                      - label: "Force (+1 dégât par attaque)"
+                        value: "STRENGTH"
+                      - label: "Dégâts en moins (−1 dégât par attaque)"
+                        value: "FEEBLE"
+                      - label: "Faiblesse (+1 dégât subi par coup)"
+                        value: "WEAKNESS"
+                      - label: "Vitesse (+1 case de déplacement)"
+                        value: "HASTE"
+                      - label: "Lenteur (−1 case de déplacement)"
+                        value: "SLOW"
+                      - label: "Portée + (+1 de portée)"
+                        value: "RANGE_UP"
+                      - label: "Portée − (−1 de portée)"
+                        value: "RANGE_DOWN"
+                  - name: "amount"
+                    label: "Charges"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    hint: "Nombre de charges données. Vide = 1."
+                  - name: "duration"
+                    label: "Durée"
+                    widget: "select"
+                    required: false
+                    hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                    options:
+                      - label: "Jusqu'à la fin du combat"
+                        value: "FIGHT"
+                      - label: "Jusqu'à la fin de l'étage"
+                        value: "FLOOR"
+                  - name: "on_source"
+                    label: "Au porteur"
+                    widget: "boolean"
+                    required: false
+                    default: false
+                    hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
       - name: "attack_range"
         label: "Portée"
         widget: "number"
@@ -710,6 +810,56 @@ collections:
                 step: 1
                 required: false
                 hint: "Dégâts sans bouclier. Vide = 1."
+          - name: "StatusEffect"
+            label: "Statut"
+            widget: "object"
+            hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1."
+            fields:
+              - name: "status"
+                label: "Statut"
+                widget: "select"
+                required: true
+                hint: "Bonus : force, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                options:
+                  - label: "Force (+1 dégât par attaque)"
+                    value: "STRENGTH"
+                  - label: "Dégâts en moins (−1 dégât par attaque)"
+                    value: "FEEBLE"
+                  - label: "Faiblesse (+1 dégât subi par coup)"
+                    value: "WEAKNESS"
+                  - label: "Vitesse (+1 case de déplacement)"
+                    value: "HASTE"
+                  - label: "Lenteur (−1 case de déplacement)"
+                    value: "SLOW"
+                  - label: "Portée + (+1 de portée)"
+                    value: "RANGE_UP"
+                  - label: "Portée − (−1 de portée)"
+                    value: "RANGE_DOWN"
+              - name: "amount"
+                label: "Charges"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Nombre de charges données. Vide = 1."
+              - name: "duration"
+                label: "Durée"
+                widget: "select"
+                required: false
+                hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                options:
+                  - label: "Jusqu'à la fin du combat"
+                    value: "FIGHT"
+                  - label: "Jusqu'à la fin de l'étage"
+                    value: "FLOOR"
+              - name: "on_source"
+                label: "Au porteur"
+                widget: "boolean"
+                required: false
+                default: false
+                hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
       - name: "rarity"
         label: "Rareté"
         widget: "select"
@@ -939,6 +1089,56 @@ collections:
                     step: 1
                     required: false
                     hint: "Dégâts sans bouclier. Vide = 1."
+              - name: "StatusEffect"
+                label: "Statut"
+                widget: "object"
+                hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1."
+                fields:
+                  - name: "status"
+                    label: "Statut"
+                    widget: "select"
+                    required: true
+                    hint: "Bonus : force, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                    options:
+                      - label: "Force (+1 dégât par attaque)"
+                        value: "STRENGTH"
+                      - label: "Dégâts en moins (−1 dégât par attaque)"
+                        value: "FEEBLE"
+                      - label: "Faiblesse (+1 dégât subi par coup)"
+                        value: "WEAKNESS"
+                      - label: "Vitesse (+1 case de déplacement)"
+                        value: "HASTE"
+                      - label: "Lenteur (−1 case de déplacement)"
+                        value: "SLOW"
+                      - label: "Portée + (+1 de portée)"
+                        value: "RANGE_UP"
+                      - label: "Portée − (−1 de portée)"
+                        value: "RANGE_DOWN"
+                  - name: "amount"
+                    label: "Charges"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    hint: "Nombre de charges données. Vide = 1."
+                  - name: "duration"
+                    label: "Durée"
+                    widget: "select"
+                    required: false
+                    hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                    options:
+                      - label: "Jusqu'à la fin du combat"
+                        value: "FIGHT"
+                      - label: "Jusqu'à la fin de l'étage"
+                        value: "FLOOR"
+                  - name: "on_source"
+                    label: "Au porteur"
+                    widget: "boolean"
+                    required: false
+                    default: false
+                    hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
       - name: "attack_range"
         label: "Portée"
         widget: "number"
@@ -1115,6 +1315,10 @@ collections:
                     value: "traps/blade_trap"
                   - label: "Fire trap"
                     value: "traps/fire_trap"
+                  - label: "Shield break trap"
+                    value: "traps/shield_break_trap"
+                  - label: "Glue trap"
+                    value: "traps/glue_trap"
               - name: "weight"
                 label: "Poids"
                 widget: "number"
@@ -1324,6 +1528,14 @@ collections:
                     value: "potions/red_potion"
                   - label: "Blue potion"
                     value: "potions/blue_potion"
+                  - label: "Strength potion"
+                    value: "potions/strength_potion"
+                  - label: "Haste potion"
+                    value: "potions/haste_potion"
+                  - label: "Range potion"
+                    value: "potions/range_potion"
+                  - label: "Cleansing potion"
+                    value: "potions/cleansing_potion"
               - name: "weight"
                 label: "Poids"
                 widget: "number"
@@ -1562,6 +1774,56 @@ collections:
                 step: 1
                 required: false
                 hint: "Dégâts sans bouclier. Vide = 1."
+          - name: "StatusEffect"
+            label: "Statut"
+            widget: "object"
+            hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1."
+            fields:
+              - name: "status"
+                label: "Statut"
+                widget: "select"
+                required: true
+                hint: "Bonus : force, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                options:
+                  - label: "Force (+1 dégât par attaque)"
+                    value: "STRENGTH"
+                  - label: "Dégâts en moins (−1 dégât par attaque)"
+                    value: "FEEBLE"
+                  - label: "Faiblesse (+1 dégât subi par coup)"
+                    value: "WEAKNESS"
+                  - label: "Vitesse (+1 case de déplacement)"
+                    value: "HASTE"
+                  - label: "Lenteur (−1 case de déplacement)"
+                    value: "SLOW"
+                  - label: "Portée + (+1 de portée)"
+                    value: "RANGE_UP"
+                  - label: "Portée − (−1 de portée)"
+                    value: "RANGE_DOWN"
+              - name: "amount"
+                label: "Charges"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Nombre de charges données. Vide = 1."
+              - name: "duration"
+                label: "Durée"
+                widget: "select"
+                required: false
+                hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                options:
+                  - label: "Jusqu'à la fin du combat"
+                    value: "FIGHT"
+                  - label: "Jusqu'à la fin de l'étage"
+                    value: "FLOOR"
+              - name: "on_source"
+                label: "Au porteur"
+                widget: "boolean"
+                required: false
+                default: false
+                hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
       - name: "sprite_frames"
         label: "Animation"
         widget: "select"
@@ -2167,6 +2429,10 @@ collections:
                   value: "traps/blade_trap"
                 - label: "Piège : Fire trap"
                   value: "traps/fire_trap"
+                - label: "Piège : Glue trap"
+                  value: "traps/glue_trap"
+                - label: "Piège : Shield break trap"
+                  value: "traps/shield_break_trap"
                 - label: "Piège : Spike trap"
                   value: "traps/spike_trap"
                 - label: "Monstre : Chort"
@@ -2335,11 +2601,11 @@ collections:
         label: "Icône"
         widget: "image"
         required: false
-        media_folder: "/assets/ui"
-        public_folder: "/assets/ui"
+        media_folder: "/assets/icons/potions"
+        public_folder: "/assets/icons/potions"
         choose_url: false
         accept: "image/png"
-        hint: "Image de assets/ui/ (red_potion, blue_potion). Une nouvelle image s'ajoute dans le dépôt du jeu avec sa fiche .md (docs/assets.md), pas ici."
+        hint: "Une des 10 icônes de assets/icons/potions/ (découpées de atlas_potions-32x32.png par build_icons.gd). Une nouvelle icône s'ajoute à l'atlas dans le dépôt du jeu (docs/assets.md), pas ici."
       - name: "heal"
         label: "Soin"
         widget: "number"
@@ -2358,6 +2624,64 @@ collections:
         step: 1
         required: false
         hint: "Points de bouclier durable donnés : ils restent jusqu'à ce que des dégâts les usent. Vide = 0."
+      - name: "statuses"
+        label: "Statuts"
+        label_singular: "Statut"
+        widget: "list"
+        required: false
+        hint: "Statuts donnés en buvant, en général jusqu'à la fin de l'étage. Une potion qui donne des statuts se boit toujours. Vide = aucun."
+        typeKey: "type"
+        types:
+          - name: "StatusEffect"
+            label: "Statut"
+            widget: "object"
+            hint: "Des charges d'un statut pour le joueur, pour le combat (le prochain) ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1."
+            fields:
+              - name: "status"
+                label: "Statut"
+                widget: "select"
+                required: true
+                hint: "Bonus : force, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                options:
+                  - label: "Force (+1 dégât par attaque)"
+                    value: "STRENGTH"
+                  - label: "Dégâts en moins (−1 dégât par attaque)"
+                    value: "FEEBLE"
+                  - label: "Faiblesse (+1 dégât subi par coup)"
+                    value: "WEAKNESS"
+                  - label: "Vitesse (+1 case de déplacement)"
+                    value: "HASTE"
+                  - label: "Lenteur (−1 case de déplacement)"
+                    value: "SLOW"
+                  - label: "Portée + (+1 de portée)"
+                    value: "RANGE_UP"
+                  - label: "Portée − (−1 de portée)"
+                    value: "RANGE_DOWN"
+              - name: "amount"
+                label: "Charges"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                hint: "Nombre de charges données. Vide = 1."
+              - name: "duration"
+                label: "Durée"
+                widget: "select"
+                required: false
+                hint: "Choisir « fin de l'étage » pour un bonus durable. Vide = jusqu'à la fin du prochain combat."
+                options:
+                  - label: "Jusqu'à la fin du combat"
+                    value: "FIGHT"
+                  - label: "Jusqu'à la fin de l'étage"
+                    value: "FLOOR"
+      - name: "cleanse"
+        label: "Purge"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : retire tous les malus du joueur (de combat et d'étage) avant de donner ses statuts. Une purge seule ne se boit qu'avec un malus."
       - name: "gold_value"
         label: "Valeur en or"
         widget: "number"
@@ -2602,6 +2926,56 @@ collections:
                         step: 1
                         required: false
                         hint: "Dégâts sans bouclier. Vide = 1."
+                  - name: "StatusEffect"
+                    label: "Statut"
+                    widget: "object"
+                    hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1."
+                    fields:
+                      - name: "status"
+                        label: "Statut"
+                        widget: "select"
+                        required: true
+                        hint: "Bonus : force, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                        options:
+                          - label: "Force (+1 dégât par attaque)"
+                            value: "STRENGTH"
+                          - label: "Dégâts en moins (−1 dégât par attaque)"
+                            value: "FEEBLE"
+                          - label: "Faiblesse (+1 dégât subi par coup)"
+                            value: "WEAKNESS"
+                          - label: "Vitesse (+1 case de déplacement)"
+                            value: "HASTE"
+                          - label: "Lenteur (−1 case de déplacement)"
+                            value: "SLOW"
+                          - label: "Portée + (+1 de portée)"
+                            value: "RANGE_UP"
+                          - label: "Portée − (−1 de portée)"
+                            value: "RANGE_DOWN"
+                      - name: "amount"
+                        label: "Charges"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        hint: "Nombre de charges données. Vide = 1."
+                      - name: "duration"
+                        label: "Durée"
+                        widget: "select"
+                        required: false
+                        hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                        options:
+                          - label: "Jusqu'à la fin du combat"
+                            value: "FIGHT"
+                          - label: "Jusqu'à la fin de l'étage"
+                            value: "FLOOR"
+                      - name: "on_source"
+                        label: "Au porteur"
+                        widget: "boolean"
+                        required: false
+                        default: false
+                        hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
           - name: "attack_range"
             label: "Portée d'attaque"
             widget: "number"

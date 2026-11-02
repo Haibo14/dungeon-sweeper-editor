@@ -171,6 +171,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "HealEffect"
             label: "Soin"
@@ -185,6 +186,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "StrengthEffect"
             label: "Force"
@@ -199,6 +201,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "WeaknessEffect"
             label: "Faiblesse"
@@ -213,6 +216,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "ShieldBreakEffect"
             label: "Brise-bouclier"
@@ -227,6 +231,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Dégâts sans bouclier. Vide = 1."
           - name: "StatusEffect"
             label: "Statut"
@@ -263,11 +268,13 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de charges données. Vide = 1."
               - name: "duration"
                 label: "Durée"
                 widget: "select"
                 required: false
+                default: "FIGHT"
                 hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
                 options:
                   - label: "Jusqu'à la fin du combat"
@@ -365,6 +372,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de PV, de charges… Vide = 1."
               - name: "HealEffect"
                 label: "Soin"
@@ -379,6 +387,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de PV, de charges… Vide = 1."
               - name: "StrengthEffect"
                 label: "Force"
@@ -393,6 +402,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de PV, de charges… Vide = 1."
               - name: "WeaknessEffect"
                 label: "Faiblesse"
@@ -407,6 +417,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de PV, de charges… Vide = 1."
               - name: "ShieldBreakEffect"
                 label: "Brise-bouclier"
@@ -421,6 +432,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Dégâts sans bouclier. Vide = 1."
               - name: "StatusEffect"
                 label: "Statut"
@@ -457,11 +469,13 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de charges données. Vide = 1."
                   - name: "duration"
                     label: "Durée"
                     widget: "select"
                     required: false
+                    default: "FIGHT"
                     hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
                     options:
                       - label: "Jusqu'à la fin du combat"
@@ -482,6 +496,7 @@ collections:
         max: 10
         step: 1
         required: false
+        default: 1
         hint: "En cases : 1 = les 8 cases autour, au-delà sans diagonales. Vide = 1."
       - name: "traits"
         label: "Traits"
@@ -504,6 +519,7 @@ collections:
                 max: 5
                 step: 1
                 required: false
+                default: 2
                 hint: "Vide = 2."
           - name: "RecoveryTrait"
             label: "Récupération"
@@ -518,6 +534,7 @@ collections:
                 max: 5
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "RicochetTrait"
             label: "Ricochets"
@@ -532,6 +549,7 @@ collections:
                 max: 5
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "MultiTargetTrait"
             label: "Cibles multiples"
@@ -546,6 +564,7 @@ collections:
                 max: 5
                 step: 1
                 required: false
+                default: 2
                 hint: "Vide = 2."
           - name: "SplashTrait"
             label: "Éclaboussure"
@@ -560,6 +579,7 @@ collections:
                 max: 3
                 step: 1
                 required: false
+                default: 1
                 hint: "1 = les 8 cases autour de la cible. Vide = 1."
           - name: "ShieldPierceTrait"
             label: "Perce-bouclier"
@@ -579,6 +599,7 @@ collections:
                 max: 100
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "OpeningHitTrait"
             label: "Premier coup"
@@ -593,6 +614,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ResistancePierceTrait"
             label: "Ignore la résistance"
@@ -612,6 +634,7 @@ collections:
                 max: 100
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ShieldGainTrait"
             label: "Bouclier par frappe"
@@ -626,6 +649,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ThornsTrait"
             label: "Épines"
@@ -640,6 +664,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "KitingTrait"
             label: "Repli"
@@ -659,6 +684,7 @@ collections:
                 max: 9
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1. Négatif = malus."
   - name: "armors"
     label: "Armures"
@@ -771,6 +797,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "HealEffect"
             label: "Soin"
@@ -785,6 +812,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "StrengthEffect"
             label: "Force"
@@ -799,6 +827,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "WeaknessEffect"
             label: "Faiblesse"
@@ -813,6 +842,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "ShieldBreakEffect"
             label: "Brise-bouclier"
@@ -827,6 +857,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Dégâts sans bouclier. Vide = 1."
           - name: "StatusEffect"
             label: "Statut"
@@ -863,11 +894,13 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de charges données. Vide = 1."
               - name: "duration"
                 label: "Durée"
                 widget: "select"
                 required: false
+                default: "FIGHT"
                 hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
                 options:
                   - label: "Jusqu'à la fin du combat"
@@ -918,7 +951,8 @@ collections:
         max: 99
         step: 1
         required: false
-        hint: "Ajoutée à l'armure du personnage, qui donne des points de bouclier en combat. Vide = 1."
+        default: 0
+        hint: "Ajoutée à l'armure du personnage, qui donne des points de bouclier en combat. Vide = 0."
       - name: "damage_reduction"
         label: "Réduction de dégâts"
         widget: "number"
@@ -927,6 +961,7 @@ collections:
         max: 99
         step: 1
         required: false
+        default: 0
         hint: "Retirée de chaque coup reçu, jamais en dessous de 1 dégât. Vide = 0."
       - name: "max_health"
         label: "PV max en plus"
@@ -936,6 +971,7 @@ collections:
         max: 99
         step: 1
         required: false
+        default: 0
         hint: "En points de vie (1 point = un demi-cœur), tant que l'armure est portée. Vide = 0."
       - name: "thorns"
         label: "Épines"
@@ -945,6 +981,7 @@ collections:
         max: 99
         step: 1
         required: false
+        default: 0
         hint: "Dégâts renvoyés au monstre chaque fois que son attaque touche le personnage. Vide = 0."
       - name: "dodge_chance"
         label: "Esquive (%)"
@@ -954,6 +991,7 @@ collections:
         max: 100
         step: 1
         required: false
+        default: 0
         hint: "Chance d'esquiver chaque attaque de monstre (équipement léger), cumulée avec les autres objets et les artéfacts, plafonnée. Vide = 0."
       - name: "block_chance"
         label: "Blocage (%)"
@@ -963,6 +1001,7 @@ collections:
         max: 100
         step: 1
         required: false
+        default: 0
         hint: "Chance de bloquer chaque attaque de monstre (armure lourde), cumulée avec les autres objets et les artéfacts, plafonnée. Vide = 0."
       - name: "movement"
         label: "Déplacement"
@@ -972,6 +1011,7 @@ collections:
         max: 9
         step: 1
         required: false
+        default: 0
         hint: "Cases ajoutées au déplacement du personnage à chaque tour de combat (négatif : ralentit), cumulées avec les autres objets ; déplacement total au moins 1. Vide = 0."
   - name: "monsters"
     label: "Monstres"
@@ -1017,6 +1057,7 @@ collections:
         min: 0
         step: 0.1
         required: false
+        default: 1.0
         hint: "Seulement pour un étage sans sa propre liste de dangers (aucun aujourd'hui) : chances relatives parmi les monstres, 0 = jamais. Vide = 1."
       - name: "max_health"
         label: "PV max"
@@ -1026,7 +1067,8 @@ collections:
         max: 99
         step: 1
         required: false
-        hint: "Vide = 2."
+        default: 1
+        hint: "Vide = 1."
       - name: "attacks"
         label: "Attaques"
         label_singular: "Attaque"
@@ -1061,6 +1103,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de PV, de charges… Vide = 1."
               - name: "HealEffect"
                 label: "Soin"
@@ -1075,6 +1118,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de PV, de charges… Vide = 1."
               - name: "StrengthEffect"
                 label: "Force"
@@ -1089,6 +1133,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de PV, de charges… Vide = 1."
               - name: "WeaknessEffect"
                 label: "Faiblesse"
@@ -1103,6 +1148,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de PV, de charges… Vide = 1."
               - name: "ShieldBreakEffect"
                 label: "Brise-bouclier"
@@ -1117,6 +1163,7 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Dégâts sans bouclier. Vide = 1."
               - name: "StatusEffect"
                 label: "Statut"
@@ -1153,11 +1200,13 @@ collections:
                     max: 99
                     step: 1
                     required: false
+                    default: 1
                     hint: "Nombre de charges données. Vide = 1."
                   - name: "duration"
                     label: "Durée"
                     widget: "select"
                     required: false
+                    default: "FIGHT"
                     hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
                     options:
                       - label: "Jusqu'à la fin du combat"
@@ -1178,6 +1227,7 @@ collections:
         max: 10
         step: 1
         required: false
+        default: 1
         hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
       - name: "movement"
         label: "Déplacement"
@@ -1187,7 +1237,8 @@ collections:
         max: 10
         step: 1
         required: false
-        hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 2."
+        default: 1
+        hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 1."
       - name: "armor"
         label: "Armure"
         widget: "number"
@@ -1196,6 +1247,7 @@ collections:
         max: 99
         step: 1
         required: false
+        default: 0
         hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
       - name: "resistance"
         label: "Résistance"
@@ -1205,6 +1257,7 @@ collections:
         max: 99
         step: 1
         required: false
+        default: 0
         hint: "Dégâts retirés de chaque coup reçu (sauf armes qui ignorent la résistance), donnés en statut « Résistance » au début de chaque combat (icône au-dessus du monstre). Vide = 0."
       - name: "behaviors"
         label: "Comportements"
@@ -1227,7 +1280,8 @@ collections:
                 max: 999
                 step: 1
                 required: false
-                hint: "Au plus l'or du personnage. Vide = 10."
+                default: 0
+                hint: "Au plus l'or du personnage. Vide = 0."
           - name: "RageBehavior"
             label: "Rage"
             widget: "object"
@@ -1241,6 +1295,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Charges de force gagnées à chaque coup reçu. Vide = 1."
           - name: "SummonBehavior"
             label: "Invocation"
@@ -1295,7 +1350,8 @@ collections:
                 max: 99
                 step: 1
                 required: false
-                hint: "Monstres invoqués, un par tour, avant de s'enfuir. Vide = 3."
+                default: 1
+                hint: "Monstres invoqués, un par tour, avant de s'enfuir. Vide = 1."
           - name: "PriorityTargetBehavior"
             label: "Cible prioritaire"
             widget: "object"
@@ -1379,6 +1435,7 @@ collections:
         max: 50
         step: 1
         required: false
+        default: 6
         hint: "Le nombre de salles est tiré entre le min et le max. Vide = 6."
       - name: "max_room_count"
         label: "Salles : nombre max"
@@ -1388,6 +1445,7 @@ collections:
         max: 50
         step: 1
         required: false
+        default: 8
         hint: "Vide = 8."
       - name: "min_room_size"
         label: "Salles : taille min"
@@ -1397,6 +1455,7 @@ collections:
         max: 30
         step: 1
         required: false
+        default: 6
         hint: "Largeur et hauteur de chaque salle, tirées séparément entre le min et le max. Vide = 6."
       - name: "max_room_size"
         label: "Salles : taille max"
@@ -1406,6 +1465,7 @@ collections:
         max: 30
         step: 1
         required: false
+        default: 12
         hint: "Vide = 12."
       - name: "mine_density"
         label: "Densité de dangers"
@@ -1415,6 +1475,7 @@ collections:
         max: 0.5
         step: 0.01
         required: false
+        default: 0.15
         hint: "Part des cases d'une salle qui portent un danger (0.15 = 15 %). Vide = 0.15."
       - name: "hazards"
         label: "Dangers"
@@ -1452,6 +1513,7 @@ collections:
                 min: 0
                 step: 0.1
                 required: false
+                default: 1.0
                 hint: "Chances relatives parmi les pièges de l'étage : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
           - name: "MonsterSpawn"
             label: "Monstre"
@@ -1505,6 +1567,7 @@ collections:
                 min: 0
                 step: 0.1
                 required: false
+                default: 1.0
                 hint: "Chances relatives parmi les monstres de l'étage : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
               - name: "rules"
                 label: "Règles"
@@ -1526,6 +1589,7 @@ collections:
                         min: 1
                         step: 1
                         required: false
+                        default: 1
                         hint: "Vide = 1."
                   - name: "MaxPerGroupRule"
                     label: "Maximum par groupe"
@@ -1539,6 +1603,7 @@ collections:
                         min: 1
                         step: 1
                         required: false
+                        default: 1
                         hint: "Vide = 1."
       - name: "max_monsters_per_group"
         label: "Monstres max par combat"
@@ -1547,6 +1612,7 @@ collections:
         min: 0
         step: 1
         required: false
+        default: 0
         hint: "Plafond de monstres d'un même combat ; les monstres en trop deviennent des pièges. 0 = pas de limite. Vide = 0."
       - name: "loot_profile"
         label: "Coffres"
@@ -1563,6 +1629,7 @@ collections:
             max: 10
             step: 1
             required: false
+            default: 1
             hint: "Équipements ou potions par coffre, tirés entre le min et le max. Vide = 1."
           - name: "max_items"
             label: "Récompenses : nombre max"
@@ -1572,6 +1639,7 @@ collections:
             max: 10
             step: 1
             required: false
+            default: 2
             hint: "Vide = 2."
           - name: "equipment_weight"
             label: "Poids : équipement"
@@ -1581,6 +1649,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 60.0
             hint: "Chances relatives de chaque sorte de récompense. Vide = 60."
           - name: "potion_weight"
             label: "Poids : potion"
@@ -1590,6 +1659,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 25.0
             hint: "Vide = 25."
           - name: "common_weight"
             label: "Poids : commun"
@@ -1599,6 +1669,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 60.0
             hint: "Chances relatives de chaque rareté (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
           - name: "uncommon_weight"
             label: "Poids : peu commun"
@@ -1608,6 +1679,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 25.0
             hint: "Vide = 25."
           - name: "rare_weight"
             label: "Poids : rare"
@@ -1617,6 +1689,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 10.0
             hint: "Vide = 10."
           - name: "epic_weight"
             label: "Poids : épique"
@@ -1626,6 +1699,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 4.0
             hint: "Vide = 4."
           - name: "legendary_weight"
             label: "Poids : légendaire"
@@ -1635,6 +1709,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 1.0
             hint: "Vide = 1."
           - name: "potions"
             label: "Potions"
@@ -1670,6 +1745,7 @@ collections:
                 max: 100
                 step: 0.1
                 required: false
+                default: 1.0
                 hint: "Vide = 1."
           - name: "min_gold"
             label: "Or : min"
@@ -1679,6 +1755,7 @@ collections:
             max: 9999
             step: 1
             required: false
+            default: 5
             hint: "Or de chaque coffre, tiré entre le min et le max. Vide = 5."
           - name: "max_gold"
             label: "Or : max"
@@ -1688,6 +1765,7 @@ collections:
             max: 9999
             step: 1
             required: false
+            default: 20
             hint: "0 = pas d'or. Vide = 20."
       - name: "loot_items"
         label: "Équipement des coffres"
@@ -1714,6 +1792,7 @@ collections:
             max: 12
             step: 1
             required: false
+            default: 5
             hint: "En cases. Vide = 5."
           - name: "item_count"
             label: "Objets en vente"
@@ -1723,6 +1802,7 @@ collections:
             max: 10
             step: 1
             required: false
+            default: 3
             hint: "Jamais deux objets du même emplacement. Vide = 3."
           - name: "potion_count"
             label: "Potions en vente"
@@ -1732,6 +1812,7 @@ collections:
             max: 10
             step: 1
             required: false
+            default: 2
             hint: "Vide = 2."
           - name: "price_multiplier"
             label: "Multiplicateur du prix des potions"
@@ -1741,6 +1822,7 @@ collections:
             max: 10
             step: 0.1
             required: false
+            default: 2.0
             hint: "Prix = valeur en or × multiplicateur, arrondi au-dessus, au moins 1. Vide = 2."
           - name: "common_weight"
             label: "Poids : commun"
@@ -1750,6 +1832,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 60.0
             hint: "Chances relatives de chaque rareté (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
           - name: "uncommon_weight"
             label: "Poids : peu commun"
@@ -1759,6 +1842,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 25.0
             hint: "Vide = 25."
           - name: "rare_weight"
             label: "Poids : rare"
@@ -1768,6 +1852,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 10.0
             hint: "Vide = 10."
           - name: "epic_weight"
             label: "Poids : épique"
@@ -1777,6 +1862,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 4.0
             hint: "Vide = 4."
           - name: "legendary_weight"
             label: "Poids : légendaire"
@@ -1786,6 +1872,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 1.0
             hint: "Vide = 1."
   - name: "traps"
     label: "Pièges"
@@ -1821,6 +1908,7 @@ collections:
         min: 0
         step: 0.1
         required: false
+        default: 1.0
         hint: "Seulement pour un étage sans sa propre liste de dangers (aucun aujourd'hui) : chances relatives parmi les pièges, 0 = jamais. Vide = 1."
       - name: "effects"
         label: "Effets du piège"
@@ -1843,6 +1931,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "HealEffect"
             label: "Soin"
@@ -1857,6 +1946,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "StrengthEffect"
             label: "Force"
@@ -1871,6 +1961,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "WeaknessEffect"
             label: "Faiblesse"
@@ -1885,6 +1976,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de PV, de charges… Vide = 1."
           - name: "ShieldBreakEffect"
             label: "Brise-bouclier"
@@ -1899,6 +1991,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Dégâts sans bouclier. Vide = 1."
           - name: "StatusEffect"
             label: "Statut"
@@ -1935,11 +2028,13 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de charges données. Vide = 1."
               - name: "duration"
                 label: "Durée"
                 widget: "select"
                 required: false
+                default: "FIGHT"
                 hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
                 options:
                   - label: "Jusqu'à la fin du combat"
@@ -2067,6 +2162,7 @@ collections:
                 max: 9999
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "MaxHealthArtifactEffect"
             label: "Immédiat : PV max"
@@ -2081,6 +2177,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "LastingShieldArtifactEffect"
             label: "Immédiat : bouclier durable"
@@ -2095,6 +2192,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "MaxHealthLossArtifactEffect"
             label: "Immédiat : PV max perdus"
@@ -2109,6 +2207,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "BonusDamageArtifactEffect"
             label: "Passif : dégâts bonus"
@@ -2123,6 +2222,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "StartingWeaknessArtifactEffect"
             label: "Passif : faiblesse au départ"
@@ -2137,6 +2237,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "EchoArtifactEffect"
             label: "Passif : écho"
@@ -2151,6 +2252,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ArmorArtifactEffect"
             label: "Passif : armure"
@@ -2165,6 +2267,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "DamageReductionArtifactEffect"
             label: "Passif : réduction de dégâts"
@@ -2179,6 +2282,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ThornsArtifactEffect"
             label: "Passif : épines"
@@ -2193,6 +2297,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "DodgeArtifactEffect"
             label: "Passif : esquive (%)"
@@ -2207,6 +2312,7 @@ collections:
                 max: 100
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "BlockArtifactEffect"
             label: "Passif : blocage (%)"
@@ -2221,6 +2327,7 @@ collections:
                 max: 100
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ParryArtifactEffect"
             label: "Passif : parade (%)"
@@ -2235,6 +2342,7 @@ collections:
                 max: 100
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "FirstHitArtifactEffect"
             label: "Passif : premier coup"
@@ -2249,6 +2357,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "MonsterWeaknessArtifactEffect"
             label: "Passif : faiblesse des monstres"
@@ -2263,6 +2372,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "HealOnKillArtifactEffect"
             label: "Passif : soin par monstre tué"
@@ -2277,6 +2387,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "StrengthPerHitTakenArtifactEffect"
             label: "Passif : force par coup reçu"
@@ -2291,6 +2402,7 @@ collections:
                 max: 9
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "SurpriseShieldArtifactEffect"
             label: "Passif : bouclier si surpris"
@@ -2305,6 +2417,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ExtraStrikesArtifactEffect"
             label: "Passif : attaques en plus"
@@ -2319,6 +2432,7 @@ collections:
                 max: 9
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "StrengthPerStrikeArtifactEffect"
             label: "Passif : force par attaque"
@@ -2333,6 +2447,7 @@ collections:
                 max: 9
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "GoldDamageArtifactEffect"
             label: "Passif : dégâts selon l'or"
@@ -2347,6 +2462,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
               - name: "gold_step"
                 label: "Tranche d'or"
@@ -2356,6 +2472,7 @@ collections:
                 max: 9999
                 step: 1
                 required: false
+                default: 100
                 hint: "Or par tranche. Vide = 100."
           - name: "ReviveArtifactEffect"
             label: "Passif : résurrection"
@@ -2375,6 +2492,7 @@ collections:
                 max: 9
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "TrapDamageReductionArtifactEffect"
             label: "Donjon : dégâts des pièges réduits"
@@ -2389,6 +2507,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "TrapAvoidArtifactEffect"
             label: "Donjon : pièges évités (%)"
@@ -2403,6 +2522,7 @@ collections:
                 max: 100
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "GoldPerDisarmedTrapArtifactEffect"
             label: "Donjon : or par piège désarmé"
@@ -2417,6 +2537,7 @@ collections:
                 max: 999
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ShopDiscountArtifactEffect"
             label: "Donjon : remise du marchand (%)"
@@ -2431,6 +2552,7 @@ collections:
                 max: 100
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "ExtraChestRewardsArtifactEffect"
             label: "Donjon : récompenses en plus"
@@ -2445,6 +2567,7 @@ collections:
                 max: 9
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "HealOnRoomClearedArtifactEffect"
             label: "Donjon : soin par salle terminée"
@@ -2459,6 +2582,7 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "TrapsFlaggedArtifactEffect"
             label: "Donjon : pièges marqués à l'entrée"
@@ -2473,6 +2597,7 @@ collections:
                 max: 9
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
           - name: "MonstersFlaggedArtifactEffect"
             label: "Donjon : monstres marqués à l'entrée"
@@ -2487,6 +2612,7 @@ collections:
                 max: 9
                 step: 1
                 required: false
+                default: 1
                 hint: "Vide = 1."
   - name: "dungeon"
     label: "Donjon"
@@ -2510,6 +2636,7 @@ collections:
             max: 100
             step: 1
             required: false
+            default: 3
             hint: "La partie est gagnée une fois toutes les salles du dernier étage terminées. 0 = donjon sans fin. Vide = 3."
           - name: "levels"
             label: "Étages"
@@ -2605,6 +2732,7 @@ collections:
             max: 100
             step: 0.1
             required: false
+            default: 65.0
             hint: "Chance qu'une case de danger porte un monstre plutôt qu'un piège, sur chaque étage ; les poids de l'étage choisissent ensuite lequel. Vide = 65."
           - name: "loot_items"
             label: "Équipement des coffres"
@@ -2689,6 +2817,7 @@ collections:
             max: 10
             step: 1
             required: false
+            default: 3
             hint: "Artéfacts proposés au choix à la fin de chaque étage (moins s'il n'en reste pas assez). 0 = aucun. Vide = 3."
           - name: "equipment_prices"
             label: "Prix de l'équipement"
@@ -2742,6 +2871,7 @@ collections:
         max: 99
         step: 1
         required: false
+        default: 0
         hint: "PV rendus, sans dépasser le maximum (1 = un demi-cœur). Vide = 0."
       - name: "shield"
         label: "Bouclier durable"
@@ -2751,6 +2881,7 @@ collections:
         max: 99
         step: 1
         required: false
+        default: 0
         hint: "Points de bouclier durable donnés : ils restent jusqu'à ce que des dégâts les usent. Vide = 0."
       - name: "statuses"
         label: "Statuts"
@@ -2795,11 +2926,13 @@ collections:
                 max: 99
                 step: 1
                 required: false
+                default: 1
                 hint: "Nombre de charges données. Vide = 1."
               - name: "duration"
                 label: "Durée"
                 widget: "select"
                 required: false
+                default: "FIGHT"
                 hint: "Choisir « fin de l'étage » pour un bonus durable. Vide = jusqu'à la fin du prochain combat."
                 options:
                   - label: "Jusqu'à la fin du combat"
@@ -2820,7 +2953,8 @@ collections:
         max: 9999
         step: 1
         required: false
-        hint: "Le marchand la vend à cette valeur × le multiplicateur de prix de l'étage. Vide = 10."
+        default: 0
+        hint: "Le marchand la vend à cette valeur × le multiplicateur de prix de l'étage. Vide = 0."
   - name: "prices"
     label: "Prix"
     description: "Prix de l'équipement par rareté et prix de vente des potions (format : docs/data.md du dépôt du jeu) : un seul fichier, data/prices/equipment_prices.json."
@@ -2999,6 +3133,7 @@ collections:
                         max: 99
                         step: 1
                         required: false
+                        default: 1
                         hint: "Nombre de PV, de charges… Vide = 1."
                   - name: "HealEffect"
                     label: "Soin"
@@ -3013,6 +3148,7 @@ collections:
                         max: 99
                         step: 1
                         required: false
+                        default: 1
                         hint: "Nombre de PV, de charges… Vide = 1."
                   - name: "StrengthEffect"
                     label: "Force"
@@ -3027,6 +3163,7 @@ collections:
                         max: 99
                         step: 1
                         required: false
+                        default: 1
                         hint: "Nombre de PV, de charges… Vide = 1."
                   - name: "WeaknessEffect"
                     label: "Faiblesse"
@@ -3041,6 +3178,7 @@ collections:
                         max: 99
                         step: 1
                         required: false
+                        default: 1
                         hint: "Nombre de PV, de charges… Vide = 1."
                   - name: "ShieldBreakEffect"
                     label: "Brise-bouclier"
@@ -3055,6 +3193,7 @@ collections:
                         max: 99
                         step: 1
                         required: false
+                        default: 1
                         hint: "Dégâts sans bouclier. Vide = 1."
                   - name: "StatusEffect"
                     label: "Statut"
@@ -3091,11 +3230,13 @@ collections:
                         max: 99
                         step: 1
                         required: false
+                        default: 1
                         hint: "Nombre de charges données. Vide = 1."
                       - name: "duration"
                         label: "Durée"
                         widget: "select"
                         required: false
+                        default: "FIGHT"
                         hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
                         options:
                           - label: "Jusqu'à la fin du combat"

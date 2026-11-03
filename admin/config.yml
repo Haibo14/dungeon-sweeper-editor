@@ -1,4 +1,4 @@
-# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, pièges, artéfacts, potions, prix, joueur et donjon).
+# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, biomes, pièges, artéfacts, potions, prix, joueur et donjon).
 # Champs tirés des JSON Schema du dépôt du jeu (schema/). Ne contient aucune donnée de jeu.
 backend:
   name: "github"
@@ -1016,7 +1016,7 @@ collections:
   - name: "monsters"
     label: "Monstres"
     label_singular: "Monstre"
-    description: "Monstres du jeu : un fichier JSON par monstre (format : docs/data.md du dépôt du jeu). Un nouveau monstre n'apparaît que dans les étages qui le listent : l'ajouter aux choix de « Danger » des étages dans config.yml. Son icône vient de scripts/tools/build_icons.gd (à relancer après un nouveau monstre ou un changement d'apparence)."
+    description: "Monstres du jeu : un fichier JSON par monstre (format : docs/data.md du dépôt du jeu). Ses stats sont réglées par palier : l'étage donne le palier (« Palier » de l'étage), le monstre sort avec les stats de ce palier (au-delà de la liste, le dernier). Un nouveau monstre n'apparaît que dans les biomes qui le listent. Son icône vient de scripts/tools/build_icons.gd (à relancer après un nouveau monstre ou un changement d'apparence)."
     folder: "data/monsters"
     extension: "json"
     format: "json"
@@ -1029,7 +1029,6 @@ collections:
     sortable_fields:
       fields:
         - "display_name"
-        - "max_health"
       default:
         field: "display_name"
         direction: "ascending"
@@ -1059,206 +1058,215 @@ collections:
         required: false
         default: 1.0
         hint: "Seulement pour un étage sans sa propre liste de dangers (aucun aujourd'hui) : chances relatives parmi les monstres, 0 = jamais. Vide = 1."
-      - name: "max_health"
-        label: "PV max"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 99
-        step: 1
-        required: false
-        default: 1
-        hint: "Vide = 1."
-      - name: "attacks"
-        label: "Attaques"
-        label_singular: "Attaque"
+      - name: "tiers"
+        label: "Paliers"
+        label_singular: "Palier"
         widget: "list"
-        required: false
-        hint: "À chaque tour de combat, le monstre utilise ses attaques dans l'ordre, puis recommence."
-        summary: "{{fields.display_name}}"
+        required: true
+        min: 1
+        hint: "Stats du monstre par palier d'étage : la 1re entrée pour le palier 1, la 2e pour le palier 2… Un étage de palier plus haut que la liste prend la dernière. Un monstre invoqué prend le palier de son invocateur."
+        summary: "{{fields.max_health}} PV, armure {{fields.armor}}, résistance {{fields.resistance}}"
         fields:
-          - name: "display_name"
-            label: "Nom de l'attaque"
-            widget: "string"
+          - name: "max_health"
+            label: "PV max"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 99
+            step: 1
             required: false
-            hint: "Vide = \"Attack\"."
-          - name: "effects"
-            label: "Effets de l'attaque"
-            label_singular: "Effet"
+            default: 1
+            hint: "Vide = 1."
+          - name: "attacks"
+            label: "Attaques"
+            label_singular: "Attaque"
             widget: "list"
             required: false
-            hint: "Appliqués dans l'ordre à chaque coup."
-            typeKey: "type"
-            types:
-              - name: "DamageEffect"
-                label: "Dégâts"
-                widget: "object"
-                hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
-                fields:
-                  - name: "amount"
-                    label: "Montant"
-                    widget: "number"
-                    value_type: "int"
-                    min: 1
-                    max: 99
-                    step: 1
-                    required: false
-                    default: 1
-                    hint: "Nombre de PV, de charges… Vide = 1."
-              - name: "HealEffect"
-                label: "Soin"
-                widget: "object"
-                hint: "Rend des PV au porteur, sans dépasser son maximum."
-                fields:
-                  - name: "amount"
-                    label: "Montant"
-                    widget: "number"
-                    value_type: "int"
-                    min: 1
-                    max: 99
-                    step: 1
-                    required: false
-                    default: 1
-                    hint: "Nombre de PV, de charges… Vide = 1."
-              - name: "StrengthEffect"
-                label: "Force"
-                widget: "object"
-                hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
-                fields:
-                  - name: "amount"
-                    label: "Montant"
-                    widget: "number"
-                    value_type: "int"
-                    min: 1
-                    max: 99
-                    step: 1
-                    required: false
-                    default: 1
-                    hint: "Nombre de PV, de charges… Vide = 1."
-              - name: "WeaknessEffect"
-                label: "Faiblesse"
-                widget: "object"
-                hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
-                fields:
-                  - name: "amount"
-                    label: "Montant"
-                    widget: "number"
-                    value_type: "int"
-                    min: 1
-                    max: 99
-                    step: 1
-                    required: false
-                    default: 1
-                    hint: "Nombre de PV, de charges… Vide = 1."
-              - name: "ShieldBreakEffect"
-                label: "Brise-bouclier"
-                widget: "object"
-                hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
-                fields:
-                  - name: "amount"
-                    label: "Montant"
-                    widget: "number"
-                    value_type: "int"
-                    min: 1
-                    max: 99
-                    step: 1
-                    required: false
-                    default: 1
-                    hint: "Dégâts sans bouclier. Vide = 1."
-              - name: "StatusEffect"
-                label: "Statut"
-                widget: "object"
-                hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1 (la résistance, elle, peut annuler un coup reçu)."
-                fields:
-                  - name: "status"
+            hint: "À chaque tour de combat, le monstre utilise ses attaques dans l'ordre, puis recommence."
+            summary: "{{fields.display_name}}"
+            fields:
+              - name: "display_name"
+                label: "Nom de l'attaque"
+                widget: "string"
+                required: false
+                hint: "Vide = \"Attack\"."
+              - name: "effects"
+                label: "Effets de l'attaque"
+                label_singular: "Effet"
+                widget: "list"
+                required: false
+                hint: "Appliqués dans l'ordre à chaque coup."
+                typeKey: "type"
+                types:
+                  - name: "DamageEffect"
+                    label: "Dégâts"
+                    widget: "object"
+                    hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        default: 1
+                        hint: "Nombre de PV, de charges… Vide = 1."
+                  - name: "HealEffect"
+                    label: "Soin"
+                    widget: "object"
+                    hint: "Rend des PV au porteur, sans dépasser son maximum."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        default: 1
+                        hint: "Nombre de PV, de charges… Vide = 1."
+                  - name: "StrengthEffect"
+                    label: "Force"
+                    widget: "object"
+                    hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        default: 1
+                        hint: "Nombre de PV, de charges… Vide = 1."
+                  - name: "WeaknessEffect"
+                    label: "Faiblesse"
+                    widget: "object"
+                    hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        default: 1
+                        hint: "Nombre de PV, de charges… Vide = 1."
+                  - name: "ShieldBreakEffect"
+                    label: "Brise-bouclier"
+                    widget: "object"
+                    hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+                    fields:
+                      - name: "amount"
+                        label: "Montant"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        default: 1
+                        hint: "Dégâts sans bouclier. Vide = 1."
+                  - name: "StatusEffect"
                     label: "Statut"
-                    widget: "select"
-                    required: true
-                    hint: "Bonus : force, résistance, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
-                    options:
-                      - label: "Force (+1 dégât par attaque)"
-                        value: "STRENGTH"
-                      - label: "Dégâts en moins (−1 dégât par attaque)"
-                        value: "FEEBLE"
-                      - label: "Faiblesse (+1 dégât subi par coup)"
-                        value: "WEAKNESS"
-                      - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
-                        value: "RESISTANCE"
-                      - label: "Vitesse (+1 case de déplacement)"
-                        value: "HASTE"
-                      - label: "Lenteur (−1 case de déplacement)"
-                        value: "SLOW"
-                      - label: "Portée + (+1 de portée)"
-                        value: "RANGE_UP"
-                      - label: "Portée − (−1 de portée)"
-                        value: "RANGE_DOWN"
-                  - name: "amount"
-                    label: "Charges"
-                    widget: "number"
-                    value_type: "int"
-                    min: 1
-                    max: 99
-                    step: 1
-                    required: false
-                    default: 1
-                    hint: "Nombre de charges données. Vide = 1."
-                  - name: "duration"
-                    label: "Durée"
-                    widget: "select"
-                    required: false
-                    default: "FIGHT"
-                    hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
-                    options:
-                      - label: "Jusqu'à la fin du combat"
-                        value: "FIGHT"
-                      - label: "Jusqu'à la fin de l'étage"
-                        value: "FLOOR"
-                  - name: "on_source"
-                    label: "Au porteur"
-                    widget: "boolean"
-                    required: false
-                    default: false
-                    hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
-      - name: "attack_range"
-        label: "Portée"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 10
-        step: 1
-        required: false
-        default: 1
-        hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
-      - name: "movement"
-        label: "Déplacement"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 10
-        step: 1
-        required: false
-        default: 1
-        hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 1."
-      - name: "armor"
-        label: "Armure"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        default: 0
-        hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
-      - name: "resistance"
-        label: "Résistance"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        default: 0
-        hint: "Dégâts retirés de chaque coup reçu (sauf armes qui ignorent la résistance), donnés en statut « Résistance » au début de chaque combat (icône au-dessus du monstre). Vide = 0."
+                    widget: "object"
+                    hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1 (la résistance, elle, peut annuler un coup reçu)."
+                    fields:
+                      - name: "status"
+                        label: "Statut"
+                        widget: "select"
+                        required: true
+                        hint: "Bonus : force, résistance, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                        options:
+                          - label: "Force (+1 dégât par attaque)"
+                            value: "STRENGTH"
+                          - label: "Dégâts en moins (−1 dégât par attaque)"
+                            value: "FEEBLE"
+                          - label: "Faiblesse (+1 dégât subi par coup)"
+                            value: "WEAKNESS"
+                          - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
+                            value: "RESISTANCE"
+                          - label: "Vitesse (+1 case de déplacement)"
+                            value: "HASTE"
+                          - label: "Lenteur (−1 case de déplacement)"
+                            value: "SLOW"
+                          - label: "Portée + (+1 de portée)"
+                            value: "RANGE_UP"
+                          - label: "Portée − (−1 de portée)"
+                            value: "RANGE_DOWN"
+                      - name: "amount"
+                        label: "Charges"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        max: 99
+                        step: 1
+                        required: false
+                        default: 1
+                        hint: "Nombre de charges données. Vide = 1."
+                      - name: "duration"
+                        label: "Durée"
+                        widget: "select"
+                        required: false
+                        default: "FIGHT"
+                        hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                        options:
+                          - label: "Jusqu'à la fin du combat"
+                            value: "FIGHT"
+                          - label: "Jusqu'à la fin de l'étage"
+                            value: "FLOOR"
+                      - name: "on_source"
+                        label: "Au porteur"
+                        widget: "boolean"
+                        required: false
+                        default: false
+                        hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
+          - name: "attack_range"
+            label: "Portée"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: false
+            default: 1
+            hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
+          - name: "movement"
+            label: "Déplacement"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: false
+            default: 1
+            hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 1."
+          - name: "armor"
+            label: "Armure"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 99
+            step: 1
+            required: false
+            default: 0
+            hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
+          - name: "resistance"
+            label: "Résistance"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 99
+            step: 1
+            required: false
+            default: 0
+            hint: "Dégâts retirés de chaque coup reçu (sauf armes qui ignorent la résistance), donnés en statut « Résistance » au début de chaque combat (icône au-dessus du monstre). Vide = 0."
       - name: "behaviors"
         label: "Comportements"
         label_singular: "Comportement"
@@ -1378,7 +1386,7 @@ collections:
   - name: "levels"
     label: "Étages"
     label_singular: "Étage"
-    description: "Étages du donjon : un fichier JSON par étage (format : docs/data.md du dépôt du jeu). L'ordre et le nombre des étages se règlent dans la collection « Donjon » (data/dungeon/dungeon.json) : ni création ni suppression ici."
+    description: "Étages du donjon : un fichier JSON par étage (format : docs/data.md du dépôt du jeu). Chaque étage tire un ou plusieurs biomes dans sa liste, puis chaque salle prend l'un d'eux. L'ordre et le nombre des étages se règlent dans la collection « Donjon » (data/dungeon/dungeon.json) : ni création ni suppression ici."
     folder: "data/levels"
     extension: "json"
     format: "json"
@@ -1447,98 +1455,63 @@ collections:
         required: false
         default: 0.15
         hint: "Part des cases d'une salle qui portent un danger (0.15 = 15 %). Vide = 0.15."
-      - name: "hazards"
-        label: "Dangers"
-        label_singular: "Danger"
+      - name: "tier"
+        label: "Palier"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 20
+        step: 1
+        required: false
+        default: 1
+        hint: "Difficulté des pièges et monstres de l'étage : ils sortent avec les stats de ce palier (« Paliers » des monstres et pièges), et seules les entrées des biomes permises à ce palier sortent. Vide = 1."
+      - name: "biomes"
+        label: "Biomes"
+        label_singular: "Biome"
         widget: "list"
         required: false
-        hint: "Pièges et monstres de l'étage, chacun avec son poids parmi ceux de sa sorte (chaque case tire d'abord piège ou monstre selon la chance de monstre du donjon). « Ajouter » demande d'abord la sorte. Vide = liste par défaut du donjon."
-        typeKey: "type"
-        types:
-          - name: "TrapSpawn"
-            label: "Piège"
-            widget: "object"
-            summary: "Piège : {{fields.trap}} ({{fields.weight}})"
-            fields:
-              - name: "trap"
-                label: "Piège"
-                widget: "relation"
-                collection: "traps"
-                value_field: "traps/{{slug}}"
-                display_fields:
-                  - "display_name"
-                dropdown_threshold: 0
-                required: true
-                hint: "Collection « Pièges » : un nouveau piège y apparaît de lui-même."
-              - name: "weight"
-                label: "Poids"
-                widget: "number"
-                value_type: "float"
-                min: 0
-                step: 0.1
-                required: false
-                default: 1.0
-                hint: "Chances relatives parmi les pièges de l'étage : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
-          - name: "MonsterSpawn"
-            label: "Monstre"
-            widget: "object"
-            summary: "Monstre : {{fields.monster}} ({{fields.weight}})"
-            fields:
-              - name: "monster"
-                label: "Monstre"
-                widget: "relation"
-                collection: "monsters"
-                value_field: "monsters/{{slug}}"
-                display_fields:
-                  - "display_name"
-                dropdown_threshold: 0
-                required: true
-                hint: "Collection « Monstres » : un nouveau monstre y apparaît de lui-même."
-              - name: "weight"
-                label: "Poids"
-                widget: "number"
-                value_type: "float"
-                min: 0
-                step: 0.1
-                required: false
-                default: 1.0
-                hint: "Chances relatives parmi les monstres de l'étage : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
-              - name: "rules"
-                label: "Règles"
-                label_singular: "Règle"
-                widget: "list"
-                required: false
-                hint: "Limites de ce monstre sur cet étage, n'ajouter que celles qui servent. Au moins un monstre de l'étage doit rester sans règle."
-                typeKey: "type"
-                types:
-                  - name: "MaxPerRoomRule"
-                    label: "Maximum par salle"
-                    widget: "object"
-                    hint: "Au plus ce nombre de ce monstre dans une salle ; les autres cases tirent parmi les autres monstres."
-                    fields:
-                      - name: "limit"
-                        label: "Maximum"
-                        widget: "number"
-                        value_type: "int"
-                        min: 1
-                        step: 1
-                        required: false
-                        default: 1
-                        hint: "Vide = 1."
-                  - name: "MaxPerGroupRule"
-                    label: "Maximum par groupe"
-                    widget: "object"
-                    hint: "Au plus ce nombre de ce monstre dans un combat : un groupe de dangers voisins, ou les groupes autour d'une même case sûre (comme « Monstres max par combat »)."
-                    fields:
-                      - name: "limit"
-                        label: "Maximum"
-                        widget: "number"
-                        value_type: "int"
-                        min: 1
-                        step: 1
-                        required: false
-                        default: 1
-                        hint: "Vide = 1."
+        hint: "Biomes possibles pour les salles de l'étage, avec leur poids. L'étage en tire entre le min et le max (chacun au plus une fois), chaque biome tiré reçoit au moins une salle, puis chaque autre salle prend l'un d'eux. Les pièges et monstres d'une salle sont ceux de son biome."
+        summary: "{{fields.biome}} ({{fields.weight}})"
+        fields:
+          - name: "biome"
+            label: "Biome"
+            widget: "relation"
+            collection: "biomes"
+            value_field: "biomes/{{slug}}"
+            display_fields:
+              - "display_name"
+            dropdown_threshold: 0
+            required: true
+            hint: "Collection « Biomes » : un nouveau biome y apparaît de lui-même."
+          - name: "weight"
+            label: "Poids"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            step: 0.1
+            required: false
+            default: 1.0
+            hint: "Chances relatives parmi les biomes de l'étage : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
+      - name: "min_biome_count"
+        label: "Biomes : nombre min"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        default: 1
+        hint: "Nombre de biomes différents tirés pour l'étage, entre le min et le max (moins s'il n'y en a pas assez de poids > 0). Vide = 1."
+      - name: "max_biome_count"
+        label: "Biomes : nombre max"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        default: 2
+        hint: "Vide = 2."
       - name: "max_monsters_per_group"
         label: "Monstres max par combat"
         widget: "number"
@@ -1800,10 +1773,164 @@ collections:
             required: false
             default: 1.0
             hint: "Vide = 1."
+  - name: "biomes"
+    label: "Biomes"
+    label_singular: "Biome"
+    description: "Biomes du donjon : un fichier JSON par biome (format : docs/data.md du dépôt du jeu), avec les pièges et monstres de ses salles. Un biome ne sort que sur les étages qui le listent (« Biomes » de l'étage)."
+    folder: "data/biomes"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "display_name"
+    summary: "{{display_name}}"
+    fields:
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un biome brouillon)."
+      - name: "display_name"
+        label: "Nom"
+        widget: "string"
+        required: true
+        hint: "Nom du biome. Donne aussi le nom du fichier d'un nouveau biome (« Forêt » → foret.json)."
+      - name: "hazards"
+        label: "Dangers"
+        label_singular: "Danger"
+        widget: "list"
+        required: false
+        hint: "Pièges et monstres des salles du biome, chacun avec son poids parmi ceux de sa sorte (chaque case tire d'abord piège ou monstre selon la chance de monstre du donjon) et ses paliers. « Ajouter » demande d'abord la sorte. Au moins un monstre sans règle à chaque palier où le biome sort."
+        typeKey: "type"
+        types:
+          - name: "TrapSpawn"
+            label: "Piège"
+            widget: "object"
+            summary: "Piège : {{fields.trap}} ({{fields.weight}}, paliers {{fields.min_tier}}-{{fields.max_tier}})"
+            fields:
+              - name: "trap"
+                label: "Piège"
+                widget: "relation"
+                collection: "traps"
+                value_field: "traps/{{slug}}"
+                display_fields:
+                  - "display_name"
+                dropdown_threshold: 0
+                required: true
+                hint: "Collection « Pièges » : un nouveau piège y apparaît de lui-même."
+              - name: "weight"
+                label: "Poids"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                step: 0.1
+                required: false
+                default: 1.0
+                hint: "Chances relatives parmi les pièges du biome : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
+              - name: "min_tier"
+                label: "Palier min"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 20
+                step: 1
+                required: false
+                default: 0
+                hint: "Ce piège ne sort qu'à partir de ce palier d'étage (« Palier » de l'étage). 0 ou vide = dès le palier 1."
+              - name: "max_tier"
+                label: "Palier max"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 20
+                step: 1
+                required: false
+                default: 0
+                hint: "Ce piège ne sort plus au-delà de ce palier d'étage. 0 ou vide = sans limite."
+          - name: "MonsterSpawn"
+            label: "Monstre"
+            widget: "object"
+            summary: "Monstre : {{fields.monster}} ({{fields.weight}}, paliers {{fields.min_tier}}-{{fields.max_tier}})"
+            fields:
+              - name: "monster"
+                label: "Monstre"
+                widget: "relation"
+                collection: "monsters"
+                value_field: "monsters/{{slug}}"
+                display_fields:
+                  - "display_name"
+                dropdown_threshold: 0
+                required: true
+                hint: "Collection « Monstres » : un nouveau monstre y apparaît de lui-même."
+              - name: "weight"
+                label: "Poids"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                step: 0.1
+                required: false
+                default: 1.0
+                hint: "Chances relatives parmi les monstres du biome : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
+              - name: "min_tier"
+                label: "Palier min"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 20
+                step: 1
+                required: false
+                default: 0
+                hint: "Ce monstre ne sort qu'à partir de ce palier d'étage (« Palier » de l'étage). 0 ou vide = dès le palier 1."
+              - name: "max_tier"
+                label: "Palier max"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 20
+                step: 1
+                required: false
+                default: 0
+                hint: "Ce monstre ne sort plus au-delà de ce palier d'étage. 0 ou vide = sans limite."
+              - name: "rules"
+                label: "Règles"
+                label_singular: "Règle"
+                widget: "list"
+                required: false
+                hint: "Limites de ce monstre dans les salles de ce biome, n'ajouter que celles qui servent. Au moins un monstre du biome doit rester sans règle à chaque palier."
+                typeKey: "type"
+                types:
+                  - name: "MaxPerRoomRule"
+                    label: "Maximum par salle"
+                    widget: "object"
+                    hint: "Au plus ce nombre de ce monstre dans une salle ; les autres cases tirent parmi les autres monstres."
+                    fields:
+                      - name: "limit"
+                        label: "Maximum"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        step: 1
+                        required: false
+                        default: 1
+                        hint: "Vide = 1."
+                  - name: "MaxPerGroupRule"
+                    label: "Maximum par groupe"
+                    widget: "object"
+                    hint: "Au plus ce nombre de ce monstre dans un combat : un groupe de dangers voisins, ou les groupes autour d'une même case sûre (comme « Monstres max par combat »)."
+                    fields:
+                      - name: "limit"
+                        label: "Maximum"
+                        widget: "number"
+                        value_type: "int"
+                        min: 1
+                        step: 1
+                        required: false
+                        default: 1
+                        hint: "Vide = 1."
   - name: "traps"
     label: "Pièges"
     label_singular: "Piège"
-    description: "Pièges du jeu : un fichier JSON par piège (format : docs/data.md du dépôt du jeu). Un nouveau piège n'apparaît que dans les étages qui le listent : l'ajouter aux choix de « Danger » des étages dans config.yml."
+    description: "Pièges du jeu : un fichier JSON par piège (format : docs/data.md du dépôt du jeu). Un nouveau piège n'apparaît que dans les biomes qui le listent. Ses effets peuvent être réglés par palier d'étage (« Paliers »)."
     folder: "data/traps"
     extension: "json"
     format: "json"
@@ -1841,7 +1968,7 @@ collections:
         label_singular: "Effet"
         widget: "list"
         required: false
-        hint: "Appliqués dans l'ordre au personnage quand il révèle le piège sans drapeau dessus."
+        hint: "Appliqués dans l'ordre au personnage quand il révèle le piège sans drapeau dessus, à tous les paliers quand « Paliers » est vide."
         typeKey: "type"
         types:
           - name: "DamageEffect"
@@ -1981,6 +2108,150 @@ collections:
         options:
           - label: "spike_trap_frames"
             value: "/assets/sprites/spike_trap_frames.tres"
+      - name: "tiers"
+        label: "Paliers"
+        label_singular: "Palier"
+        widget: "list"
+        required: false
+        hint: "Effets du piège par palier d'étage, à la place de « Effets du piège » : la 1re entrée pour le palier 1, la 2e pour le palier 2… Un étage de palier plus haut que la liste prend la dernière. Vide = « Effets du piège » à tous les paliers."
+        fields:
+          - name: "effects"
+            label: "Effets à ce palier"
+            label_singular: "Effet"
+            widget: "list"
+            required: false
+            hint: "Appliqués dans l'ordre au personnage quand il révèle le piège sans drapeau dessus, sur un étage de ce palier."
+            typeKey: "type"
+            types:
+              - name: "DamageEffect"
+                label: "Dégâts"
+                widget: "object"
+                hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "HealEffect"
+                label: "Soin"
+                widget: "object"
+                hint: "Rend des PV au porteur, sans dépasser son maximum."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "StrengthEffect"
+                label: "Force"
+                widget: "object"
+                hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "WeaknessEffect"
+                label: "Faiblesse"
+                widget: "object"
+                hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "ShieldBreakEffect"
+                label: "Brise-bouclier"
+                widget: "object"
+                hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Dégâts sans bouclier. Vide = 1."
+              - name: "StatusEffect"
+                label: "Statut"
+                widget: "object"
+                hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1 (la résistance, elle, peut annuler un coup reçu)."
+                fields:
+                  - name: "status"
+                    label: "Statut"
+                    widget: "select"
+                    required: true
+                    hint: "Bonus : force, résistance, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                    options:
+                      - label: "Force (+1 dégât par attaque)"
+                        value: "STRENGTH"
+                      - label: "Dégâts en moins (−1 dégât par attaque)"
+                        value: "FEEBLE"
+                      - label: "Faiblesse (+1 dégât subi par coup)"
+                        value: "WEAKNESS"
+                      - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
+                        value: "RESISTANCE"
+                      - label: "Vitesse (+1 case de déplacement)"
+                        value: "HASTE"
+                      - label: "Lenteur (−1 case de déplacement)"
+                        value: "SLOW"
+                      - label: "Portée + (+1 de portée)"
+                        value: "RANGE_UP"
+                      - label: "Portée − (−1 de portée)"
+                        value: "RANGE_DOWN"
+                  - name: "amount"
+                    label: "Charges"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de charges données. Vide = 1."
+                  - name: "duration"
+                    label: "Durée"
+                    widget: "select"
+                    required: false
+                    default: "FIGHT"
+                    hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                    options:
+                      - label: "Jusqu'à la fin du combat"
+                        value: "FIGHT"
+                      - label: "Jusqu'à la fin de l'étage"
+                        value: "FLOOR"
+                  - name: "on_source"
+                    label: "Au porteur"
+                    widget: "boolean"
+                    required: false
+                    default: false
+                    hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
   - name: "artifacts"
     label: "Artéfacts"
     label_singular: "Artéfact"

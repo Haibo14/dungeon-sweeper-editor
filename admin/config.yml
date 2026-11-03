@@ -2423,7 +2423,7 @@ collections:
           - name: "TrapDamageReductionArtifactEffect"
             label: "Donjon : dégâts des pièges réduits"
             widget: "object"
-            hint: "Retirés de chaque piège qui se déclenche (un piège peut ne plus rien faire)."
+            hint: "Retirés de chaque piège qui se déclenche, sans descendre sous 1 dégât."
             fields:
               - name: "amount"
                 label: "Montant"

@@ -539,7 +539,7 @@ collections:
           - name: "RicochetTrait"
             label: "Ricochets"
             widget: "object"
-            hint: "Après chaque coup, le coup rebondit vers le monstre le plus proche pas encore touché, sur une des 8 cases autour du dernier monstre touché (sinon les rebonds s'arrêtent), avec les dégâts de l'attaque."
+            hint: "Après chaque coup, le coup rebondit vers le monstre le plus proche sur une des 8 cases autour du dernier monstre touché : d'abord un pas encore touché, sinon un déjà touché (sans monstre autour, les rebonds s'arrêtent), avec les dégâts de l'attaque."
             fields:
               - name: "count"
                 label: "Rebonds"

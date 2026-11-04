@@ -671,6 +671,11 @@ collections:
             widget: "object"
             hint: "Avant d'attaquer, le personnage se replace, dans la limite de son déplacement (illimité au premier tour), sur la case la plus éloignée des monstres d'où sa cible reste à portée."
             fields: []
+          - name: "HitAndRunTrait"
+            label: "Coup et repli"
+            widget: "object"
+            hint: "Après ses coups, le personnage se replie sur la case la plus éloignée des monstres, avec le déplacement que sa marche d'avant lui a laissé (tout son déplacement au premier tour qu'il engage)."
+            fields: []
           - name: "MovementTrait"
             label: "Déplacement"
             widget: "object"

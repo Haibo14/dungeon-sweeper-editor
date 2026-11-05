@@ -509,7 +509,7 @@ collections:
           - name: "MultiStrikeTrait"
             label: "Frappes multiples"
             widget: "object"
-            hint: "Plusieurs attaques par tour : les suivantes visent la même cible, ou le monstre à portée le plus proche une fois la cible morte."
+            hint: "Plusieurs attaques par tour : les suivantes visent la même cible ; une fois la cible morte, le monstre à portée le plus proche, sinon le plus proche que le déplacement restant du tour permet d'atteindre (le personnage y marche, puis frappe)."
             fields:
               - name: "strikes"
                 label: "Frappes par tour"
@@ -674,7 +674,7 @@ collections:
           - name: "HitAndRunTrait"
             label: "Coup et repli"
             widget: "object"
-            hint: "Après ses coups, le personnage se replie sur la case la plus éloignée des monstres, avec le déplacement que sa marche d'avant lui a laissé (tout son déplacement au premier tour qu'il engage)."
+            hint: "Après ses coups, le personnage se replie sur la case la plus éloignée des monstres, avec le déplacement que ses marches du tour lui ont laissé (sa marche d'approche ne compte pas au premier tour qu'il engage)."
             fields: []
           - name: "MovementTrait"
             label: "Déplacement"

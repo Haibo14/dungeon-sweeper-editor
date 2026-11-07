@@ -339,6 +339,15 @@ collections:
             value: "KATANA"
           - label: "Bouclier"
             value: "SHIELD"
+      - name: "projectile_texture"
+        label: "Projectile"
+        widget: "image"
+        required: false
+        media_folder: "/assets/icons/weapons"
+        public_folder: "/assets/icons/weapons"
+        choose_url: false
+        accept: "image/png"
+        hint: "Icône qui vole vers les cibles en combat, seulement pour les shurikens, arcs et arbalètes (ignorée pour les autres types). Tourne sur elle-même pour un shuriken, pointe vers sa cible pour un arc ou une arbalète. Vide = l'icône du shuriken, ou la flèche de la même matière que l'icône de l'arc ou de l'arbalète (bow_gold → arrow_gold)."
       - name: "attack"
         label: "Attaque"
         widget: "object"

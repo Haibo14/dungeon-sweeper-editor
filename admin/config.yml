@@ -1,4 +1,4 @@
-# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, biomes, pièges, artéfacts, potions, prix, joueur et donjon).
+# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, biomes, pièges, artéfacts, potions, prix, joueur, héros et donjon).
 # Champs tirés des JSON Schema du dépôt du jeu (schema/). Ne contient aucune donnée de jeu.
 backend:
   name: "github"
@@ -307,7 +307,7 @@ collections:
         label: "Type"
         widget: "select"
         required: true
-        hint: "Famille de l'arme (docs/game-design.md, « Catégories d'armes »), pour trier et filtrer cette liste. Pas encore utilisée en jeu."
+        hint: "Famille de l'arme (docs/game-design.md, « Catégories d'armes ») : tri et filtres de cette liste, animation des coups en combat, passifs des héros (« Types d'armes » de la collection « Héros »)."
         options:
           - label: "Autre"
             value: "OTHER"
@@ -3234,7 +3234,7 @@ collections:
             hint: "Or reçu pour toute potion vendue depuis un coffre (bouton Sell ou Quick resolve). Le prix d'achat chez le marchand reste la valeur en or de chaque potion. Toujours écrit (défaut du script : 10)."
   - name: "player"
     label: "Joueur"
-    description: "Réglages du personnage (format : docs/data.md du dépôt du jeu) : un seul fichier, data/player/player.json."
+    description: "Réglages communs à tous les héros (format : docs/data.md du dépôt du jeu) : un seul fichier, data/player/player.json. Apparence, passifs et kit de départ de chaque héros : collection « Héros »."
     format: "json"
     files:
       - name: "player"
@@ -3431,69 +3431,270 @@ collections:
             step: 1
             required: true
             hint: "Cases parcourues par tour de combat, diagonales comprises. Toujours écrit (défaut du script : 2)."
-          - name: "starting_weapon"
-            label: "Arme de départ"
-            widget: "relation"
-            collection: "weapons"
-            value_field: "equipment/weapons/{{slug}}"
-            display_fields:
-              - "display_name"
-            dropdown_threshold: 0
+          - name: "heroes"
+            label: "Héros proposés"
+            label_singular: "Héros"
+            widget: "list"
             required: false
-            hint: "Équipée au début de la partie. Vide = mains nues."
-          - name: "starting_head"
-            label: "Casque de départ"
-            widget: "relation"
-            collection: "armors"
-            value_field: "equipment/armors/{{slug}}"
-            display_fields:
-              - "display_name"
-            dropdown_threshold: 0
-            filters:
-              - field: "slot"
-                values:
-                  - "Head"
-            required: false
-            hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
-          - name: "starting_chest"
-            label: "Torse de départ"
-            widget: "relation"
-            collection: "armors"
-            value_field: "equipment/armors/{{slug}}"
-            display_fields:
-              - "display_name"
-            dropdown_threshold: 0
-            filters:
-              - field: "slot"
-                values:
-                  - "Chest"
-            required: false
-            hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
-          - name: "starting_legs"
-            label: "Jambes de départ"
-            widget: "relation"
-            collection: "armors"
-            value_field: "equipment/armors/{{slug}}"
-            display_fields:
-              - "display_name"
-            dropdown_threshold: 0
-            filters:
-              - field: "slot"
-                values:
-                  - "Legs"
-            required: false
-            hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
-          - name: "starting_feet"
-            label: "Pieds de départ"
-            widget: "relation"
-            collection: "armors"
-            value_field: "equipment/armors/{{slug}}"
-            display_fields:
-              - "display_name"
-            dropdown_threshold: 0
-            filters:
-              - field: "slot"
-                values:
-                  - "Feet"
-            required: false
-            hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+            hint: "Héros de l'écran de choix d'une nouvelle partie, dans cet ordre (de gauche à droite). Leur apparence, leurs passifs et leur kit de départ sont dans la collection « Héros ». Vide = tous les héros, par nom de fichier."
+            field:
+              name: "hero"
+              label: "Héros"
+              widget: "relation"
+              collection: "heroes"
+              value_field: "heroes/{{slug}}"
+              display_fields:
+                - "display_name"
+              dropdown_threshold: 0
+  - name: "heroes"
+    label: "Héros"
+    label_singular: "Héros"
+    description: "Personnages proposés au choix au début de chaque partie (format : docs/data.md du dépôt du jeu) : un fichier JSON par héros, avec son apparence, ses passifs et son kit de départ. Les stats communes à tous (PV, révélation, attaque à mains nues, déplacement) et l'ordre des héros à l'écran de choix sont dans « Joueur »."
+    folder: "data/heroes"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "display_name"
+    summary: "{{display_name}}"
+    sortable_fields:
+      fields:
+        - "display_name"
+      default:
+        field: "display_name"
+        direction: "ascending"
+    fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les passifs existants ne savent pas faire, en langage naturel. Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "display_name"
+        label: "Nom"
+        widget: "string"
+        required: true
+        hint: "Nom affiché à l'écran de choix. Donne aussi le nom du fichier d'un nouveau héros (« Voleur » → voleur.json). Un nouveau héros n'apparaît à l'écran de choix que si « Héros proposés » (collection « Joueur ») le liste, ou si cette liste est vide."
+      - name: "sprite_frames"
+        label: "Apparence"
+        widget: "select"
+        required: true
+        hint: "Personnage dessiné sur le plateau et à l'écran de choix (animations idle et run de assets/sprites/dungeon_tileset_ii/)."
+        options:
+          - label: "knight_m (chevalier)"
+            value: "/assets/sprites/dungeon_tileset_ii/knight_m.tres"
+          - label: "knight_f (chevalière)"
+            value: "/assets/sprites/dungeon_tileset_ii/knight_f.tres"
+          - label: "elf_m (elfe)"
+            value: "/assets/sprites/dungeon_tileset_ii/elf_m.tres"
+          - label: "elf_f (elfe)"
+            value: "/assets/sprites/dungeon_tileset_ii/elf_f.tres"
+          - label: "dwarf_m (nain)"
+            value: "/assets/sprites/dungeon_tileset_ii/dwarf_m.tres"
+          - label: "dwarf_f (naine)"
+            value: "/assets/sprites/dungeon_tileset_ii/dwarf_f.tres"
+          - label: "wizard_m (magicien)"
+            value: "/assets/sprites/dungeon_tileset_ii/wizard_m.tres"
+          - label: "wizard_f (magicienne)"
+            value: "/assets/sprites/dungeon_tileset_ii/wizard_f.tres"
+          - label: "lizard_m (homme-lézard)"
+            value: "/assets/sprites/dungeon_tileset_ii/lizard_m.tres"
+          - label: "lizard_f (femme-lézard)"
+            value: "/assets/sprites/dungeon_tileset_ii/lizard_f.tres"
+      - name: "locked"
+        label: "Verrouillé"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : montré grisé à l'écran de choix (« Coming soon »), mais pas encore jouable (héros à définir). Il faut au moins un héros non verrouillé."
+      - name: "passives"
+        label: "Passifs"
+        label_singular: "Passif"
+        widget: "list"
+        required: false
+        hint: "Capacités permanentes du héros, quel que soit son équipement. Elles s'additionnent."
+        typeKey: "type"
+        types:
+          - name: "ArmorPassive"
+            label: "Armure naturelle"
+            widget: "object"
+            hint: "Armure ajoutée à celle de l'équipement : autant de points de bouclier en plus avant la première attaque de chaque combat (2 points = 1 cœur)."
+            fields:
+              - name: "amount"
+                label: "Armure"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Points d'armure. Vide = 1."
+          - name: "WeaponRangePassive"
+            label: "Portée des armes"
+            widget: "object"
+            hint: "Portée d'attaque en plus avec les armes de ces types (jamais à mains nues)."
+            fields:
+              - name: "amount"
+                label: "Portée en plus"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 10
+                step: 1
+                required: false
+                default: 1
+                hint: "En cases. Vide = 1."
+              - name: "categories"
+                label: "Types d'armes"
+                widget: "select"
+                multiple: true
+                required: false
+                hint: "Armes concernées (à distance : arc, arbalète, shuriken). Vide = toutes les armes."
+                options:
+                  - label: "Autre"
+                    value: "OTHER"
+                  - label: "Épée"
+                    value: "SWORD"
+                  - label: "Rapière"
+                    value: "RAPIER"
+                  - label: "Fléau"
+                    value: "FLAIL"
+                  - label: "Shuriken"
+                    value: "SHURIKEN"
+                  - label: "Arc"
+                    value: "BOW"
+                  - label: "Arbalète"
+                    value: "CROSSBOW"
+                  - label: "Dague de parade"
+                    value: "PARRYING_DAGGER"
+                  - label: "Lame double"
+                    value: "TWIN_BLADE"
+                  - label: "Griffe"
+                    value: "CLAW"
+                  - label: "Hache"
+                    value: "AXE"
+                  - label: "Marteau"
+                    value: "HAMMER"
+                  - label: "Estoc"
+                    value: "ESTOC"
+                  - label: "Katana"
+                    value: "KATANA"
+                  - label: "Bouclier"
+                    value: "SHIELD"
+          - name: "ResistanceAfterAttackPassive"
+            label: "Résistance après l'attaque"
+            widget: "object"
+            hint: "Après chaque tour où il attaque avec une arme de ces types, le héros gagne des charges de résistance jusqu'à sa prochaine attaque, ou au plus tard jusqu'à la fin du combat : chaque coup reçu perd autant de dégâts (il peut tomber à 0)."
+            fields:
+              - name: "amount"
+                label: "Résistance"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Charges de résistance. Vide = 1."
+              - name: "categories"
+                label: "Types d'armes"
+                widget: "select"
+                multiple: true
+                required: false
+                hint: "Armes concernées (lourdes : hache, marteau). Vide = toutes les armes."
+                options:
+                  - label: "Autre"
+                    value: "OTHER"
+                  - label: "Épée"
+                    value: "SWORD"
+                  - label: "Rapière"
+                    value: "RAPIER"
+                  - label: "Fléau"
+                    value: "FLAIL"
+                  - label: "Shuriken"
+                    value: "SHURIKEN"
+                  - label: "Arc"
+                    value: "BOW"
+                  - label: "Arbalète"
+                    value: "CROSSBOW"
+                  - label: "Dague de parade"
+                    value: "PARRYING_DAGGER"
+                  - label: "Lame double"
+                    value: "TWIN_BLADE"
+                  - label: "Griffe"
+                    value: "CLAW"
+                  - label: "Hache"
+                    value: "AXE"
+                  - label: "Marteau"
+                    value: "HAMMER"
+                  - label: "Estoc"
+                    value: "ESTOC"
+                  - label: "Katana"
+                    value: "KATANA"
+                  - label: "Bouclier"
+                    value: "SHIELD"
+      - name: "starting_weapon"
+        label: "Arme de départ"
+        widget: "relation"
+        collection: "weapons"
+        value_field: "equipment/weapons/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        required: false
+        hint: "Équipée au début de la partie. Vide = mains nues."
+      - name: "starting_head"
+        label: "Casque de départ"
+        widget: "relation"
+        collection: "armors"
+        value_field: "equipment/armors/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        filters:
+          - field: "slot"
+            values:
+              - "Head"
+        required: false
+        hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+      - name: "starting_chest"
+        label: "Torse de départ"
+        widget: "relation"
+        collection: "armors"
+        value_field: "equipment/armors/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        filters:
+          - field: "slot"
+            values:
+              - "Chest"
+        required: false
+        hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+      - name: "starting_legs"
+        label: "Jambes de départ"
+        widget: "relation"
+        collection: "armors"
+        value_field: "equipment/armors/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        filters:
+          - field: "slot"
+            values:
+              - "Legs"
+        required: false
+        hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+      - name: "starting_feet"
+        label: "Pieds de départ"
+        widget: "relation"
+        collection: "armors"
+        value_field: "equipment/armors/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        filters:
+          - field: "slot"
+            values:
+              - "Feet"
+        required: false
+        hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."

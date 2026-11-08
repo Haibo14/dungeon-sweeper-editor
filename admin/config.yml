@@ -3537,58 +3537,21 @@ collections:
                 required: false
                 default: 1
                 hint: "Points d'armure. Vide = 1."
-          - name: "WeaponRangePassive"
-            label: "Portée des armes"
+          - name: "DodgePassive"
+            label: "Esquive naturelle (%)"
             widget: "object"
-            hint: "Portée d'attaque en plus avec les armes de ces types (jamais à mains nues)."
+            hint: "Chance d'esquiver chaque attaque de monstre, même sans équipement, ajoutée à celle de l'armure et des artéfacts (total plafonné)."
             fields:
               - name: "amount"
-                label: "Portée en plus"
+                label: "Chance (%)"
                 widget: "number"
                 value_type: "int"
                 min: 1
-                max: 10
+                max: 100
                 step: 1
                 required: false
                 default: 1
-                hint: "En cases. Vide = 1."
-              - name: "categories"
-                label: "Types d'armes"
-                widget: "select"
-                multiple: true
-                required: false
-                hint: "Armes concernées (à distance : arc, arbalète, shuriken). Vide = toutes les armes."
-                options:
-                  - label: "Autre"
-                    value: "OTHER"
-                  - label: "Épée"
-                    value: "SWORD"
-                  - label: "Rapière"
-                    value: "RAPIER"
-                  - label: "Fléau"
-                    value: "FLAIL"
-                  - label: "Shuriken"
-                    value: "SHURIKEN"
-                  - label: "Arc"
-                    value: "BOW"
-                  - label: "Arbalète"
-                    value: "CROSSBOW"
-                  - label: "Dague de parade"
-                    value: "PARRYING_DAGGER"
-                  - label: "Lame double"
-                    value: "TWIN_BLADE"
-                  - label: "Griffe"
-                    value: "CLAW"
-                  - label: "Hache"
-                    value: "AXE"
-                  - label: "Marteau"
-                    value: "HAMMER"
-                  - label: "Estoc"
-                    value: "ESTOC"
-                  - label: "Katana"
-                    value: "KATANA"
-                  - label: "Bouclier"
-                    value: "SHIELD"
+                hint: "En pourcents. Vide = 1."
           - name: "ResistanceAfterAttackPassive"
             label: "Résistance après l'attaque"
             widget: "object"

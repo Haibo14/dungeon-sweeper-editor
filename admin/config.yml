@@ -1,4 +1,4 @@
-# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, biomes, pièges, artéfacts, potions, prix, joueur, héros et donjon).
+# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, biomes, pièges, artéfacts, potions, prix, joueur, héros, boss et donjon).
 # Champs tirés des JSON Schema du dépôt du jeu (schema/). Ne contient aucune donnée de jeu.
 backend:
   name: "github"
@@ -2992,6 +2992,21 @@ collections:
             required: false
             default: 3
             hint: "Artéfacts proposés au choix à la fin de chaque étage (moins s'il n'en reste pas assez). 0 = aucun. Vide = 3."
+          - name: "bosses"
+            label: "Boss"
+            label_singular: "Boss"
+            widget: "list"
+            required: false
+            hint: "Boss du donjon : chaque étage dont un boss donne le numéro (« Étage » du boss) a sa salle de boss. Vide = tous les boss du jeu (un nouveau boss y entre de lui-même)."
+            field:
+              name: "boss"
+              label: "Boss"
+              widget: "relation"
+              collection: "bosses"
+              value_field: "bosses/{{slug}}"
+              display_fields:
+                - "display_name"
+              dropdown_threshold: 0
           - name: "equipment_prices"
             label: "Prix de l'équipement"
             widget: "select"
@@ -3670,3 +3685,97 @@ collections:
               - "Feet"
         required: false
         hint: "Armure portée au début de la partie, de cet emplacement (une armure d'un autre emplacement est ignorée). Vide = rien."
+  - name: "bosses"
+    label: "Boss"
+    label_singular: "Boss"
+    description: "Boss du jeu (format : docs/data.md du dépôt du jeu) : un fichier JSON par boss, lié à un étage. Le boss se bat avec un profil de la collection « Monstres » (PV, attaques, apparence, par palier) ; ses réglages de salle (taille, densité, biome) remplacent ceux de l'étage pour sa salle, une salle en plus, en cul-de-sac, avec un crâne sur la minicarte. Au plus un boss par étage."
+    folder: "data/bosses"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "display_name"
+    summary: "{{display_name}} (étage {{level_number}})"
+    sortable_fields:
+      fields:
+        - "level_number"
+        - "display_name"
+      default:
+        field: "level_number"
+        direction: "ascending"
+    fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "L'effet unique du boss, en langage naturel, en attendant son champ (une feature par effet). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (pas de salle de boss). Un brouillon peut partager l'étage d'un autre boss."
+      - name: "display_name"
+        label: "Nom"
+        widget: "string"
+        required: true
+        hint: "Nom du boss. Donne aussi le nom du fichier d'un nouveau boss (« Roi liche » → roi_liche.json)."
+      - name: "monster"
+        label: "Monstre"
+        widget: "relation"
+        collection: "monsters"
+        value_field: "monsters/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        required: true
+        hint: "Profil de la collection « Monstres » avec lequel le boss se bat, au palier de l'étage. Lui donner un profil à part (poids 0, dans aucun biome) pour régler ses stats sans toucher aux monstres ordinaires."
+      - name: "level_number"
+        label: "Étage"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 100
+        step: 1
+        required: true
+        default: 1
+        hint: "Étage de la salle du boss, 1 pour le premier. Au plus un boss par étage, et pas au-delà du nombre d'étages du donjon (vérifié par la CI)."
+      - name: "size"
+        label: "Taille du boss"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 2
+        step: 1
+        required: false
+        default: 1
+        hint: "Côté du carré de cases du boss : 1 (1 × 1) ou 2 (2 × 2 : marquer les 4 cases pour l'attaquer en premier ; une case révélée sans drapeau lui donne la surprise). Vide = 1."
+      - name: "room_size"
+        label: "Taille de la salle"
+        widget: "number"
+        value_type: "int"
+        min: 5
+        max: 30
+        step: 1
+        required: false
+        default: 9
+        hint: "Largeur et hauteur de la salle du boss, carrée, en cases. Le boss se tient dans la moitié opposée à la porte. Vide = 9."
+      - name: "mine_density"
+        label: "Densité de dangers"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        max: 0.5
+        step: 0.01
+        required: false
+        default: 0.15
+        hint: "Part des cases de la salle qui portent un autre danger que le boss (0.15 = 15 %), le boss en plus. Rien ne le touche, et aucun monstre n'est à 2 cases de lui. Vide = 0.15."
+      - name: "biome"
+        label: "Biome"
+        widget: "relation"
+        collection: "biomes"
+        value_field: "biomes/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        required: false
+        hint: "Pièges et monstres de la salle du boss, au palier de l'étage (collection « Biomes »). Vide = un biome de l'étage, tiré comme pour ses autres salles."

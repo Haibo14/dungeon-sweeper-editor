@@ -1359,6 +1359,31 @@ collections:
             widget: "object"
             hint: "Le personnage le vise tant qu'un chemin mène à une case d'où le frapper, même si d'autres monstres sont à portée."
             fields: []
+          - name: "SplitBehavior"
+            label: "Division"
+            widget: "object"
+            hint: "Vaincu en combat avec des charges du statut « Division » (données par un piège de boss, effet « Statut du boss »), il se divise en monstres plus petits sur ses cases puis autour, qui rejoignent le combat en dernier, avec une charge de moins chacun. Sans charge, il meurt normalement."
+            fields:
+              - name: "monster"
+                label: "Se divise en"
+                widget: "relation"
+                collection: "monsters"
+                value_field: "monsters/{{slug}}"
+                display_fields:
+                  - "display_name"
+                dropdown_threshold: 0
+                required: true
+                hint: "Collection « Monstres » : en général un monstre plus faible, qui a lui-même ce comportement pour se diviser à nouveau."
+              - name: "count"
+                label: "Parties"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 4
+                step: 1
+                required: false
+                default: 2
+                hint: "Monstres qui remplacent le vaincu. Vide = 2."
       - name: "sprite_frames"
         label: "Apparence"
         widget: "select"
@@ -1407,6 +1432,16 @@ collections:
             value: "/assets/sprites/dungeon_tileset_ii/big_zombie.tres"
           - label: "ogre (grand, 32 px de large, jamais essayé)"
             value: "/assets/sprites/dungeon_tileset_ii/ogre.tres"
+      - name: "sprite_scale"
+        label: "Taille du sprite"
+        widget: "number"
+        value_type: "float"
+        min: 0.25
+        max: 2
+        step: 0.05
+        required: false
+        default: 1
+        hint: "1 = taille normale ; 0.5 = dessiné deux fois plus petit sur sa case (le plus petit Swampy). Ne change ni sa case ni sa portée. Vide = 1."
   - name: "levels"
     label: "Étages"
     label_singular: "Étage"
@@ -2124,6 +2159,48 @@ collections:
                 required: false
                 default: false
                 hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
+          - name: "BossStatusEffect"
+            label: "Statut du boss"
+            widget: "object"
+            hint: "Pour le piège d'une salle de boss : donne des charges d'un statut au boss de la salle (pas au personnage), jusqu'à la fin de son combat, sans dépasser le maximum. Sans effet hors d'une salle de boss ou une fois le boss vaincu."
+            fields:
+              - name: "status"
+                label: "Statut"
+                widget: "select"
+                required: false
+                default: "SPLIT"
+                hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Vide = Division."
+                options:
+                  - label: "Division (se divise une fois vaincu)"
+                    value: "SPLIT"
+                  - label: "Force (+1 dégât par attaque)"
+                    value: "STRENGTH"
+                  - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
+                    value: "RESISTANCE"
+                  - label: "Vitesse (+1 case de déplacement)"
+                    value: "HASTE"
+                  - label: "Portée + (+1 de portée)"
+                    value: "RANGE_UP"
+              - name: "amount"
+                label: "Charges"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Charges données à chaque déclenchement. Vide = 1."
+              - name: "max_stacks"
+                label: "Maximum"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 99
+                step: 1
+                required: false
+                default: 0
+                hint: "Charges du statut que le boss peut avoir au plus grâce à cet effet. 0 ou vide = sans limite."
       - name: "sprite_frames"
         label: "Animation"
         widget: "select"
@@ -2276,6 +2353,48 @@ collections:
                     required: false
                     default: false
                     hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
+              - name: "BossStatusEffect"
+                label: "Statut du boss"
+                widget: "object"
+                hint: "Pour le piège d'une salle de boss : donne des charges d'un statut au boss de la salle (pas au personnage), jusqu'à la fin de son combat, sans dépasser le maximum. Sans effet hors d'une salle de boss ou une fois le boss vaincu."
+                fields:
+                  - name: "status"
+                    label: "Statut"
+                    widget: "select"
+                    required: false
+                    default: "SPLIT"
+                    hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Vide = Division."
+                    options:
+                      - label: "Division (se divise une fois vaincu)"
+                        value: "SPLIT"
+                      - label: "Force (+1 dégât par attaque)"
+                        value: "STRENGTH"
+                      - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
+                        value: "RESISTANCE"
+                      - label: "Vitesse (+1 case de déplacement)"
+                        value: "HASTE"
+                      - label: "Portée + (+1 de portée)"
+                        value: "RANGE_UP"
+                  - name: "amount"
+                    label: "Charges"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Charges données à chaque déclenchement. Vide = 1."
+                  - name: "max_stacks"
+                    label: "Maximum"
+                    widget: "number"
+                    value_type: "int"
+                    min: 0
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 0
+                    hint: "Charges du statut que le boss peut avoir au plus grâce à cet effet. 0 ou vide = sans limite."
   - name: "artifacts"
     label: "Artéfacts"
     label_singular: "Artéfact"
@@ -3779,3 +3898,13 @@ collections:
         dropdown_threshold: 0
         required: false
         hint: "Pièges et monstres de la salle du boss, au palier de l'étage (collection « Biomes »). Vide = un biome de l'étage, tiré comme pour ses autres salles."
+      - name: "room_trap"
+        label: "Piège de la salle"
+        widget: "relation"
+        collection: "traps"
+        value_field: "traps/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        required: false
+        hint: "Tous les pièges de la salle du boss deviennent celui-ci (au palier de l'étage), les monstres restent ceux du biome (collection « Pièges » ; mettre son poids à 0 pour qu'il ne sorte jamais ailleurs). Vide = les pièges du biome."

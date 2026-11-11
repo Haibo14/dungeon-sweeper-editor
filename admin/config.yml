@@ -1330,7 +1330,7 @@ collections:
           - name: "SummonBehavior"
             label: "Invocation"
             widget: "object"
-            hint: "Au lieu de marcher et d'attaquer, il invoque des monstres à côté de lui à chacun de ses tours (plus un par charge du statut « Horde »). Ils rejoignent l'ordre des tours en dernier, puis l'invocateur se place après eux. Après ses invocations, il s'enfuit à son tour suivant. Un monstre sans attaque doit avoir ce comportement."
+            hint: "Au lieu de marcher et d'attaquer, il invoque des monstres à côté de lui à chacun de ses tours (plus un par charge du statut « Horde »). Ils rejoignent l'ordre des tours en dernier et ne jouent qu'après le prochain tour du personnage ; l'invocateur se place après eux. Après ses invocations, il s'enfuit à son tour suivant. Un monstre sans attaque doit avoir ce comportement."
             fields:
               - name: "monster"
                 label: "Monstre invoqué"

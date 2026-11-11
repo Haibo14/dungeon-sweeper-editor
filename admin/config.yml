@@ -3908,3 +3908,13 @@ collections:
         dropdown_threshold: 0
         required: false
         hint: "Tous les pièges de la salle du boss deviennent celui-ci (au palier de l'étage), les monstres restent ceux du biome (collection « Pièges » ; mettre son poids à 0 pour qu'il ne sorte jamais ailleurs). Vide = les pièges du biome."
+      - name: "hidden_number_rate"
+        label: "Cases « ? » (part des chiffres cachés)"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        max: 1
+        step: 0.01
+        required: false
+        default: 0
+        hint: "Part des cases à chiffre de la salle du boss qui montrent un « ? » neutre au lieu de leur chiffre (0.3 = environ un chiffre sur trois). Tirées avec les dangers, jamais deux « ? » côte à côte (diagonales comprises) : moins de « ? » si elles ne tiennent pas. Une case vide (sans chiffre) n'en devient jamais une ; pas d'accord sur un « ? ». Vide ou 0 = tous les chiffres visibles."

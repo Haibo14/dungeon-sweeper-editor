@@ -3909,7 +3909,7 @@ collections:
         widget: "boolean"
         required: false
         default: false
-        hint: "Coché : chaque chiffre de la salle du boss est remplacé par une rune de couleur (rune et couleur tirées à part, une fois par partie), à déchiffrer par le joueur. L'accord reste permis. Vide = chiffres normaux."
+        hint: "Coché : chaque chiffre de la salle du boss est remplacé par une rune de couleur (rune et couleur tirées à part, une fois par partie), à déchiffrer par le joueur. Pas d'accord (clic sur une rune entourée de ses drapeaux) : il dirait ce que vaut la rune. Vide = chiffres normaux."
       - name: "excluded_monsters"
         label: "Monstres exclus de la salle"
         widget: "relation"

@@ -2148,12 +2148,14 @@ collections:
                 widget: "select"
                 required: false
                 default: "SPLIT"
-                hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Horde : il invoque un monstre de plus par tour (s'il a le comportement « Invocation »). Vide = Division."
+                hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Horde : il invoque un monstre de plus par tour (s'il a le comportement « Invocation »). Revive : vaincu, il revient avec tous ses PV et une charge de moins. Vide = Division."
                 options:
                   - label: "Division (se divise une fois vaincu)"
                     value: "SPLIT"
                   - label: "Horde (+1 monstre invoqué par tour)"
                     value: "HORDE"
+                  - label: "Revive (revient avec tous ses PV une fois vaincu)"
+                    value: "REVIVE"
                   - label: "Force (+1 dégât par attaque)"
                     value: "STRENGTH"
                   - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
@@ -2182,6 +2184,11 @@ collections:
                 required: false
                 default: 0
                 hint: "Charges du statut que le boss peut avoir au plus grâce à cet effet. 0 ou vide = sans limite."
+          - name: "RoomResetEffect"
+            label: "Recommencer la salle"
+            widget: "object"
+            hint: "Pour le piège d'une salle de boss (Great Demon) : révélé sans drapeau, la salle recommence. Les ténèbres reviennent partout sauf autour du personnage, les dangers sont tirés à nouveau et le boss change de place ; drapeaux retirés. Aucun dégât ni statut au personnage ; le boss garde ses PV et ses charges."
+            fields: []
       - name: "sprite_frames"
         label: "Animation"
         widget: "select"
@@ -2344,12 +2351,14 @@ collections:
                     widget: "select"
                     required: false
                     default: "SPLIT"
-                    hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Horde : il invoque un monstre de plus par tour (s'il a le comportement « Invocation »). Vide = Division."
+                    hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Horde : il invoque un monstre de plus par tour (s'il a le comportement « Invocation »). Revive : vaincu, il revient avec tous ses PV et une charge de moins. Vide = Division."
                     options:
                       - label: "Division (se divise une fois vaincu)"
                         value: "SPLIT"
                       - label: "Horde (+1 monstre invoqué par tour)"
                         value: "HORDE"
+                      - label: "Revive (revient avec tous ses PV une fois vaincu)"
+                        value: "REVIVE"
                       - label: "Force (+1 dégât par attaque)"
                         value: "STRENGTH"
                       - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
@@ -2378,6 +2387,11 @@ collections:
                     required: false
                     default: 0
                     hint: "Charges du statut que le boss peut avoir au plus grâce à cet effet. 0 ou vide = sans limite."
+              - name: "RoomResetEffect"
+                label: "Recommencer la salle"
+                widget: "object"
+                hint: "Pour le piège d'une salle de boss (Great Demon) : révélé sans drapeau, la salle recommence. Les ténèbres reviennent partout sauf autour du personnage, les dangers sont tirés à nouveau et le boss change de place ; drapeaux retirés. Aucun dégât ni statut au personnage ; le boss garde ses PV et ses charges."
+                fields: []
   - name: "artifacts"
     label: "Artéfacts"
     label_singular: "Artéfact"
@@ -3894,6 +3908,38 @@ collections:
         dropdown_threshold: 0
         required: false
         hint: "Tous les pièges de la salle du boss deviennent celui-ci (au palier de l'étage), les monstres restent ceux du biome (collection « Pièges » ; mettre son poids à 0 pour qu'il ne sorte jamais ailleurs). Vide = les pièges du biome."
+      - name: "room_traps"
+        label: "Pièges de la salle (avec poids)"
+        label_singular: "Piège de la salle"
+        widget: "list"
+        required: false
+        hint: "Tous les pièges de la salle du boss deviennent l'un de ceux-ci (au palier de l'étage), tirés selon leurs poids entre eux : chaque piège du biome est partagé entre eux, la salle garde autant de pièges. Les monstres restent ceux du biome. Remplace « Piège de la salle » quand la liste n'est pas vide (Great Demon : Abyssal Rift et Infernal Pact). Vide = « Piège de la salle », sinon les pièges du biome."
+        typeKey: "type"
+        types:
+          - name: "TrapSpawn"
+            label: "Piège"
+            widget: "object"
+            summary: "{{fields.trap}} (poids {{fields.weight}})"
+            fields:
+              - name: "trap"
+                label: "Piège"
+                widget: "relation"
+                collection: "traps"
+                value_field: "traps/{{slug}}"
+                display_fields:
+                  - "display_name"
+                dropdown_threshold: 0
+                required: true
+                hint: "Collection « Pièges » ; mettre son poids d'apparition à 0 pour qu'il ne sorte jamais ailleurs."
+              - name: "weight"
+                label: "Poids"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                step: 0.1
+                required: false
+                default: 1.0
+                hint: "Chances relatives parmi les pièges de la salle : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
       - name: "hidden_number_rate"
         label: "Cases « ? » (part des chiffres cachés)"
         widget: "number"

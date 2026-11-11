@@ -1330,7 +1330,7 @@ collections:
           - name: "SummonBehavior"
             label: "Invocation"
             widget: "object"
-            hint: "Au lieu de marcher et d'attaquer, il invoque un monstre par tour à côté de lui, qui rejoint le combat en dernier. Après ses invocations, il s'enfuit à son tour suivant. Un monstre sans attaque doit avoir ce comportement."
+            hint: "Au lieu de marcher et d'attaquer, il invoque des monstres à côté de lui à chacun de ses tours (plus un par charge du statut « Horde »). Ils rejoignent l'ordre des tours en dernier, puis l'invocateur se place après eux. Après ses invocations, il s'enfuit à son tour suivant. Un monstre sans attaque doit avoir ce comportement."
             fields:
               - name: "monster"
                 label: "Monstre invoqué"
@@ -1346,12 +1346,32 @@ collections:
                 label: "Invocations"
                 widget: "number"
                 value_type: "int"
-                min: 1
+                min: 0
                 max: 99
                 step: 1
                 required: false
                 default: 1
-                hint: "Monstres invoqués, un par tour, avant de s'enfuir. Vide = 1."
+                hint: "Monstres invoqués en tout avant de s'enfuir. 0 = il ne s'enfuit jamais et invoque tout le combat (Necromancer Lord). Vide = 1."
+              - name: "per_turn"
+                label: "Invocations par tour"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                default: 1
+                hint: "Monstres invoqués à chaque tour, avant le statut « Horde » (+1 par charge). Vide = 1."
+              - name: "max_per_turn"
+                label: "Maximum par tour"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 9
+                step: 1
+                required: false
+                default: 0
+                hint: "Monstres invoqués au plus en un tour, « Horde » comprise (3 pour le Necromancer Lord). Vide ou 0 = sans limite."
           - name: "PriorityTargetBehavior"
             label: "Cible prioritaire"
             widget: "object"
@@ -2128,10 +2148,12 @@ collections:
                 widget: "select"
                 required: false
                 default: "SPLIT"
-                hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Vide = Division."
+                hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Horde : il invoque un monstre de plus par tour (s'il a le comportement « Invocation »). Vide = Division."
                 options:
                   - label: "Division (se divise une fois vaincu)"
                     value: "SPLIT"
+                  - label: "Horde (+1 monstre invoqué par tour)"
+                    value: "HORDE"
                   - label: "Force (+1 dégât par attaque)"
                     value: "STRENGTH"
                   - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
@@ -2322,10 +2344,12 @@ collections:
                     widget: "select"
                     required: false
                     default: "SPLIT"
-                    hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Vide = Division."
+                    hint: "Division : le boss se divise une fois vaincu (s'il a le comportement « Division »). Horde : il invoque un monstre de plus par tour (s'il a le comportement « Invocation »). Vide = Division."
                     options:
                       - label: "Division (se divise une fois vaincu)"
                         value: "SPLIT"
+                      - label: "Horde (+1 monstre invoqué par tour)"
+                        value: "HORDE"
                       - label: "Force (+1 dégât par attaque)"
                         value: "STRENGTH"
                       - label: "Résistance (−1 dégât subi par coup, peut tomber à 0)"
@@ -3880,3 +3904,20 @@ collections:
         required: false
         default: 0
         hint: "Part des cases à chiffre de la salle du boss qui montrent un « ? » neutre au lieu de leur chiffre (0.3 = environ un chiffre sur trois). Tirées avec les dangers, jamais deux « ? » côte à côte (diagonales comprises) : moins de « ? » si elles ne tiennent pas. Une case vide (sans chiffre) n'en devient jamais une ; pas d'accord sur un « ? ». Vide ou 0 = tous les chiffres visibles."
+      - name: "ciphered_numbers"
+        label: "Chiffres en runes"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chaque chiffre de la salle du boss est remplacé par une rune de couleur (rune et couleur tirées à part, une fois par partie), à déchiffrer par le joueur. L'accord reste permis. Vide = chiffres normaux."
+      - name: "excluded_monsters"
+        label: "Monstres exclus de la salle"
+        widget: "relation"
+        collection: "monsters"
+        value_field: "monsters/{{slug}}"
+        display_fields:
+          - "display_name"
+        dropdown_threshold: 0
+        multiple: true
+        required: false
+        hint: "Monstres du biome qui ne sortent jamais dans la salle du boss (le Necromancer ordinaire chez le Necromancer Lord). La CI vérifie qu'il reste un monstre sans règle d'apparition. Vide = tous les monstres du biome."

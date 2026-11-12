@@ -2189,6 +2189,21 @@ collections:
             widget: "object"
             hint: "Pour le piège d'une salle de boss (Great Demon) : révélé sans drapeau, la salle recommence. Les ténèbres reviennent partout sauf autour du personnage, les dangers sont tirés à nouveau et le boss change de place ; drapeaux retirés. Aucun dégât ni statut au personnage ; le boss garde ses PV et ses charges."
             fields: []
+          - name: "MonsterSpawnEffect"
+            label: "Faire apparaître un monstre"
+            widget: "object"
+            hint: "Pour le piège d'une salle de boss (Giant Zombie) : révélé sans drapeau, le monstre apparaît sur une case sûre encore cachée, tirée au hasard (jamais marquée d'un drapeau ni à 2 cases ou moins du boss), qui devient un danger : les chiffres autour se mettent à jour. Sans telle case, il sort sur le piège et attaque aussitôt. Aucun dégât ni statut au personnage."
+            fields:
+              - name: "monster"
+                label: "Monstre"
+                widget: "relation"
+                collection: "monsters"
+                value_field: "monsters/{{slug}}"
+                display_fields:
+                  - "display_name"
+                dropdown_threshold: 0
+                required: true
+                hint: "Collection « Monstres » : le monstre qui apparaît, au palier de l'étage (Zombie pour le Giant Zombie)."
       - name: "sprite_frames"
         label: "Animation"
         widget: "select"
@@ -2392,6 +2407,21 @@ collections:
                 widget: "object"
                 hint: "Pour le piège d'une salle de boss (Great Demon) : révélé sans drapeau, la salle recommence. Les ténèbres reviennent partout sauf autour du personnage, les dangers sont tirés à nouveau et le boss change de place ; drapeaux retirés. Aucun dégât ni statut au personnage ; le boss garde ses PV et ses charges."
                 fields: []
+              - name: "MonsterSpawnEffect"
+                label: "Faire apparaître un monstre"
+                widget: "object"
+                hint: "Pour le piège d'une salle de boss (Giant Zombie) : révélé sans drapeau, le monstre apparaît sur une case sûre encore cachée, tirée au hasard (jamais marquée d'un drapeau ni à 2 cases ou moins du boss), qui devient un danger : les chiffres autour se mettent à jour. Sans telle case, il sort sur le piège et attaque aussitôt. Aucun dégât ni statut au personnage."
+                fields:
+                  - name: "monster"
+                    label: "Monstre"
+                    widget: "relation"
+                    collection: "monsters"
+                    value_field: "monsters/{{slug}}"
+                    display_fields:
+                      - "display_name"
+                    dropdown_threshold: 0
+                    required: true
+                    hint: "Collection « Monstres » : le monstre qui apparaît, au palier de l'étage (Zombie pour le Giant Zombie)."
   - name: "artifacts"
     label: "Artéfacts"
     label_singular: "Artéfact"

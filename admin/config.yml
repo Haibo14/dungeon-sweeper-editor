@@ -1714,13 +1714,28 @@ collections:
           name: "item"
           label: "Objet"
           widget: "string"
-      - name: "shop"
-        label: "Marchand"
-        widget: "object"
+      - name: "shops"
+        label: "Marchands"
+        label_singular: "Marchand"
+        widget: "list"
         required: false
         collapsed: true
-        hint: "Salle du marchand de l'étage. Vide = pas de marchand."
+        hint: "Une salle de marchand par entrée, chacune avec sa spécialité ; chaque marchand vend aussi des potions. Vide = pas de marchand."
+        summary: "{{fields.specialty}} ({{fields.item_count}} + {{fields.potion_count}} potions)"
         fields:
+          - name: "specialty"
+            label: "Spécialité"
+            widget: "select"
+            required: false
+            default: "WEAPONS"
+            hint: "Ce qu'il vend en plus des potions : des armes (toutes différentes), des armures de tête, torse, jambes et pieds (une par emplacement au plus) ou des artéfacts (ni possédés, ni tenus par l'ange). Vide = armes."
+            options:
+              - label: "Armes"
+                value: "WEAPONS"
+              - label: "Équipements (armures)"
+                value: "ARMORS"
+              - label: "Artéfacts"
+                value: "ARTIFACTS"
           - name: "room_size"
             label: "Taille de la salle"
             widget: "number"
@@ -1732,7 +1747,7 @@ collections:
             default: 5
             hint: "En cases. Vide = 5."
           - name: "item_count"
-            label: "Objets en vente"
+            label: "Biens en vente"
             widget: "number"
             value_type: "int"
             min: 0
@@ -1740,7 +1755,7 @@ collections:
             step: 1
             required: false
             default: 3
-            hint: "Jamais deux objets du même emplacement. Vide = 3."
+            hint: "Armes, armures ou artéfacts de sa spécialité, jamais deux fois le même (armures : jamais deux du même emplacement). Prix : achat de leur rareté. Vide = 3."
           - name: "potion_count"
             label: "Potions en vente"
             widget: "number"
@@ -1770,7 +1785,7 @@ collections:
             step: 0.1
             required: false
             default: 60.0
-            hint: "Chances relatives de chaque rareté (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
+            hint: "Chances relatives des raretés de chaque bien en vente (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
           - name: "uncommon_weight"
             label: "Poids : peu commun"
             widget: "number"
@@ -3004,7 +3019,7 @@ collections:
             step: 1
             required: false
             default: 3
-            hint: "La partie est gagnée une fois toutes les salles du dernier étage terminées. 0 = donjon sans fin. Vide = 3."
+            hint: "La partie est gagnée une fois le dernier étage fini (son boss vaincu, ou toutes ses salles terminées s'il n'en a pas). 0 = donjon sans fin. Vide = 3."
           - name: "levels"
             label: "Étages"
             label_singular: "Étage"
@@ -3026,16 +3041,6 @@ collections:
                   value: "levels/level_4"
                 - label: "level_5"
                   value: "levels/level_5"
-                - label: "level_6"
-                  value: "levels/level_6"
-                - label: "level_7"
-                  value: "levels/level_7"
-                - label: "level_8"
-                  value: "levels/level_8"
-                - label: "level_9"
-                  value: "levels/level_9"
-                - label: "level_10"
-                  value: "levels/level_10"
           - name: "hazard_types"
             label: "Dangers par défaut"
             label_singular: "Danger"

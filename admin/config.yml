@@ -3861,6 +3861,21 @@ collections:
                     value: "KATANA"
                   - label: "Bouclier"
                     value: "SHIELD"
+          - name: "StartingGoldPassive"
+            label: "Or de départ"
+            widget: "object"
+            hint: "Or que le héros possède au début de chaque partie, au lieu de rien."
+            fields:
+              - name: "amount"
+                label: "Or"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9999
+                step: 1
+                required: false
+                default: 1
+                hint: "Pièces d'or. Vide = 1."
       - name: "starting_weapon"
         label: "Arme de départ"
         widget: "relation"

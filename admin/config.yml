@@ -1804,16 +1804,6 @@ collections:
             required: false
             default: 2
             hint: "Vide = 2."
-          - name: "price_multiplier"
-            label: "Multiplicateur du prix des potions"
-            widget: "number"
-            value_type: "float"
-            min: 0.1
-            max: 10
-            step: 0.1
-            required: false
-            default: 2.0
-            hint: "Prix = valeur en or × multiplicateur, arrondi au-dessus, au moins 1. Vide = 2."
           - name: "common_weight"
             label: "Poids : commun"
             widget: "number"
@@ -2947,7 +2937,7 @@ collections:
           - name: "GoldPerDisarmedTrapArtifactEffect"
             label: "Donjon : or par piège désarmé"
             widget: "object"
-            hint: "Or reçu pour chaque piège désarmé (drapeau et entouré)."
+            hint: "Or qui peut être reçu pour chaque piège désarmé (drapeau et entouré) : le montant, avec la chance donnée."
             fields:
               - name: "amount"
                 label: "Montant"
@@ -2959,6 +2949,16 @@ collections:
                 required: false
                 default: 1
                 hint: "Vide = 1."
+              - name: "chance"
+                label: "Chance (%)"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 100
+                step: 1
+                required: false
+                default: 100
+                hint: "Chance de recevoir le montant à chaque piège désarmé. Vide = 100 (toujours)."
           - name: "ShopDiscountArtifactEffect"
             label: "Donjon : remise du marchand (%)"
             widget: "object"
@@ -3331,7 +3331,7 @@ collections:
         step: 1
         required: false
         default: 0
-        hint: "Le marchand la vend à cette valeur × le multiplicateur de prix de l'étage. Vide = 0."
+        hint: "Prix de la potion chez le marchand (avant la remise des artéfacts, au moins 1). Vide = 0."
   - name: "prices"
     label: "Prix"
     description: "Prix de l'équipement par rareté et prix de vente des potions (format : docs/data.md du dépôt du jeu) : un seul fichier, data/prices/equipment_prices.json."
@@ -3354,7 +3354,7 @@ collections:
             max: 9999
             step: 1
             required: true
-            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 20)."
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 1)."
           - name: "uncommon_buy_price"
             label: "Achat : peu commun"
             widget: "number"
@@ -3363,7 +3363,7 @@ collections:
             max: 9999
             step: 1
             required: true
-            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 50)."
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 2)."
           - name: "rare_buy_price"
             label: "Achat : rare"
             widget: "number"
@@ -3372,7 +3372,7 @@ collections:
             max: 9999
             step: 1
             required: true
-            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 100)."
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 4)."
           - name: "epic_buy_price"
             label: "Achat : épique"
             widget: "number"
@@ -3381,7 +3381,7 @@ collections:
             max: 9999
             step: 1
             required: true
-            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 200)."
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 8)."
           - name: "legendary_buy_price"
             label: "Achat : légendaire"
             widget: "number"
@@ -3390,61 +3390,7 @@ collections:
             max: 9999
             step: 1
             required: true
-            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 400)."
-          - name: "common_sell_price"
-            label: "Vente : commun"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: true
-            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
-          - name: "uncommon_sell_price"
-            label: "Vente : peu commun"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: true
-            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
-          - name: "rare_sell_price"
-            label: "Vente : rare"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: true
-            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
-          - name: "epic_sell_price"
-            label: "Vente : épique"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: true
-            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
-          - name: "legendary_sell_price"
-            label: "Vente : légendaire"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: true
-            hint: "Or reçu pour un objet de cette rareté vendu depuis un coffre, ou rendu par le marchand pour l'objet remplacé. Toujours écrit (défaut du script : 10)."
-          - name: "potion_sell_price"
-            label: "Vente : potion"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: true
-            hint: "Or reçu pour toute potion vendue depuis un coffre (bouton Sell ou Quick resolve). Le prix d'achat chez le marchand reste la valeur en or de chaque potion. Toujours écrit (défaut du script : 10)."
+            hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 15)."
   - name: "player"
     label: "Joueur"
     description: "Réglages communs à tous les héros (format : docs/data.md du dépôt du jeu) : un seul fichier, data/player/player.json. Apparence, passifs et kit de départ de chaque héros : collection « Héros »."

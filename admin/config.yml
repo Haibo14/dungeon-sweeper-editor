@@ -1322,6 +1322,34 @@ collections:
                 required: false
                 default: 0
                 hint: "Pourcentage de l'or du personnage volé en plus de la part fixe, arrondi à l'unité inférieure. Vide = 0."
+              - name: "tiers"
+                label: "Par palier"
+                label_singular: "Palier"
+                widget: "list"
+                required: false
+                hint: "Or volé par palier d'étage : la 1re entrée pour le palier 1, la 2e pour le palier 2… Un étage de palier plus haut que la liste prend la dernière. Remplace les deux valeurs ci-dessus. Vide = ces valeurs à tous les paliers."
+                summary: "{{fields.amount}} or + {{fields.percent}} %"
+                fields:
+                  - name: "amount"
+                    label: "Or volé (fixe)"
+                    widget: "number"
+                    value_type: "int"
+                    min: 0
+                    max: 999
+                    step: 1
+                    required: false
+                    default: 0
+                    hint: "Part fixe, ajoutée au pourcentage ; le total vaut au plus l'or du personnage. Vide = 0."
+                  - name: "percent"
+                    label: "Or volé (% de l'or détenu)"
+                    widget: "number"
+                    value_type: "int"
+                    min: 0
+                    max: 100
+                    step: 1
+                    required: false
+                    default: 0
+                    hint: "Pourcentage de l'or du personnage volé en plus de la part fixe, arrondi à l'unité inférieure. Vide = 0."
           - name: "RageBehavior"
             label: "Rage"
             widget: "object"

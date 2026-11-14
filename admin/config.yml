@@ -291,7 +291,7 @@ collections:
         label: "Rareté"
         widget: "select"
         required: true
-        hint: "Rareté dans les coffres et prix chez le marchand. Toujours écrite (filtres et groupes de cette liste)."
+        hint: "Rareté chez le marchand et dans les salles des coffres, et prix chez le marchand. Toujours écrite (filtres et groupes de cette liste)."
         options:
           - label: "Commun"
             value: "R0_COMMON"
@@ -941,7 +941,7 @@ collections:
         label: "Rareté"
         widget: "select"
         required: true
-        hint: "Rareté dans les coffres et prix chez le marchand. Toujours écrite (filtres et groupes de cette liste)."
+        hint: "Rareté chez le marchand et dans les salles des coffres, et prix chez le marchand. Toujours écrite (filtres et groupes de cette liste)."
         options:
           - label: "Commun"
             value: "R0_COMMON"
@@ -1598,34 +1598,14 @@ collections:
         default: 0
         hint: "Plafond de monstres d'un même combat ; les monstres en trop deviennent des pièges. 0 = pas de limite. Vide = 0."
       - name: "loot_profile"
-        label: "Coffres"
+        label: "Récompenses de salle"
         widget: "object"
         required: false
         collapsed: true
-        hint: "Contenu du coffre de chaque salle terminée. Vide = réglages par défaut du jeu."
+        hint: "Récompense posée au sol de chaque salle terminée (or, une potion ou des éclats de lumière, ramassée en marchant dessus), et raretés des artéfacts de l'ange. Vide = réglages par défaut du jeu."
         fields:
-          - name: "min_items"
-            label: "Récompenses : nombre min"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 10
-            step: 1
-            required: false
-            default: 1
-            hint: "Équipements ou potions par coffre, tirés entre le min et le max. Vide = 1."
-          - name: "max_items"
-            label: "Récompenses : nombre max"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 10
-            step: 1
-            required: false
-            default: 2
-            hint: "Vide = 2."
-          - name: "equipment_weight"
-            label: "Poids : équipement"
+          - name: "gold_weight"
+            label: "Poids : or"
             widget: "number"
             value_type: "float"
             min: 0
@@ -1633,7 +1613,7 @@ collections:
             step: 0.1
             required: false
             default: 60.0
-            hint: "Chances relatives de chaque sorte de récompense. Vide = 60."
+            hint: "Chances relatives de chaque sorte de récompense (une seule par salle : or, une potion ou des éclats). Vide = 60."
           - name: "potion_weight"
             label: "Poids : potion"
             widget: "number"
@@ -1642,8 +1622,18 @@ collections:
             max: 100
             step: 0.1
             required: false
-            default: 25.0
-            hint: "Vide = 25."
+            default: 30.0
+            hint: "Vide = 30."
+          - name: "light_shards_weight"
+            label: "Poids : éclats de lumière"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 10.0
+            hint: "Vide = 10."
           - name: "common_weight"
             label: "Poids : commun"
             widget: "number"
@@ -1653,7 +1643,7 @@ collections:
             step: 0.1
             required: false
             default: 60.0
-            hint: "Chances relatives de chaque rareté (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
+            hint: "Raretés des artéfacts proposés par l'ange en fin d'étage (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
           - name: "uncommon_weight"
             label: "Poids : peu commun"
             widget: "number"
@@ -1699,7 +1689,7 @@ collections:
             label_singular: "Potion"
             widget: "list"
             required: false
-            hint: "Potions possibles, chacune avec son poids. Vide = aucune potion."
+            hint: "Potions possibles d'une récompense « potion » (et des marchands), chacune avec son poids. Vide = aucune potion."
             summary: "{{fields.potion}} ({{fields.weight}})"
             fields:
               - name: "potion"
@@ -1731,7 +1721,7 @@ collections:
             step: 1
             required: false
             default: 5
-            hint: "Or de chaque coffre, tiré entre le min et le max. Vide = 5."
+            hint: "Or d'une récompense « or », tiré entre le min et le max. Vide = 5."
           - name: "max_gold"
             label: "Or : max"
             widget: "number"
@@ -1741,9 +1731,29 @@ collections:
             step: 1
             required: false
             default: 20
-            hint: "0 = pas d'or. Vide = 20."
+            hint: "0 = jamais d'or. Vide = 20."
+          - name: "min_light_shards"
+            label: "Éclats de lumière : min"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: false
+            default: 1
+            hint: "Éclats d'une récompense « éclats », tirés entre le min et le max. Vide = 1."
+          - name: "max_light_shards"
+            label: "Éclats de lumière : max"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: false
+            default: 1
+            hint: "0 = jamais d'éclats. Vide = 1."
       - name: "loot_items"
-        label: "Équipement des coffres"
+        label: "Équipement des marchands et salles des coffres"
         label_singular: "Objet"
         widget: "list"
         required: false
@@ -1766,14 +1776,12 @@ collections:
             widget: "select"
             required: false
             default: "WEAPONS"
-            hint: "Ce qu'il vend en plus des potions : des armes (toutes différentes), des armures de tête, torse, jambes et pieds (une par emplacement au plus) ou des artéfacts (ni possédés, ni tenus par l'ange). Vide = armes."
+            hint: "Ce qu'il vend en plus des potions : des armes (toutes différentes) ou des armures de tête, torse, jambes et pieds (une par emplacement au plus). Vide = armes."
             options:
               - label: "Armes"
                 value: "WEAPONS"
               - label: "Équipements (armures)"
                 value: "ARMORS"
-              - label: "Artéfacts"
-                value: "ARTIFACTS"
           - name: "room_size"
             label: "Taille de la salle"
             widget: "number"
@@ -1793,7 +1801,7 @@ collections:
             step: 1
             required: false
             default: 3
-            hint: "Armes, armures ou artéfacts de sa spécialité, jamais deux fois le même (armures : jamais deux du même emplacement). Prix : achat de leur rareté. Vide = 3."
+            hint: "Armes ou armures de sa spécialité, jamais deux fois le même (armures : jamais deux du même emplacement). Prix : achat de leur rareté. Vide = 3."
           - name: "potion_count"
             label: "Potions en vente"
             widget: "number"
@@ -1814,6 +1822,105 @@ collections:
             required: false
             default: 60.0
             hint: "Chances relatives des raretés de chaque bien en vente (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
+          - name: "uncommon_weight"
+            label: "Poids : peu commun"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 25.0
+            hint: "Vide = 25."
+          - name: "rare_weight"
+            label: "Poids : rare"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 10.0
+            hint: "Vide = 10."
+          - name: "epic_weight"
+            label: "Poids : épique"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 4.0
+            hint: "Vide = 4."
+          - name: "legendary_weight"
+            label: "Poids : légendaire"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 1.0
+            hint: "Vide = 1."
+      - name: "chest_rooms"
+        label: "Salles des coffres"
+        label_singular: "Salle des coffres"
+        widget: "list"
+        required: false
+        collapsed: true
+        hint: "Une salle en cul-de-sac par entrée, sans démineur, avec un coffre d'armes ou d'artéfacts (à équiper ou prendre, jamais vendus). Vide = pas de salle des coffres."
+        summary: "{{fields.item_count}} récompense(s), armes {{fields.weapon_weight}} / artéfacts {{fields.artifact_weight}}"
+        fields:
+          - name: "room_size"
+            label: "Taille de la salle"
+            widget: "number"
+            value_type: "int"
+            min: 3
+            max: 12
+            step: 1
+            required: false
+            default: 5
+            hint: "En cases. Vide = 5."
+          - name: "item_count"
+            label: "Récompenses dans le coffre"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: false
+            default: 1
+            hint: "Armes ou artéfacts, jamais deux fois le même (plus avec l'artéfact « récompenses en plus »). Vide = 1."
+          - name: "weapon_weight"
+            label: "Poids : arme"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 50.0
+            hint: "Chances relatives d'une arme ou d'un artéfact pour chaque récompense. Vide = 50."
+          - name: "artifact_weight"
+            label: "Poids : artéfact"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 50.0
+            hint: "Artéfacts ni possédés, ni tenus par l'ange. Vide = 50."
+          - name: "common_weight"
+            label: "Poids : commun"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 60.0
+            hint: "Chances relatives des raretés de chaque récompense (3 sort trois fois plus souvent que 1, 0 = jamais). Vide = 60."
           - name: "uncommon_weight"
             label: "Poids : peu commun"
             widget: "number"
@@ -2539,7 +2646,7 @@ collections:
         label: "Rareté"
         widget: "select"
         required: true
-        hint: "Une offre de fin d'étage tire d'abord une rareté (poids de rareté des coffres de l'étage). Toujours écrite (filtres et groupes de cette liste)."
+        hint: "Une offre de fin d'étage tire d'abord une rareté (poids de rareté des « Récompenses de salle » de l'étage) ; un coffre de salle des coffres, avec ses propres poids. Toujours écrite (filtres et groupes de cette liste)."
         options:
           - label: "Commun"
             value: "R0_COMMON"
@@ -2977,7 +3084,7 @@ collections:
           - name: "ExtraChestRewardsArtifactEffect"
             label: "Donjon : récompenses en plus"
             widget: "object"
-            hint: "Récompenses ajoutées à chaque coffre."
+            hint: "Récompenses ajoutées au coffre de chaque salle des coffres."
             fields:
               - name: "amount"
                 label: "Montant"
@@ -3147,7 +3254,7 @@ collections:
             default: 65.0
             hint: "Chance qu'une case de danger porte un monstre plutôt qu'un piège, sur chaque étage ; les poids de l'étage choisissent ensuite lequel. Vide = 65."
           - name: "loot_items"
-            label: "Équipement des coffres"
+            label: "Équipement des marchands et salles des coffres"
             label_singular: "Objet"
             widget: "list"
             required: false
@@ -3207,7 +3314,7 @@ collections:
   - name: "potions"
     label: "Potions"
     label_singular: "Potion"
-    description: "Potions du jeu : un fichier JSON par potion (format : docs/data.md du dépôt du jeu). Une nouvelle potion n'apparaît que dans les coffres des étages qui la listent : l'ajouter aux choix de « Potion » des étages dans config.yml."
+    description: "Potions du jeu : un fichier JSON par potion (format : docs/data.md du dépôt du jeu). Une nouvelle potion n'apparaît que dans les récompenses et chez les marchands des étages qui la listent : l'ajouter aux choix de « Potion » des étages dans config.yml."
     folder: "data/potions"
     extension: "json"
     format: "json"

@@ -1868,9 +1868,22 @@ collections:
         widget: "list"
         required: false
         collapsed: true
-        hint: "Une salle en cul-de-sac par entrée, sans démineur, avec un coffre d'armes ou d'artéfacts (à équiper ou prendre, jamais vendus). Vide = pas de salle des coffres."
-        summary: "{{fields.item_count}} récompense(s), armes {{fields.weapon_weight}} / artéfacts {{fields.artifact_weight}}"
+        hint: "Salles récompense : une en cul-de-sac par entrée, sans démineur, avec un coffre (à équiper ou prendre, jamais vendu). Il en faut une de chaque sorte par étage (arme, équipement, artéfact), sinon la vérification des données échoue."
+        summary: "{{fields.reward_kind}} : {{fields.item_count}} récompense(s)"
         fields:
+          - name: "reward_kind"
+            label: "Sorte de récompense"
+            widget: "select"
+            required: false
+            default: "WEAPON"
+            hint: "Ce que tient le coffre : des armes, des équipements (armures de tête, torse, jambes et pieds, jamais une arme) ou des artéfacts. Vide = arme."
+            options:
+              - label: "Arme"
+                value: "WEAPON"
+              - label: "Équipement (armures)"
+                value: "EQUIPMENT"
+              - label: "Artéfact"
+                value: "ARTIFACT"
           - name: "room_size"
             label: "Taille de la salle"
             widget: "number"
@@ -1890,27 +1903,7 @@ collections:
             step: 1
             required: false
             default: 1
-            hint: "Armes ou artéfacts, jamais deux fois le même (plus avec l'artéfact « récompenses en plus »). Vide = 1."
-          - name: "weapon_weight"
-            label: "Poids : arme"
-            widget: "number"
-            value_type: "float"
-            min: 0
-            max: 100
-            step: 0.1
-            required: false
-            default: 50.0
-            hint: "Chances relatives d'une arme ou d'un artéfact pour chaque récompense. Vide = 50."
-          - name: "artifact_weight"
-            label: "Poids : artéfact"
-            widget: "number"
-            value_type: "float"
-            min: 0
-            max: 100
-            step: 0.1
-            required: false
-            default: 50.0
-            hint: "Artéfacts ni possédés, ni tenus par l'ange. Vide = 50."
+            hint: "De la sorte de la salle, jamais deux fois la même (plus avec l'artéfact « récompenses en plus »). Vide = 1."
           - name: "common_weight"
             label: "Poids : commun"
             widget: "number"

@@ -1040,7 +1040,7 @@ collections:
   - name: "monsters"
     label: "Monstres"
     label_singular: "Monstre"
-    description: "Monstres du jeu : un fichier JSON par monstre (format : docs/data.md du dépôt du jeu). Ses stats sont réglées par palier : l'étage donne le palier (« Palier » de l'étage), le monstre sort avec les stats de ce palier (au-delà de la liste, le dernier). Un nouveau monstre n'apparaît que dans les biomes qui le listent. Sa vignette est l'aperçu de son « Apparence » ; celle des boss vient de scripts/tools/build_icons.gd (à relancer après un nouveau monstre ou un changement d'apparence)."
+    description: "Monstres du jeu : un fichier JSON par monstre (format : docs/data.md du dépôt du jeu). Ses stats sont réglées par palier : l'étage donne le palier (« Palier » de l'étage), le monstre sort avec les stats de ce palier (au-delà de la liste, le dernier). Un nouveau monstre n'apparaît que dans les biomes qui le listent. Sa vignette est l'aperçu de son « Apparence ». Les boss ne sont pas ici : collection « Boss »."
     folder: "data/monsters"
     extension: "json"
     format: "json"
@@ -1448,7 +1448,7 @@ collections:
         public_folder: "/assets/icons/sprites/dungeon_tileset_ii"
         choose_url: false
         accept: "image/png"
-        hint: "Animations du monstre (idle et run), choisies par leur aperçu : une des 22 images de assets/icons/sprites/dungeon_tileset_ii/ (première image de l'animation idle, découpées par build_icons.gd ; big_demon, big_zombie et ogre sont les grands, pour un boss 2 × 2). Ne pas en ajouter ici : elles viennent de l'atlas. C'est aussi l'apparence du boss qui se bat avec ce monstre. Vide = dessiné comme un « M »."
+        hint: "Animations du monstre (idle et run), choisies par leur aperçu : une des 22 images de assets/icons/sprites/dungeon_tileset_ii/ (première image de l'animation idle, découpées par build_icons.gd ; big_demon, big_zombie et ogre sont les grands, pour un boss 2 × 2). Ne pas en ajouter ici : elles viennent de l'atlas. Vide = dessiné comme un « M »."
       - name: "sprite_scale"
         label: "Taille du sprite"
         widget: "number"
@@ -3938,16 +3938,14 @@ collections:
   - name: "bosses"
     label: "Boss"
     label_singular: "Boss"
-    description: "Boss du jeu (format : docs/data.md du dépôt du jeu) : un fichier JSON par boss, lié à un étage. Le boss se bat avec un profil de la collection « Monstres » (PV, attaques, apparence, par palier) ; ses réglages de salle (taille, densité, biome) remplacent ceux de l'étage pour sa salle, une salle en plus, en cul-de-sac, avec un crâne sur la minicarte. Au plus un boss par étage."
+    description: "Boss du jeu (format : docs/data.md du dépôt du jeu) : un fichier JSON par boss, lié à un étage. Le boss existe en un seul exemplaire : ses stats de combat (PV, attaques, portée, armure, comportements, apparence) sont réglées ici, un seul jeu de stats quel que soit le palier de l'étage (pas de profil dans « Monstres ») ; ses réglages de salle (taille, densité, biome) remplacent ceux de l'étage pour sa salle, une salle en plus, en cul-de-sac, avec un crâne sur la minicarte. Au plus un boss par étage."
     folder: "data/bosses"
     extension: "json"
     format: "json"
     create: true
     identifier_field: "display_name"
     summary: "{{display_name}} (étage {{level_number}})"
-    media_folder: "/assets/icons/monsters"
-    public_folder: "/assets/icons/monsters"
-    thumbnail: "/assets/icons/{{fields.monster}}.png"
+    thumbnail: "sprite_frames"
     sortable_fields:
       fields:
         - "level_number"
@@ -3972,16 +3970,6 @@ collections:
         widget: "string"
         required: true
         hint: "Nom du boss. Donne aussi le nom du fichier d'un nouveau boss (« Roi liche » → roi_liche.json)."
-      - name: "monster"
-        label: "Monstre"
-        widget: "relation"
-        collection: "monsters"
-        value_field: "monsters/{{slug}}"
-        display_fields:
-          - "display_name"
-        dropdown_threshold: 0
-        required: true
-        hint: "Profil de la collection « Monstres » avec lequel le boss se bat, au palier de l'étage ; son « Apparence » est celle du boss (vignette de la liste des boss). Lui donner un profil à part (poids 0, dans aucun biome) pour régler ses stats et son apparence sans toucher aux monstres ordinaires."
       - name: "level_number"
         label: "Étage"
         widget: "number"
@@ -4002,6 +3990,376 @@ collections:
         required: false
         default: 1
         hint: "Côté du carré de cases du boss : 1 (1 × 1) ou 2 (2 × 2 : marquer les 4 cases pour l'attaquer en premier ; une case révélée sans drapeau lui donne la surprise). Vide = 1."
+      - name: "max_health"
+        label: "PV max"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 99
+        step: 1
+        required: false
+        default: 1
+        hint: "PV du boss, les mêmes quel que soit le palier de l'étage (un seul jeu de stats). Vide = 1."
+      - name: "attacks"
+        label: "Attaques"
+        label_singular: "Attaque"
+        widget: "list"
+        required: false
+        hint: "À chaque tour de combat, le monstre utilise ses attaques dans l'ordre, puis recommence."
+        summary: "{{fields.display_name}}"
+        fields:
+          - name: "display_name"
+            label: "Nom de l'attaque"
+            widget: "string"
+            required: false
+            hint: "Vide = \"Attack\"."
+          - name: "effects"
+            label: "Effets de l'attaque"
+            label_singular: "Effet"
+            widget: "list"
+            required: false
+            hint: "Appliqués dans l'ordre à chaque coup."
+            typeKey: "type"
+            types:
+              - name: "DamageEffect"
+                label: "Dégâts"
+                widget: "object"
+                hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "HealEffect"
+                label: "Soin"
+                widget: "object"
+                hint: "Rend des PV au porteur, sans dépasser son maximum."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "StrengthEffect"
+                label: "Force"
+                widget: "object"
+                hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "WeaknessEffect"
+                label: "Faiblesse"
+                widget: "object"
+                hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de PV, de charges… Vide = 1."
+              - name: "ShieldBreakEffect"
+                label: "Brise-bouclier"
+                widget: "object"
+                hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+                fields:
+                  - name: "amount"
+                    label: "Montant"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Dégâts sans bouclier. Vide = 1."
+              - name: "StatusEffect"
+                label: "Statut"
+                widget: "object"
+                hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1, et la résistance ne fait jamais descendre un coup reçu sous 1 dégât."
+                fields:
+                  - name: "status"
+                    label: "Statut"
+                    widget: "select"
+                    required: true
+                    hint: "Bonus : force, résistance, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                    options:
+                      - label: "Force (+1 dégât par attaque)"
+                        value: "STRENGTH"
+                      - label: "Dégâts en moins (−1 dégât par attaque)"
+                        value: "FEEBLE"
+                      - label: "Faiblesse (+1 dégât subi par coup)"
+                        value: "WEAKNESS"
+                      - label: "Résistance (−1 dégât subi par coup, jamais sous 1)"
+                        value: "RESISTANCE"
+                      - label: "Vitesse (+1 case de déplacement)"
+                        value: "HASTE"
+                      - label: "Lenteur (−1 case de déplacement)"
+                        value: "SLOW"
+                      - label: "Portée + (+1 de portée)"
+                        value: "RANGE_UP"
+                      - label: "Portée − (−1 de portée)"
+                        value: "RANGE_DOWN"
+                  - name: "amount"
+                    label: "Charges"
+                    widget: "number"
+                    value_type: "int"
+                    min: 1
+                    max: 99
+                    step: 1
+                    required: false
+                    default: 1
+                    hint: "Nombre de charges données. Vide = 1."
+                  - name: "duration"
+                    label: "Durée"
+                    widget: "select"
+                    required: false
+                    default: "FIGHT"
+                    hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                    options:
+                      - label: "Jusqu'à la fin du combat"
+                        value: "FIGHT"
+                      - label: "Jusqu'à la fin de l'étage"
+                        value: "FLOOR"
+                  - name: "on_source"
+                    label: "Au porteur"
+                    widget: "boolean"
+                    required: false
+                    default: false
+                    hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
+      - name: "attack_range"
+        label: "Portée"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        default: 1
+        hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
+      - name: "movement"
+        label: "Déplacement"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        default: 1
+        hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 1."
+      - name: "armor"
+        label: "Armure"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        default: 0
+        hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
+      - name: "resistance"
+        label: "Résistance"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        default: 0
+        hint: "Dégâts retirés de chaque coup reçu, qui fait toujours au moins 1 dégât (sauf armes qui ignorent la résistance : coup entier), donnés en statut « Résistance » au début de chaque combat (icône au-dessus du monstre). Vide = 0."
+      - name: "behaviors"
+        label: "Comportements"
+        label_singular: "Comportement"
+        widget: "list"
+        required: false
+        hint: "Comportements spéciaux en combat : n'ajouter que ceux qu'il a, un seul de chaque sorte (le premier compte). Vide = monstre ordinaire."
+        typeKey: "type"
+        types:
+          - name: "StealGoldBehavior"
+            label: "Vol d'or"
+            widget: "object"
+            hint: "S'il surprend le personnage (révélé sans drapeau), il vole de l'or au lieu d'attaquer, puis s'enfuit. Marqué d'un drapeau, il combat normalement."
+            fields:
+              - name: "amount"
+                label: "Or volé (fixe)"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 999
+                step: 1
+                required: false
+                default: 0
+                hint: "Part fixe, ajoutée au pourcentage ; le total vaut au plus l'or du personnage. Vide = 0."
+              - name: "percent"
+                label: "Or volé (% de l'or détenu)"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 100
+                step: 1
+                required: false
+                default: 0
+                hint: "Pourcentage de l'or du personnage volé en plus de la part fixe, arrondi à l'unité inférieure. Vide = 0."
+              - name: "tiers"
+                label: "Par palier"
+                label_singular: "Palier"
+                widget: "list"
+                required: false
+                hint: "Or volé par palier d'étage : la 1re entrée pour le palier 1, la 2e pour le palier 2… Un étage de palier plus haut que la liste prend la dernière. Remplace les deux valeurs ci-dessus. Vide = ces valeurs à tous les paliers."
+                summary: "{{fields.amount}} or + {{fields.percent}} %"
+                fields:
+                  - name: "amount"
+                    label: "Or volé (fixe)"
+                    widget: "number"
+                    value_type: "int"
+                    min: 0
+                    max: 999
+                    step: 1
+                    required: false
+                    default: 0
+                    hint: "Part fixe, ajoutée au pourcentage ; le total vaut au plus l'or du personnage. Vide = 0."
+                  - name: "percent"
+                    label: "Or volé (% de l'or détenu)"
+                    widget: "number"
+                    value_type: "int"
+                    min: 0
+                    max: 100
+                    step: 1
+                    required: false
+                    default: 0
+                    hint: "Pourcentage de l'or du personnage volé en plus de la part fixe, arrondi à l'unité inférieure. Vide = 0."
+          - name: "RageBehavior"
+            label: "Rage"
+            widget: "object"
+            hint: "Chaque coup du personnage qui lui fait des dégâts (bouclier compris) lui donne de la force jusqu'à la fin du combat."
+            fields:
+              - name: "amount"
+                label: "Force par coup"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Charges de force gagnées à chaque coup reçu. Vide = 1."
+          - name: "SummonBehavior"
+            label: "Invocation"
+            widget: "object"
+            hint: "Au lieu de marcher et d'attaquer, il invoque des monstres à côté de lui à chacun de ses tours (plus un par charge du statut « Horde »). Ils rejoignent l'ordre des tours en dernier et ne jouent qu'après le prochain tour du personnage ; l'invocateur se place après eux. Après ses invocations, il s'enfuit à son tour suivant. Un monstre sans attaque doit avoir ce comportement."
+            fields:
+              - name: "monster"
+                label: "Monstre invoqué"
+                widget: "relation"
+                collection: "monsters"
+                value_field: "monsters/{{slug}}"
+                display_fields:
+                  - "display_name"
+                dropdown_threshold: 0
+                required: true
+                hint: "Collection « Monstres » (un nouveau monstre y apparaît de lui-même). Un monstre invoqué n'invoque jamais à son tour."
+              - name: "count"
+                label: "Invocations"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Monstres invoqués en tout avant de s'enfuir. 0 = il ne s'enfuit jamais et invoque tout le combat (Necromancer Lord). Vide = 1."
+              - name: "per_turn"
+                label: "Invocations par tour"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                default: 1
+                hint: "Monstres invoqués à chaque tour, avant le statut « Horde » (+1 par charge). Vide = 1."
+              - name: "max_per_turn"
+                label: "Maximum par tour"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 9
+                step: 1
+                required: false
+                default: 0
+                hint: "Monstres invoqués au plus en un tour, « Horde » comprise (3 pour le Necromancer Lord). Vide ou 0 = sans limite."
+          - name: "PriorityTargetBehavior"
+            label: "Cible prioritaire"
+            widget: "object"
+            hint: "Le personnage le vise tant qu'un chemin mène à une case d'où le frapper, même si d'autres monstres sont à portée."
+            fields: []
+          - name: "SplitBehavior"
+            label: "Division"
+            widget: "object"
+            hint: "Vaincu en combat avec des charges du statut « Division » (données par un piège de boss, effet « Statut du boss »), il se divise en monstres plus petits sur ses cases puis autour, qui rejoignent le combat en dernier, avec une charge de moins chacun. Sans charge, il meurt normalement."
+            fields:
+              - name: "monster"
+                label: "Se divise en"
+                widget: "relation"
+                collection: "monsters"
+                value_field: "monsters/{{slug}}"
+                display_fields:
+                  - "display_name"
+                dropdown_threshold: 0
+                required: true
+                hint: "Collection « Monstres » : en général un monstre plus faible, qui a lui-même ce comportement pour se diviser à nouveau."
+              - name: "count"
+                label: "Parties"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 4
+                step: 1
+                required: false
+                default: 2
+                hint: "Monstres qui remplacent le vaincu. Vide = 2."
+      - name: "sprite_frames"
+        label: "Apparence"
+        widget: "image"
+        required: false
+        media_folder: "/assets/icons/sprites/dungeon_tileset_ii"
+        public_folder: "/assets/icons/sprites/dungeon_tileset_ii"
+        choose_url: false
+        accept: "image/png"
+        hint: "Animations du monstre (idle et run), choisies par leur aperçu : une des 22 images de assets/icons/sprites/dungeon_tileset_ii/ (première image de l'animation idle, découpées par build_icons.gd ; big_demon, big_zombie et ogre sont les grands, pour un boss 2 × 2). Ne pas en ajouter ici : elles viennent de l'atlas. Aussi la vignette de la liste des boss. Vide = dessiné comme un « M »."
+      - name: "sprite_scale"
+        label: "Taille du sprite"
+        widget: "number"
+        value_type: "float"
+        min: 0.25
+        max: 2
+        step: 0.05
+        required: false
+        default: 1
+        hint: "1 = taille normale ; 0.5 = dessiné deux fois plus petit sur sa case (le plus petit Swampy). Ne change ni sa case ni sa portée. Vide = 1."
       - name: "room_size"
         label: "Taille de la salle"
         widget: "number"

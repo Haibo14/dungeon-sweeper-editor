@@ -101,4 +101,5 @@ jamais l'écrire dans ce dépôt.
   (armes) ou `assets/icons/equipment/` (armures).
 - Apparence des monstres : choix dans la grille des aperçus de
   `assets/icons/sprites/dungeon_tileset_ii/`, vignette de la liste des
-  monstres ; vignette de la liste des boss (image de leur monstre).
+  monstres ; même grille pour l'apparence d'un boss (champ « Apparence »
+  de « Boss », vignette de leur liste).

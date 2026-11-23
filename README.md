@@ -20,7 +20,11 @@ la collection « Donjon »), réglages du donjon (`data/dungeon/dungeon.json`), 
 
 - `admin/index.html` : charge Sveltia et lui indique sa config (chemins
   relatifs : sur GitHub Pages, le site vit sous `/dungeon-sweeper-editor/`).
-- `admin/config.yml` : collections des armes, armures, monstres, étages, biomes, pièges, artéfacts, potions, prix, joueur, héros, boss et donjon ; `backend: github`,
+- `admin/config.yml` : collections rangées en groupes séparés par des
+  `- divider: true`, chacune avec une icône Material Symbols (`icon`) :
+  Personnage (héros, joueur), Objets (armes, armures, artéfacts, potions),
+  Dangers (monstres, boss, pièges), Donjon (donjon, étages, biomes),
+  Réglages (prix) ; `backend: github`,
   `repo: Haibo14/DungeonSweeper`, `branch: balance`.
 - `admin/sveltia-cms.js` et `admin/chunks/` : Sveltia CMS **0.252.0**, copié
   dans le dépôt plutôt que chargé depuis un CDN (un script externe modifié

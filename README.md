@@ -107,3 +107,6 @@ jamais l'écrire dans ce dépôt.
   `assets/icons/sprites/dungeon_tileset_ii/`, vignette de la liste des
   monstres ; même grille pour l'apparence d'un boss (champ « Apparence »
   de « Boss », vignette de leur liste).
+- Apparence des héros : choix dans la grille des aperçus de
+  `assets/icons/heroes/` (personnages jouables seulement), vignette de la
+  liste des héros.

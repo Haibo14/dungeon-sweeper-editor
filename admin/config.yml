@@ -2554,6 +2554,12 @@ collections:
                 required: false
                 default: 0
                 hint: "Monstres invoqués au plus en un tour, « Horde » comprise (3 pour le Necromancer Lord). Vide ou 0 = sans limite."
+              - name: "instant"
+                label: "Invocation instantanée"
+                widget: "boolean"
+                required: false
+                default: false
+                hint: "Coché (Necromancer) : avant que quiconque joue, même sous un drapeau, il invoque d'un coup ses « Invocations » autour du personnage, puis s'enfuit aussitôt (« Invocations par tour », « Maximum par tour » et « Horde » ignorés). Sans drapeau, ses invocations jouent avant le personnage ; avec drapeau, après."
           - name: "PriorityTargetBehavior"
             label: "Cible prioritaire"
             widget: "object"
@@ -2989,6 +2995,12 @@ collections:
                 required: false
                 default: 0
                 hint: "Monstres invoqués au plus en un tour, « Horde » comprise (3 pour le Necromancer Lord). Vide ou 0 = sans limite."
+              - name: "instant"
+                label: "Invocation instantanée"
+                widget: "boolean"
+                required: false
+                default: false
+                hint: "Coché (Necromancer) : avant que quiconque joue, même sous un drapeau, il invoque d'un coup ses « Invocations » autour du personnage, puis s'enfuit aussitôt (« Invocations par tour », « Maximum par tour » et « Horde » ignorés). Sans drapeau, ses invocations jouent avant le personnage ; avec drapeau, après."
           - name: "PriorityTargetBehavior"
             label: "Cible prioritaire"
             widget: "object"

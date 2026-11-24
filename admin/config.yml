@@ -255,15 +255,6 @@ collections:
             step: 1
             required: true
             hint: "1 point = un demi-cœur. Toujours écrit (défaut du script : 3)."
-          - name: "reveal_range"
-            label: "Portée de révélation"
-            widget: "number"
-            value_type: "float"
-            min: 1
-            max: 20
-            step: 0.1
-            required: true
-            hint: "En cases, en ligne droite entre les centres (une diagonale vaut 1,41). Toujours écrite (défaut du script : 2)."
           - name: "attack"
             label: "Attaque à mains nues"
             widget: "object"
@@ -431,6 +422,15 @@ collections:
             step: 1
             required: true
             hint: "Cases parcourues par tour de combat, diagonales comprises. Toujours écrit (défaut du script : 2)."
+          - name: "reveal_range"
+            label: "Portée de révélation"
+            widget: "number"
+            value_type: "float"
+            min: 1
+            max: 20
+            step: 0.1
+            required: true
+            hint: "En cases, en ligne droite entre les centres (une diagonale vaut 1,41). Toujours écrite (défaut du script : 2)."
           - name: "heroes"
             label: "Héros proposés"
             label_singular: "Héros"
@@ -582,143 +582,15 @@ collections:
         choose_url: false
         accept: "image/png"
         hint: "Une des 720 icônes de assets/icons/weapons/ (<famille>_<matériau>, découpées des atlas par build_icons.gd). Ne pas en ajouter ici : elles viennent des atlas."
-      - name: "effects"
-        label: "Effets de l'objet"
-        label_singular: "Effet"
-        widget: "list"
+      - name: "projectile_texture"
+        label: "Projectile"
+        widget: "image"
         required: false
-        hint: "Pas encore appliqués en jeu : laisser vide."
-        typeKey: "type"
-        types:
-          - name: "DamageEffect"
-            label: "Dégâts"
-            widget: "object"
-            hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
-            fields:
-              - name: "amount"
-                label: "Montant"
-                widget: "number"
-                value_type: "int"
-                min: 1
-                max: 99
-                step: 1
-                required: false
-                default: 1
-                hint: "Nombre de PV, de charges… Vide = 1."
-          - name: "HealEffect"
-            label: "Soin"
-            widget: "object"
-            hint: "Rend des PV au porteur, sans dépasser son maximum."
-            fields:
-              - name: "amount"
-                label: "Montant"
-                widget: "number"
-                value_type: "int"
-                min: 1
-                max: 99
-                step: 1
-                required: false
-                default: 1
-                hint: "Nombre de PV, de charges… Vide = 1."
-          - name: "StrengthEffect"
-            label: "Force"
-            widget: "object"
-            hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
-            fields:
-              - name: "amount"
-                label: "Montant"
-                widget: "number"
-                value_type: "int"
-                min: 1
-                max: 99
-                step: 1
-                required: false
-                default: 1
-                hint: "Nombre de PV, de charges… Vide = 1."
-          - name: "WeaknessEffect"
-            label: "Faiblesse"
-            widget: "object"
-            hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
-            fields:
-              - name: "amount"
-                label: "Montant"
-                widget: "number"
-                value_type: "int"
-                min: 1
-                max: 99
-                step: 1
-                required: false
-                default: 1
-                hint: "Nombre de PV, de charges… Vide = 1."
-          - name: "ShieldBreakEffect"
-            label: "Brise-bouclier"
-            widget: "object"
-            hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
-            fields:
-              - name: "amount"
-                label: "Montant"
-                widget: "number"
-                value_type: "int"
-                min: 1
-                max: 99
-                step: 1
-                required: false
-                default: 1
-                hint: "Dégâts sans bouclier. Vide = 1."
-          - name: "StatusEffect"
-            label: "Statut"
-            widget: "object"
-            hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1, et la résistance ne fait jamais descendre un coup reçu sous 1 dégât."
-            fields:
-              - name: "status"
-                label: "Statut"
-                widget: "select"
-                required: true
-                hint: "Bonus : force, résistance, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
-                options:
-                  - label: "Force (+1 dégât par attaque)"
-                    value: "STRENGTH"
-                  - label: "Dégâts en moins (−1 dégât par attaque)"
-                    value: "FEEBLE"
-                  - label: "Faiblesse (+1 dégât subi par coup)"
-                    value: "WEAKNESS"
-                  - label: "Résistance (−1 dégât subi par coup, jamais sous 1)"
-                    value: "RESISTANCE"
-                  - label: "Vitesse (+1 case de déplacement)"
-                    value: "HASTE"
-                  - label: "Lenteur (−1 case de déplacement)"
-                    value: "SLOW"
-                  - label: "Portée + (+1 de portée)"
-                    value: "RANGE_UP"
-                  - label: "Portée − (−1 de portée)"
-                    value: "RANGE_DOWN"
-              - name: "amount"
-                label: "Charges"
-                widget: "number"
-                value_type: "int"
-                min: 1
-                max: 99
-                step: 1
-                required: false
-                default: 1
-                hint: "Nombre de charges données. Vide = 1."
-              - name: "duration"
-                label: "Durée"
-                widget: "select"
-                required: false
-                default: "FIGHT"
-                hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
-                options:
-                  - label: "Jusqu'à la fin du combat"
-                    value: "FIGHT"
-                  - label: "Jusqu'à la fin de l'étage"
-                    value: "FLOOR"
-              - name: "on_source"
-                label: "Au porteur"
-                widget: "boolean"
-                required: false
-                default: false
-                hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
+        media_folder: "/assets/icons/weapons"
+        public_folder: "/assets/icons/weapons"
+        choose_url: false
+        accept: "image/png"
+        hint: "Icône qui vole vers les cibles en combat, seulement pour les shurikens, arcs et arbalètes (ignorée pour les autres types). Tourne sur elle-même pour un shuriken, pointe vers sa cible pour un arc ou une arbalète. Vide = l'icône du shuriken, ou la flèche de la même matière que l'icône de l'arc ou de l'arbalète (bow_gold → arrow_gold)."
       - name: "rarity"
         label: "Rareté"
         widget: "select"
@@ -771,15 +643,6 @@ collections:
             value: "KATANA"
           - label: "Bouclier"
             value: "SHIELD"
-      - name: "projectile_texture"
-        label: "Projectile"
-        widget: "image"
-        required: false
-        media_folder: "/assets/icons/weapons"
-        public_folder: "/assets/icons/weapons"
-        choose_url: false
-        accept: "image/png"
-        hint: "Icône qui vole vers les cibles en combat, seulement pour les shurikens, arcs et arbalètes (ignorée pour les autres types). Tourne sur elle-même pour un shuriken, pointe vers sa cible pour un arc ou une arbalète. Vide = l'icône du shuriken, ou la flèche de la même matière que l'icône de l'arc ou de l'arbalète (bow_gold → arrow_gold)."
       - name: "attack"
         label: "Attaque"
         widget: "object"
@@ -1142,97 +1005,6 @@ collections:
                 required: false
                 default: 1
                 hint: "Vide = 1. Négatif = malus."
-  - name: "armors"
-    label: "Armures"
-    icon: "shield"
-    label_singular: "Armure"
-    description: "Armures du jeu (tête, torse, jambes, pieds) : un fichier JSON par armure (format : docs/data.md du dépôt du jeu)."
-    folder: "data/equipment/armors"
-    extension: "json"
-    format: "json"
-    create: true
-    identifier_field: "display_name"
-    summary: "{{display_name}}"
-    sortable_fields:
-      fields:
-        - "display_name"
-        - "slot"
-        - "rarity"
-      default:
-        field: "slot"
-        direction: "ascending"
-    view_filters:
-      filters:
-        - name: "slot_head"
-          label: "Emplacement : Tête"
-          field: "slot"
-          eq: "Head"
-        - name: "slot_chest"
-          label: "Emplacement : Torse"
-          field: "slot"
-          eq: "Chest"
-        - name: "slot_legs"
-          label: "Emplacement : Jambes"
-          field: "slot"
-          eq: "Legs"
-        - name: "slot_feet"
-          label: "Emplacement : Pieds"
-          field: "slot"
-          eq: "Feet"
-        - name: "rarity_r0_common"
-          label: "Rareté : Commun"
-          field: "rarity"
-          eq: "R0_COMMON"
-        - name: "rarity_r1_uncommon"
-          label: "Rareté : Peu commun"
-          field: "rarity"
-          eq: "R1_UNCOMMON"
-        - name: "rarity_r2_rare"
-          label: "Rareté : Rare"
-          field: "rarity"
-          eq: "R2_RARE"
-        - name: "rarity_r3_epic"
-          label: "Rareté : Épique"
-          field: "rarity"
-          eq: "R3_EPIC"
-        - name: "rarity_r4_legendary"
-          label: "Rareté : Légendaire"
-          field: "rarity"
-          eq: "R4_LEGENDARY"
-    view_groups:
-      groups:
-        - name: "slot"
-          label: "Emplacement"
-          field: "slot"
-        - name: "rarity"
-          label: "Rareté"
-          field: "rarity"
-    fields:
-      - name: "design_notes"
-        label: "À implémenter"
-        widget: "text"
-        required: false
-        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
-      - name: "draft"
-        label: "Brouillon"
-        widget: "boolean"
-        required: false
-        default: false
-        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
-      - name: "display_name"
-        label: "Nom"
-        widget: "string"
-        required: true
-        hint: "Nom affiché en jeu. Donne aussi le nom du fichier d'une nouvelle armure (« Casque de fer » → casque_de_fer.json)."
-      - name: "texture"
-        label: "Icône"
-        widget: "image"
-        required: false
-        media_folder: "/assets/icons/equipment"
-        public_folder: "/assets/icons/equipment"
-        choose_url: false
-        accept: "image/png"
-        hint: "Une des 600 icônes de assets/icons/equipment/ (découpées des 4 atlas d'équipement par build_icons.gd). Ne pas en ajouter ici : elles viennent des atlas."
       - name: "effects"
         label: "Effets de l'objet"
         label_singular: "Effet"
@@ -1370,6 +1142,97 @@ collections:
                 required: false
                 default: false
                 hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
+  - name: "armors"
+    label: "Armures"
+    icon: "shield"
+    label_singular: "Armure"
+    description: "Armures du jeu (tête, torse, jambes, pieds) : un fichier JSON par armure (format : docs/data.md du dépôt du jeu)."
+    folder: "data/equipment/armors"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "display_name"
+    summary: "{{display_name}}"
+    sortable_fields:
+      fields:
+        - "display_name"
+        - "slot"
+        - "rarity"
+      default:
+        field: "slot"
+        direction: "ascending"
+    view_filters:
+      filters:
+        - name: "slot_head"
+          label: "Emplacement : Tête"
+          field: "slot"
+          eq: "Head"
+        - name: "slot_chest"
+          label: "Emplacement : Torse"
+          field: "slot"
+          eq: "Chest"
+        - name: "slot_legs"
+          label: "Emplacement : Jambes"
+          field: "slot"
+          eq: "Legs"
+        - name: "slot_feet"
+          label: "Emplacement : Pieds"
+          field: "slot"
+          eq: "Feet"
+        - name: "rarity_r0_common"
+          label: "Rareté : Commun"
+          field: "rarity"
+          eq: "R0_COMMON"
+        - name: "rarity_r1_uncommon"
+          label: "Rareté : Peu commun"
+          field: "rarity"
+          eq: "R1_UNCOMMON"
+        - name: "rarity_r2_rare"
+          label: "Rareté : Rare"
+          field: "rarity"
+          eq: "R2_RARE"
+        - name: "rarity_r3_epic"
+          label: "Rareté : Épique"
+          field: "rarity"
+          eq: "R3_EPIC"
+        - name: "rarity_r4_legendary"
+          label: "Rareté : Légendaire"
+          field: "rarity"
+          eq: "R4_LEGENDARY"
+    view_groups:
+      groups:
+        - name: "slot"
+          label: "Emplacement"
+          field: "slot"
+        - name: "rarity"
+          label: "Rareté"
+          field: "rarity"
+    fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel (« brûle la cible 2 tours, 1 dégât par tour »). Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
+      - name: "display_name"
+        label: "Nom"
+        widget: "string"
+        required: true
+        hint: "Nom affiché en jeu. Donne aussi le nom du fichier d'une nouvelle armure (« Casque de fer » → casque_de_fer.json)."
+      - name: "texture"
+        label: "Icône"
+        widget: "image"
+        required: false
+        media_folder: "/assets/icons/equipment"
+        public_folder: "/assets/icons/equipment"
+        choose_url: false
+        accept: "image/png"
+        hint: "Une des 600 icônes de assets/icons/equipment/ (découpées des 4 atlas d'équipement par build_icons.gd). Ne pas en ajouter ici : elles viennent des atlas."
       - name: "rarity"
         label: "Rareté"
         widget: "select"
@@ -1400,6 +1263,16 @@ collections:
             value: "Legs"
           - label: "Pieds"
             value: "Feet"
+      - name: "max_health"
+        label: "PV max en plus"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        default: 0
+        hint: "En points de vie (1 point = un demi-cœur), tant que l'armure est portée. Vide = 0."
       - name: "armor"
         label: "Armure"
         widget: "number"
@@ -1420,26 +1293,6 @@ collections:
         required: false
         default: 0
         hint: "Retirée de chaque coup reçu, jamais en dessous de 1 dégât. Vide = 0."
-      - name: "max_health"
-        label: "PV max en plus"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        default: 0
-        hint: "En points de vie (1 point = un demi-cœur), tant que l'armure est portée. Vide = 0."
-      - name: "thorns"
-        label: "Épines"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        default: 0
-        hint: "Dégâts renvoyés au monstre chaque fois que son attaque touche le personnage. Vide = 0."
       - name: "dodge_chance"
         label: "Esquive (%)"
         widget: "number"
@@ -1460,6 +1313,16 @@ collections:
         required: false
         default: 0
         hint: "Chance de bloquer chaque attaque de monstre (armure lourde), cumulée avec les autres objets et les artéfacts, plafonnée. Vide = 0."
+      - name: "thorns"
+        label: "Épines"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        default: 0
+        hint: "Dégâts renvoyés au monstre chaque fois que son attaque touche le personnage. Vide = 0."
       - name: "movement"
         label: "Déplacement"
         widget: "number"
@@ -1470,6 +1333,143 @@ collections:
         required: false
         default: 0
         hint: "Cases ajoutées au déplacement du personnage à chaque tour de combat (négatif : ralentit), cumulées avec les autres objets ; déplacement total au moins 1. Vide = 0."
+      - name: "effects"
+        label: "Effets de l'objet"
+        label_singular: "Effet"
+        widget: "list"
+        required: false
+        hint: "Pas encore appliqués en jeu : laisser vide."
+        typeKey: "type"
+        types:
+          - name: "DamageEffect"
+            label: "Dégâts"
+            widget: "object"
+            hint: "Retire des PV à la cible (plus la force du porteur et les bonus de dégâts)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "HealEffect"
+            label: "Soin"
+            widget: "object"
+            hint: "Rend des PV au porteur, sans dépasser son maximum."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "StrengthEffect"
+            label: "Force"
+            widget: "object"
+            hint: "Donne des charges de force au porteur : +1 dégât par charge à chaque coup, jusqu'à la fin du combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "WeaknessEffect"
+            label: "Faiblesse"
+            widget: "object"
+            hint: "Donne des charges de faiblesse à la cible : +1 dégât subi par charge à chaque coup, jusqu'à la fin du combat."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Nombre de PV, de charges… Vide = 1."
+          - name: "ShieldBreakEffect"
+            label: "Brise-bouclier"
+            widget: "object"
+            hint: "Retire tout le bouclier de la cible (durable compris), sans dégâts ; sans bouclier, lui retire des PV (plus les bonus de dégâts)."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Dégâts sans bouclier. Vide = 1."
+          - name: "StatusEffect"
+            label: "Statut"
+            widget: "object"
+            hint: "Donne des charges d'un statut à la cible (ou au porteur si « Au porteur » est coché), pour le combat ou pour l'étage. Chaque charge vaut 1 ; dégâts, déplacement et portée ne descendent jamais sous 1, et la résistance ne fait jamais descendre un coup reçu sous 1 dégât."
+            fields:
+              - name: "status"
+                label: "Statut"
+                widget: "select"
+                required: true
+                hint: "Bonus : force, résistance, vitesse, portée +. Malus : dégâts en moins, faiblesse, lenteur, portée −."
+                options:
+                  - label: "Force (+1 dégât par attaque)"
+                    value: "STRENGTH"
+                  - label: "Dégâts en moins (−1 dégât par attaque)"
+                    value: "FEEBLE"
+                  - label: "Faiblesse (+1 dégât subi par coup)"
+                    value: "WEAKNESS"
+                  - label: "Résistance (−1 dégât subi par coup, jamais sous 1)"
+                    value: "RESISTANCE"
+                  - label: "Vitesse (+1 case de déplacement)"
+                    value: "HASTE"
+                  - label: "Lenteur (−1 case de déplacement)"
+                    value: "SLOW"
+                  - label: "Portée + (+1 de portée)"
+                    value: "RANGE_UP"
+                  - label: "Portée − (−1 de portée)"
+                    value: "RANGE_DOWN"
+              - name: "amount"
+                label: "Charges"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 99
+                step: 1
+                required: false
+                default: 1
+                hint: "Nombre de charges données. Vide = 1."
+              - name: "duration"
+                label: "Durée"
+                widget: "select"
+                required: false
+                default: "FIGHT"
+                hint: "Vide = jusqu'à la fin du combat (ou du suivant, si reçu hors combat)."
+                options:
+                  - label: "Jusqu'à la fin du combat"
+                    value: "FIGHT"
+                  - label: "Jusqu'à la fin de l'étage"
+                    value: "FLOOR"
+              - name: "on_source"
+                label: "Au porteur"
+                widget: "boolean"
+                required: false
+                default: false
+                hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
   - name: "artifacts"
     label: "Artéfacts"
     icon: "diamond"
@@ -2205,15 +2205,25 @@ collections:
         widget: "string"
         required: true
         hint: "Nom affiché en jeu. Donne aussi le nom du fichier d'un nouveau monstre (« Rat géant » → rat_geant.json)."
-      - name: "spawn_weight"
-        label: "Poids hors liste d'étage"
+      - name: "sprite_frames"
+        label: "Apparence"
+        widget: "image"
+        required: false
+        media_folder: "/assets/icons/sprites/dungeon_tileset_ii"
+        public_folder: "/assets/icons/sprites/dungeon_tileset_ii"
+        choose_url: false
+        accept: "image/png"
+        hint: "Animations du monstre (idle et run), choisies par leur aperçu : une des 22 images de assets/icons/sprites/dungeon_tileset_ii/ (première image de l'animation idle, découpées par build_icons.gd ; big_demon, big_zombie et ogre sont les grands, pour un boss 2 × 2). Ne pas en ajouter ici : elles viennent de l'atlas. Vide = dessiné comme un « M »."
+      - name: "sprite_scale"
+        label: "Taille du sprite"
         widget: "number"
         value_type: "float"
-        min: 0
-        step: 0.1
+        min: 0.25
+        max: 2
+        step: 0.05
         required: false
-        default: 1.0
-        hint: "Seulement pour un étage sans sa propre liste de dangers (aucun aujourd'hui) : chances relatives parmi les monstres, 0 = jamais. Vide = 1."
+        default: 1
+        hint: "1 = taille normale ; 0.5 = dessiné deux fois plus petit sur sa case (le plus petit Swampy). Ne change ni sa case ni sa portée. Vide = 1."
       - name: "tiers"
         label: "Paliers"
         label_singular: "Palier"
@@ -2233,6 +2243,46 @@ collections:
             required: false
             default: 1
             hint: "Vide = 1."
+          - name: "armor"
+            label: "Armure"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 99
+            step: 1
+            required: false
+            default: 0
+            hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
+          - name: "resistance"
+            label: "Résistance"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 99
+            step: 1
+            required: false
+            default: 0
+            hint: "Dégâts retirés de chaque coup reçu, qui fait toujours au moins 1 dégât (sauf armes qui ignorent la résistance : coup entier), donnés en statut « Résistance » au début de chaque combat (icône au-dessus du monstre). Vide = 0."
+          - name: "attack_range"
+            label: "Portée"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: false
+            default: 1
+            hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
+          - name: "movement"
+            label: "Déplacement"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: false
+            default: 1
+            hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 1."
           - name: "attacks"
             label: "Attaques"
             label_singular: "Attaque"
@@ -2383,46 +2433,6 @@ collections:
                         required: false
                         default: false
                         hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
-          - name: "attack_range"
-            label: "Portée"
-            widget: "number"
-            value_type: "int"
-            min: 1
-            max: 10
-            step: 1
-            required: false
-            default: 1
-            hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
-          - name: "movement"
-            label: "Déplacement"
-            widget: "number"
-            value_type: "int"
-            min: 1
-            max: 10
-            step: 1
-            required: false
-            default: 1
-            hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 1."
-          - name: "armor"
-            label: "Armure"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 99
-            step: 1
-            required: false
-            default: 0
-            hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
-          - name: "resistance"
-            label: "Résistance"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 99
-            step: 1
-            required: false
-            default: 0
-            hint: "Dégâts retirés de chaque coup reçu, qui fait toujours au moins 1 dégât (sauf armes qui ignorent la résistance : coup entier), donnés en statut « Résistance » au début de chaque combat (icône au-dessus du monstre). Vide = 0."
       - name: "behaviors"
         label: "Comportements"
         label_singular: "Comportement"
@@ -2574,25 +2584,15 @@ collections:
                 required: false
                 default: 2
                 hint: "Monstres qui remplacent le vaincu. Vide = 2."
-      - name: "sprite_frames"
-        label: "Apparence"
-        widget: "image"
-        required: false
-        media_folder: "/assets/icons/sprites/dungeon_tileset_ii"
-        public_folder: "/assets/icons/sprites/dungeon_tileset_ii"
-        choose_url: false
-        accept: "image/png"
-        hint: "Animations du monstre (idle et run), choisies par leur aperçu : une des 22 images de assets/icons/sprites/dungeon_tileset_ii/ (première image de l'animation idle, découpées par build_icons.gd ; big_demon, big_zombie et ogre sont les grands, pour un boss 2 × 2). Ne pas en ajouter ici : elles viennent de l'atlas. Vide = dessiné comme un « M »."
-      - name: "sprite_scale"
-        label: "Taille du sprite"
+      - name: "spawn_weight"
+        label: "Poids hors liste d'étage"
         widget: "number"
         value_type: "float"
-        min: 0.25
-        max: 2
-        step: 0.05
+        min: 0
+        step: 0.1
         required: false
-        default: 1
-        hint: "1 = taille normale ; 0.5 = dessiné deux fois plus petit sur sa case (le plus petit Swampy). Ne change ni sa case ni sa portée. Vide = 1."
+        default: 1.0
+        hint: "Seulement pour un étage sans sa propre liste de dangers (aucun aujourd'hui) : chances relatives parmi les monstres, 0 = jamais. Vide = 1."
   - name: "bosses"
     label: "Boss"
     icon: "crown"
@@ -2639,6 +2639,25 @@ collections:
         required: true
         default: 1
         hint: "Étage de la salle du boss, 1 pour le premier. Au plus un boss par étage, et pas au-delà du nombre d'étages du donjon (vérifié par la CI)."
+      - name: "sprite_frames"
+        label: "Apparence"
+        widget: "image"
+        required: false
+        media_folder: "/assets/icons/sprites/dungeon_tileset_ii"
+        public_folder: "/assets/icons/sprites/dungeon_tileset_ii"
+        choose_url: false
+        accept: "image/png"
+        hint: "Animations du monstre (idle et run), choisies par leur aperçu : une des 22 images de assets/icons/sprites/dungeon_tileset_ii/ (première image de l'animation idle, découpées par build_icons.gd ; big_demon, big_zombie et ogre sont les grands, pour un boss 2 × 2). Ne pas en ajouter ici : elles viennent de l'atlas. Aussi la vignette de la liste des boss. Vide = dessiné comme un « M »."
+      - name: "sprite_scale"
+        label: "Taille du sprite"
+        widget: "number"
+        value_type: "float"
+        min: 0.25
+        max: 2
+        step: 0.05
+        required: false
+        default: 1
+        hint: "1 = taille normale ; 0.5 = dessiné deux fois plus petit sur sa case (le plus petit Swampy). Ne change ni sa case ni sa portée. Vide = 1."
       - name: "size"
         label: "Taille du boss"
         widget: "number"
@@ -2659,6 +2678,46 @@ collections:
         required: false
         default: 1
         hint: "PV du boss, les mêmes quel que soit le palier de l'étage (un seul jeu de stats). Vide = 1."
+      - name: "armor"
+        label: "Armure"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        default: 0
+        hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
+      - name: "resistance"
+        label: "Résistance"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 99
+        step: 1
+        required: false
+        default: 0
+        hint: "Dégâts retirés de chaque coup reçu, qui fait toujours au moins 1 dégât (sauf armes qui ignorent la résistance : coup entier), donnés en statut « Résistance » au début de chaque combat (icône au-dessus du monstre). Vide = 0."
+      - name: "attack_range"
+        label: "Portée"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        default: 1
+        hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
+      - name: "movement"
+        label: "Déplacement"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        default: 1
+        hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 1."
       - name: "attacks"
         label: "Attaques"
         label_singular: "Attaque"
@@ -2809,46 +2868,6 @@ collections:
                     required: false
                     default: false
                     hint: "Coché : au porteur de l'arme (ou au monstre qui attaque) au lieu de la cible. Sans effet pour un piège."
-      - name: "attack_range"
-        label: "Portée"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 10
-        step: 1
-        required: false
-        default: 1
-        hint: "En cases : 1 = les 8 cases autour, au-delà comptée sans diagonales. Hors de portée, le monstre marche d'abord vers le personnage. Vide = 1."
-      - name: "movement"
-        label: "Déplacement"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 10
-        step: 1
-        required: false
-        default: 1
-        hint: "Cases parcourues par tour de combat, diagonales comprises. Vide = 1."
-      - name: "armor"
-        label: "Armure"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        default: 0
-        hint: "Points de bouclier reçus juste avant sa première attaque. Vide = 0."
-      - name: "resistance"
-        label: "Résistance"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        max: 99
-        step: 1
-        required: false
-        default: 0
-        hint: "Dégâts retirés de chaque coup reçu, qui fait toujours au moins 1 dégât (sauf armes qui ignorent la résistance : coup entier), donnés en statut « Résistance » au début de chaque combat (icône au-dessus du monstre). Vide = 0."
       - name: "behaviors"
         label: "Comportements"
         label_singular: "Comportement"
@@ -3000,25 +3019,6 @@ collections:
                 required: false
                 default: 2
                 hint: "Monstres qui remplacent le vaincu. Vide = 2."
-      - name: "sprite_frames"
-        label: "Apparence"
-        widget: "image"
-        required: false
-        media_folder: "/assets/icons/sprites/dungeon_tileset_ii"
-        public_folder: "/assets/icons/sprites/dungeon_tileset_ii"
-        choose_url: false
-        accept: "image/png"
-        hint: "Animations du monstre (idle et run), choisies par leur aperçu : une des 22 images de assets/icons/sprites/dungeon_tileset_ii/ (première image de l'animation idle, découpées par build_icons.gd ; big_demon, big_zombie et ogre sont les grands, pour un boss 2 × 2). Ne pas en ajouter ici : elles viennent de l'atlas. Aussi la vignette de la liste des boss. Vide = dessiné comme un « M »."
-      - name: "sprite_scale"
-        label: "Taille du sprite"
-        widget: "number"
-        value_type: "float"
-        min: 0.25
-        max: 2
-        step: 0.05
-        required: false
-        default: 1
-        hint: "1 = taille normale ; 0.5 = dessiné deux fois plus petit sur sa case (le plus petit Swampy). Ne change ni sa case ni sa portée. Vide = 1."
       - name: "room_size"
         label: "Taille de la salle"
         widget: "number"
@@ -3146,15 +3146,14 @@ collections:
         widget: "string"
         required: true
         hint: "Nom affiché en jeu. Donne aussi le nom du fichier d'un nouveau piège (« Piège à fosse » → piege_a_fosse.json)."
-      - name: "spawn_weight"
-        label: "Poids hors liste d'étage"
-        widget: "number"
-        value_type: "float"
-        min: 0
-        step: 0.1
+      - name: "sprite_frames"
+        label: "Animation"
+        widget: "select"
         required: false
-        default: 1.0
-        hint: "Seulement pour un étage sans sa propre liste de dangers (aucun aujourd'hui) : chances relatives parmi les pièges, 0 = jamais. Vide = 1."
+        hint: "Jouée une fois sur le plateau quand le piège se déclenche (animation trigger). Vide = pas d'animation, seulement sa marque."
+        options:
+          - label: "spike_trap_frames"
+            value: "/assets/sprites/spike_trap_frames.tres"
       - name: "effects"
         label: "Effets du piège"
         label_singular: "Effet"
@@ -3358,14 +3357,6 @@ collections:
                 dropdown_threshold: 0
                 required: true
                 hint: "Collection « Monstres » : le monstre qui apparaît, au palier de l'étage (Zombie pour le Giant Zombie)."
-      - name: "sprite_frames"
-        label: "Animation"
-        widget: "select"
-        required: false
-        hint: "Jouée une fois sur le plateau quand le piège se déclenche (animation trigger). Vide = pas d'animation, seulement sa marque."
-        options:
-          - label: "spike_trap_frames"
-            value: "/assets/sprites/spike_trap_frames.tres"
       - name: "tiers"
         label: "Paliers"
         label_singular: "Palier"
@@ -3576,6 +3567,15 @@ collections:
                     dropdown_threshold: 0
                     required: true
                     hint: "Collection « Monstres » : le monstre qui apparaît, au palier de l'étage (Zombie pour le Giant Zombie)."
+      - name: "spawn_weight"
+        label: "Poids hors liste d'étage"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        step: 0.1
+        required: false
+        default: 1.0
+        hint: "Seulement pour un étage sans sa propre liste de dangers (aucun aujourd'hui) : chances relatives parmi les pièges, 0 = jamais. Vide = 1."
   - divider: true
   - name: "dungeon"
     label: "Donjon"
@@ -3623,6 +3623,21 @@ collections:
                   value: "levels/level_4"
                 - label: "level_5"
                   value: "levels/level_5"
+          - name: "bosses"
+            label: "Boss"
+            label_singular: "Boss"
+            widget: "list"
+            required: false
+            hint: "Boss du donjon : chaque étage dont un boss donne le numéro (« Étage » du boss) a sa salle de boss. Vide = tous les boss du jeu (un nouveau boss y entre de lui-même)."
+            field:
+              name: "boss"
+              label: "Boss"
+              widget: "relation"
+              collection: "bosses"
+              value_field: "bosses/{{slug}}"
+              display_fields:
+                - "display_name"
+              dropdown_threshold: 0
           - name: "hazard_types"
             label: "Dangers par défaut"
             label_singular: "Danger"
@@ -3700,6 +3715,14 @@ collections:
               name: "item"
               label: "Objet"
               widget: "string"
+          - name: "equipment_prices"
+            label: "Prix de l'équipement"
+            widget: "select"
+            required: false
+            hint: "Prix d'achat et de vente par rareté (collection « Prix »). Vide = prix par défaut du script."
+            options:
+              - label: "equipment_prices"
+                value: "prices/equipment_prices"
           - name: "artifacts"
             label: "Artéfacts proposés"
             label_singular: "Artéfact"
@@ -3725,29 +3748,6 @@ collections:
             required: false
             default: 3
             hint: "Artéfacts proposés au choix à la fin de chaque étage (moins s'il n'en reste pas assez). 0 = aucun. Vide = 3."
-          - name: "bosses"
-            label: "Boss"
-            label_singular: "Boss"
-            widget: "list"
-            required: false
-            hint: "Boss du donjon : chaque étage dont un boss donne le numéro (« Étage » du boss) a sa salle de boss. Vide = tous les boss du jeu (un nouveau boss y entre de lui-même)."
-            field:
-              name: "boss"
-              label: "Boss"
-              widget: "relation"
-              collection: "bosses"
-              value_field: "bosses/{{slug}}"
-              display_fields:
-                - "display_name"
-              dropdown_threshold: 0
-          - name: "equipment_prices"
-            label: "Prix de l'équipement"
-            widget: "select"
-            required: false
-            hint: "Prix d'achat et de vente par rareté (collection « Prix »). Vide = prix par défaut du script."
-            options:
-              - label: "equipment_prices"
-                value: "prices/equipment_prices"
   - name: "levels"
     label: "Étages"
     icon: "stairs"
@@ -3771,6 +3771,16 @@ collections:
         required: false
         default: false
         hint: "Coché : chargé et vérifié, mais absent du jeu (butin, dangers, artéfacts) jusqu'à son implémentation. Seul un autre brouillon peut y faire référence (un étage ne peut pas lister un monstre brouillon)."
+      - name: "tier"
+        label: "Palier"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 20
+        step: 1
+        required: false
+        default: 1
+        hint: "Difficulté des pièges et monstres de l'étage : ils sortent avec les stats de ce palier (« Paliers » des monstres et pièges), et seules les entrées des biomes permises à ce palier sortent. Vide = 1."
       - name: "min_room_count"
         label: "Salles : nombre min"
         widget: "number"
@@ -3821,16 +3831,35 @@ collections:
         required: false
         default: 0.15
         hint: "Part des cases d'une salle qui portent un danger (0.15 = 15 %). Vide = 0.15."
-      - name: "tier"
-        label: "Palier"
+      - name: "max_monsters_per_group"
+        label: "Monstres max par combat"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        step: 1
+        required: false
+        default: 0
+        hint: "Plafond de monstres d'un même combat ; les monstres en trop deviennent des pièges. 0 = pas de limite. Vide = 0."
+      - name: "min_biome_count"
+        label: "Biomes : nombre min"
         widget: "number"
         value_type: "int"
         min: 1
-        max: 20
+        max: 10
         step: 1
         required: false
         default: 1
-        hint: "Difficulté des pièges et monstres de l'étage : ils sortent avec les stats de ce palier (« Paliers » des monstres et pièges), et seules les entrées des biomes permises à ce palier sortent. Vide = 1."
+        hint: "Nombre de biomes différents tirés pour l'étage, entre le min et le max (moins s'il n'y en a pas assez de poids > 0). Vide = 1."
+      - name: "max_biome_count"
+        label: "Biomes : nombre max"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 10
+        step: 1
+        required: false
+        default: 2
+        hint: "Vide = 2."
       - name: "biomes"
         label: "Biomes"
         label_singular: "Biome"
@@ -3858,35 +3887,6 @@ collections:
             required: false
             default: 1.0
             hint: "Chances relatives parmi les biomes de l'étage : 3 sort trois fois plus souvent que 1, 0 = jamais. Vide = 1."
-      - name: "min_biome_count"
-        label: "Biomes : nombre min"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 10
-        step: 1
-        required: false
-        default: 1
-        hint: "Nombre de biomes différents tirés pour l'étage, entre le min et le max (moins s'il n'y en a pas assez de poids > 0). Vide = 1."
-      - name: "max_biome_count"
-        label: "Biomes : nombre max"
-        widget: "number"
-        value_type: "int"
-        min: 1
-        max: 10
-        step: 1
-        required: false
-        default: 2
-        hint: "Vide = 2."
-      - name: "max_monsters_per_group"
-        label: "Monstres max par combat"
-        widget: "number"
-        value_type: "int"
-        min: 0
-        step: 1
-        required: false
-        default: 0
-        hint: "Plafond de monstres d'un même combat ; les monstres en trop deviennent des pièges. 0 = pas de limite. Vide = 0."
       - name: "loot_profile"
         label: "Récompenses de salle"
         widget: "object"
@@ -3904,6 +3904,26 @@ collections:
             required: false
             default: 60.0
             hint: "Chances relatives de chaque sorte de récompense (une seule par salle : or, une potion ou des éclats). Vide = 60."
+          - name: "min_gold"
+            label: "Or : min"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: false
+            default: 5
+            hint: "Or d'une récompense « or », tiré entre le min et le max. Vide = 5."
+          - name: "max_gold"
+            label: "Or : max"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: false
+            default: 20
+            hint: "0 = jamais d'or. Vide = 20."
           - name: "potion_weight"
             label: "Poids : potion"
             widget: "number"
@@ -3914,6 +3934,34 @@ collections:
             required: false
             default: 30.0
             hint: "Vide = 30."
+          - name: "potions"
+            label: "Potions"
+            label_singular: "Potion"
+            widget: "list"
+            required: false
+            hint: "Potions possibles d'une récompense « potion » (et des marchands), chacune avec son poids. Vide = aucune potion."
+            summary: "{{fields.potion}} ({{fields.weight}})"
+            fields:
+              - name: "potion"
+                label: "Potion"
+                widget: "relation"
+                collection: "potions"
+                value_field: "potions/{{slug}}"
+                display_fields:
+                  - "display_name"
+                dropdown_threshold: 0
+                required: true
+                hint: "Collection « Potions » : une nouvelle potion y apparaît d'elle-même."
+              - name: "weight"
+                label: "Poids"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 100
+                step: 0.1
+                required: false
+                default: 1.0
+                hint: "Vide = 1."
           - name: "light_shards_weight"
             label: "Poids : éclats de lumière"
             widget: "number"
@@ -3924,6 +3972,26 @@ collections:
             required: false
             default: 10.0
             hint: "Vide = 10."
+          - name: "min_light_shards"
+            label: "Éclats de lumière : min"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: false
+            default: 1
+            hint: "Éclats d'une récompense « éclats », tirés entre le min et le max. Vide = 1."
+          - name: "max_light_shards"
+            label: "Éclats de lumière : max"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: false
+            default: 1
+            hint: "0 = jamais d'éclats. Vide = 1."
           - name: "common_weight"
             label: "Poids : commun"
             widget: "number"
@@ -3974,74 +4042,6 @@ collections:
             required: false
             default: 1.0
             hint: "Vide = 1."
-          - name: "potions"
-            label: "Potions"
-            label_singular: "Potion"
-            widget: "list"
-            required: false
-            hint: "Potions possibles d'une récompense « potion » (et des marchands), chacune avec son poids. Vide = aucune potion."
-            summary: "{{fields.potion}} ({{fields.weight}})"
-            fields:
-              - name: "potion"
-                label: "Potion"
-                widget: "relation"
-                collection: "potions"
-                value_field: "potions/{{slug}}"
-                display_fields:
-                  - "display_name"
-                dropdown_threshold: 0
-                required: true
-                hint: "Collection « Potions » : une nouvelle potion y apparaît d'elle-même."
-              - name: "weight"
-                label: "Poids"
-                widget: "number"
-                value_type: "float"
-                min: 0
-                max: 100
-                step: 0.1
-                required: false
-                default: 1.0
-                hint: "Vide = 1."
-          - name: "min_gold"
-            label: "Or : min"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: false
-            default: 5
-            hint: "Or d'une récompense « or », tiré entre le min et le max. Vide = 5."
-          - name: "max_gold"
-            label: "Or : max"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: false
-            default: 20
-            hint: "0 = jamais d'or. Vide = 20."
-          - name: "min_light_shards"
-            label: "Éclats de lumière : min"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: false
-            default: 1
-            hint: "Éclats d'une récompense « éclats », tirés entre le min et le max. Vide = 1."
-          - name: "max_light_shards"
-            label: "Éclats de lumière : max"
-            widget: "number"
-            value_type: "int"
-            min: 0
-            max: 9999
-            step: 1
-            required: false
-            default: 1
-            hint: "0 = jamais d'éclats. Vide = 1."
       - name: "loot_items"
         label: "Équipement des marchands et salles des coffres"
         label_singular: "Objet"

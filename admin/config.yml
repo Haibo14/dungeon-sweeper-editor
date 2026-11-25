@@ -1,4 +1,4 @@
-# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, biomes, pièges, artéfacts, potions, prix, joueur, héros, boss et donjon).
+# Sveltia CMS - données d'équilibrage de DungeonSweeper (armes, armures, monstres, étages, biomes, pièges, artéfacts, potions, prix, joueur, héros, boss, donjon, malédictions, récompenses de malédiction et puzzles).
 # Champs tirés des JSON Schema du dépôt du jeu (schema/). Ne contient aucune donnée de jeu.
 backend:
   name: "github"
@@ -3650,6 +3650,51 @@ collections:
               display_fields:
                 - "display_name"
               dropdown_threshold: 0
+          - name: "curses"
+            label: "Malédictions"
+            label_singular: "Malédiction"
+            widget: "list"
+            required: false
+            hint: "Malédictions des salles malédiction. Vide = toutes celles du jeu."
+            field:
+              name: "curse"
+              label: "Malédiction"
+              widget: "relation"
+              collection: "curses"
+              value_field: "curses/{{slug}}"
+              display_fields:
+                - "kind"
+              dropdown_threshold: 0
+          - name: "curse_rewards"
+            label: "Récompenses de malédiction"
+            label_singular: "Récompense"
+            widget: "list"
+            required: false
+            hint: "Récompenses offertes avec elles. Vide = toutes celles du jeu."
+            field:
+              name: "reward"
+              label: "Récompense"
+              widget: "relation"
+              collection: "curse_rewards"
+              value_field: "curse_rewards/{{slug}}"
+              display_fields:
+                - "kind"
+              dropdown_threshold: 0
+          - name: "puzzles"
+            label: "Puzzles"
+            label_singular: "Puzzle"
+            widget: "list"
+            required: false
+            hint: "Schémas des salles puzzle. Vide = tous ceux du jeu."
+            field:
+              name: "puzzle"
+              label: "Puzzle"
+              widget: "relation"
+              collection: "puzzles"
+              value_field: "puzzles/{{slug}}"
+              display_fields:
+                - "rows"
+              dropdown_threshold: 0
           - name: "hazard_types"
             label: "Dangers par défaut"
             label_singular: "Danger"
@@ -4256,6 +4301,109 @@ collections:
             required: false
             default: 1.0
             hint: "Vide = 1."
+      - name: "mystery_rooms"
+        label: "Salles mystères"
+        label_singular: "Salle mystère"
+        widget: "list"
+        required: false
+        collapsed: true
+        hint: "Une salle en cul-de-sac par entrée, avec un « ? » jusqu'à sa visite : malédiction (la citrouille et son offre) ou puzzle (un schéma, un coffre s'il est résolu). Vide = aucune."
+        summary: "{{fields.kind}}"
+        fields:
+          - name: "kind"
+            label: "Sorte"
+            widget: "select"
+            required: false
+            default: "CURSE"
+            hint: "Vide = malédiction."
+            options:
+              - label: "Malédiction"
+                value: "CURSE"
+              - label: "Puzzle"
+                value: "PUZZLE"
+          - name: "room_size"
+            label: "Taille de la salle"
+            widget: "number"
+            value_type: "int"
+            min: 3
+            max: 12
+            step: 1
+            required: false
+            default: 6
+            hint: "En cases ; un puzzle agrandit la salle s'il ne tient pas avec un tour de sol. Vide = 6."
+          - name: "reward_kind"
+            label: "Coffre du puzzle : sorte"
+            widget: "select"
+            required: false
+            default: "EQUIPMENT"
+            hint: "Puzzle seulement. Vide = équipement."
+            options:
+              - label: "Arme"
+                value: "WEAPON"
+              - label: "Équipement (armures)"
+                value: "EQUIPMENT"
+              - label: "Artéfact"
+                value: "ARTIFACT"
+          - name: "item_count"
+            label: "Coffre du puzzle : récompenses"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: false
+            default: 1
+            hint: "Puzzle seulement. Vide = 1."
+          - name: "common_weight"
+            label: "Coffre du puzzle : poids commun"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 0.0
+            hint: "Chances relatives des raretés (0 = jamais), plus hautes que celles des salles des coffres. Vide = 0."
+          - name: "uncommon_weight"
+            label: "Coffre du puzzle : poids peu commun"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 40.0
+            hint: "Vide = 40."
+          - name: "rare_weight"
+            label: "Coffre du puzzle : poids rare"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 40.0
+            hint: "Vide = 40."
+          - name: "epic_weight"
+            label: "Coffre du puzzle : poids épique"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 15.0
+            hint: "Vide = 15."
+          - name: "legendary_weight"
+            label: "Coffre du puzzle : poids légendaire"
+            widget: "number"
+            value_type: "float"
+            min: 0
+            max: 100
+            step: 0.1
+            required: false
+            default: 5.0
+            hint: "Vide = 5."
   - name: "biomes"
     label: "Biomes"
     icon: "forest"
@@ -4411,6 +4559,170 @@ collections:
                         required: false
                         default: 1
                         hint: "Vide = 1."
+  - name: "curses"
+    label: "Malédictions"
+    icon: "heart_broken"
+    label_singular: "Malédiction"
+    description: "Malédictions proposées par la citrouille des salles malédiction (format : docs/data/format-mystery.md du dépôt du jeu). Tirées par leur poids parmi toutes celles du jeu, avec une récompense tirée à part. Elles durent jusqu'à la mort du boss de l'étage (ou la descente sur un étage sans boss)."
+    folder: "data/curses"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "kind"
+    slug: "{{slug}}_{{year}}{{month}}{{day}}{{hour}}{{minute}}{{second}}"
+    summary: "{{kind}} ({{amount}}), poids {{weight}}"
+    fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel. Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais jamais tiré en jeu."
+      - name: "kind"
+        label: "Sorte"
+        widget: "select"
+        required: true
+        hint: "Plus de bouclier : le bouclier permanent est perdu et aucun n'est gagné. Faiblesse : « Valeur » de faiblesse, que la purge n'enlève pas. Boss renforcé : le boss de l'étage gagne « Valeur » cœurs de bouclier (jamais tirée sur un étage sans boss)."
+        options:
+          - label: "Plus de bouclier permanent"
+            value: "NO_LASTING_SHIELD"
+          - label: "Faiblesse"
+            value: "WEAKNESS"
+          - label: "Boss renforcé (bouclier)"
+            value: "BOSS_SHIELD"
+      - name: "amount"
+        label: "Valeur"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 20
+        step: 1
+        required: false
+        default: 1
+        hint: "Stacks de faiblesse, ou cœurs de bouclier du boss ; sans effet pour « Plus de bouclier ». Vide = 1."
+      - name: "weight"
+        label: "Poids"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        max: 100
+        step: 0.1
+        required: false
+        default: 1.0
+        hint: "Chances relatives parmi les malédictions (0 = jamais). Vide = 1."
+  - name: "curse_rewards"
+    label: "Récompenses de malédiction"
+    icon: "redeem"
+    label_singular: "Récompense de malédiction"
+    description: "Récompenses offertes avec une malédiction, données quand elle se termine (format : docs/data/format-mystery.md du dépôt du jeu). Tirées par leur poids, indépendamment de la malédiction."
+    folder: "data/curse_rewards"
+    extension: "json"
+    format: "json"
+    create: true
+    identifier_field: "kind"
+    slug: "{{slug}}_{{year}}{{month}}{{day}}{{hour}}{{minute}}{{second}}"
+    summary: "{{kind}} ({{amount}}), poids {{weight}}"
+    fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel. Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais jamais tiré en jeu."
+      - name: "kind"
+        label: "Sorte"
+        widget: "select"
+        required: true
+        hint: "Doubler l'or : l'or possédé est doublé (au plus « Or au maximum » de plus). Cœurs max : « Valeur » cœurs maximum en plus, remplis."
+        options:
+          - label: "Doubler l'or"
+            value: "DOUBLE_GOLD"
+          - label: "Cœurs maximum"
+            value: "MAX_HEARTS"
+      - name: "amount"
+        label: "Valeur"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 10
+        step: 1
+        required: false
+        default: 1
+        hint: "Cœurs maximum donnés (« Cœurs maximum »). Vide = 1."
+      - name: "max_gold"
+        label: "Or au maximum"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 9999
+        step: 1
+        required: false
+        default: 0
+        hint: "Or ajouté au plus par « Doubler l'or ». 0 ou vide = sans plafond."
+      - name: "weight"
+        label: "Poids"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        max: 100
+        step: 0.1
+        required: false
+        default: 1.0
+        hint: "Chances relatives parmi les récompenses (0 = jamais). Vide = 1."
+  - name: "puzzles"
+    label: "Puzzles"
+    icon: "extension"
+    label_singular: "Puzzle"
+    description: "Schémas des salles puzzle (format : docs/data/format-mystery.md du dépôt du jeu). Chacun doit avoir une seule solution, le nombre de mines étant connu : la vérification des données le contrôle."
+    folder: "data/puzzles"
+    extension: "json"
+    format: "json"
+    create: true
+    slug: "puzzle_{{year}}{{month}}{{day}}{{hour}}{{minute}}{{second}}"
+    summary: "{{rows}}"
+    fields:
+      - name: "design_notes"
+        label: "À implémenter"
+        widget: "text"
+        required: false
+        hint: "Ce que les effets existants ne savent pas faire, en langage naturel. Jamais lu par le jeu : Claude le lit avec /implement-pending, puis vide le champ une fois implémenté."
+      - name: "draft"
+        label: "Brouillon"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Coché : chargé et vérifié, mais jamais tiré en jeu."
+      - name: "rows"
+        label: "Lignes"
+        label_singular: "Ligne"
+        widget: "list"
+        required: true
+        hint: "Le schéma de haut en bas, 4 × 4 au plus, toutes les lignes de même longueur, un caractère par case : * mine, # case cachée sûre, . case révélée dès le départ (avec son chiffre). Exemple : « .... » puis « #**# »."
+        field:
+          name: "row"
+          label: "Ligne"
+          widget: "string"
+          pattern: ["^[*#.]{1,4}$", "1 à 4 caractères parmi * # ."]
+      - name: "weight"
+        label: "Poids"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        max: 100
+        step: 0.1
+        required: false
+        default: 1.0
+        hint: "Chances relatives parmi les puzzles (0 = jamais). Vide = 1."
   - divider: true
   - name: "prices"
     label: "Prix"

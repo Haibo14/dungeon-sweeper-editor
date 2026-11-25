@@ -4727,7 +4727,7 @@ collections:
   - name: "prices"
     label: "Prix"
     icon: "payments"
-    description: "Prix de l'équipement par rareté et prix de vente des potions (format : docs/data.md du dépôt du jeu) : un seul fichier, data/prices/equipment_prices.json."
+    description: "Prix de l'équipement par rareté et prix du reroll des marchands (format : docs/data.md du dépôt du jeu) : un seul fichier, data/prices/equipment_prices.json."
     format: "json"
     files:
       - name: "equipment_prices"
@@ -4784,3 +4784,21 @@ collections:
             step: 1
             required: true
             hint: "Or demandé par le marchand pour un objet de cette rareté, avant la remise des artéfacts. Toujours écrit (défaut du script : 15)."
+          - name: "shop_reroll_price"
+            label: "Reroll du marchand : premier prix"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or demandé pour le premier reroll d'un marchand (stock complet renouvelé), avant la remise des artéfacts ; 0 = gratuit. Toujours écrit (défaut du script : 3)."
+          - name: "shop_reroll_price_step"
+            label: "Reroll du marchand : hausse par reroll"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9999
+            step: 1
+            required: true
+            hint: "Or ajouté au prix du reroll par chaque reroll déjà fait chez ce marchand (chaque marchand compte les siens). Toujours écrit (défaut du script : 1)."

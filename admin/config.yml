@@ -4670,17 +4670,23 @@ collections:
         default: false
         hint: "Coché : chargé et vérifié, mais jamais tiré en jeu."
       - name: "kind"
-        label: "Sorte"
+        label: "Sorte (effet codé, non modifiable)"
         widget: "select"
-        required: true
-        hint: "Plus de bouclier : le bouclier permanent est perdu et aucun n'est gagné. Faiblesse : « Valeur » de faiblesse, que la purge n'enlève pas. Boss renforcé : le boss de l'étage gagne « Valeur » cœurs de bouclier (jamais tirée sur un étage sans boss)."
+        readonly: true
+        required: false
+        default: "NONE"
+        hint: "Pour information : l'effet codé dans le jeu, choisi par Claude. Une nouvelle malédiction est « À implémenter » (jamais tirée en jeu) : décrire l'effet voulu dans « À implémenter ». Plus de bouclier : le bouclier permanent est perdu et aucun n'est gagné. Faiblesse : « Valeur » de faiblesse, que la purge n'enlève pas. Boss renforcé : le boss de l'étage gagne « Valeur » cœurs de bouclier (jamais tirée sur un étage sans boss). Pièges en plus : « Valeur » pièges de plus dans chaque salle de l'étage pas encore commencée."
         options:
+          - label: "À implémenter (jamais tirée)"
+            value: "NONE"
           - label: "Plus de bouclier permanent"
             value: "NO_LASTING_SHIELD"
           - label: "Faiblesse"
             value: "WEAKNESS"
           - label: "Boss renforcé (bouclier)"
             value: "BOSS_SHIELD"
+          - label: "Pièges en plus par salle"
+            value: "EXTRA_TRAPS"
       - name: "amount"
         label: "Valeur"
         widget: "number"
@@ -4690,7 +4696,7 @@ collections:
         step: 1
         required: false
         default: 1
-        hint: "Stacks de faiblesse, ou cœurs de bouclier du boss ; sans effet pour « Plus de bouclier ». Vide = 1."
+        hint: "Stacks de faiblesse, cœurs de bouclier du boss, ou pièges de plus par salle ; sans effet pour « Plus de bouclier ». Vide = 1."
       - name: "weight"
         label: "Poids"
         widget: "number"
@@ -4726,15 +4732,21 @@ collections:
         default: false
         hint: "Coché : chargé et vérifié, mais jamais tiré en jeu."
       - name: "kind"
-        label: "Sorte"
+        label: "Sorte (effet codé, non modifiable)"
         widget: "select"
-        required: true
-        hint: "Doubler l'or : l'or possédé est doublé (au plus « Or au maximum » de plus). Cœurs max : « Valeur » cœurs maximum en plus, remplis."
+        readonly: true
+        required: false
+        default: "NONE"
+        hint: "Pour information : l'effet codé dans le jeu, choisi par Claude. Une nouvelle récompense est « À implémenter » (jamais tirée en jeu) : décrire l'effet voulu dans « À implémenter ». Doubler l'or : l'or possédé est doublé (au plus « Or au maximum » de plus). Cœurs max : « Valeur » cœurs maximum en plus, remplis. Bouclier permanent : « Valeur » cœurs de bouclier permanent."
         options:
+          - label: "À implémenter (jamais tirée)"
+            value: "NONE"
           - label: "Doubler l'or"
             value: "DOUBLE_GOLD"
           - label: "Cœurs maximum"
             value: "MAX_HEARTS"
+          - label: "Bouclier permanent"
+            value: "LASTING_SHIELD"
       - name: "amount"
         label: "Valeur"
         widget: "number"
@@ -4744,7 +4756,7 @@ collections:
         step: 1
         required: false
         default: 1
-        hint: "Cœurs maximum donnés (« Cœurs maximum »). Vide = 1."
+        hint: "Cœurs maximum (« Cœurs maximum ») ou cœurs de bouclier permanent (« Bouclier permanent ») donnés. Vide = 1."
       - name: "max_gold"
         label: "Or au maximum"
         widget: "number"

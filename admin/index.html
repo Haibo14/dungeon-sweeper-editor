@@ -7,10 +7,17 @@
   <title>Dungeon Sweeper - Équilibrage</title>
   <!-- Relative paths: on GitHub Pages the site lives under /dungeon-sweeper-editor/. -->
   <link href="config.yml" type="text/yaml" rel="cms-config-url">
+  <!-- Sveltia imports Immutable.js from unpkg for custom field types
+       (puzzle-grid-widget.js); serve our own copy instead (README.md). -->
+  <script type="importmap">
+    { "imports": { "https://unpkg.com/immutable@5.1.9/dist/immutable.es.js": "./vendor/immutable.es.js" } }
+  </script>
 </head>
 <body>
   <!-- Sveltia CMS 0.252.0, copied from the npm package (see README.md); its
        chunks/ folder is loaded from next to it. -->
   <script src="sveltia-cms.js"></script>
+  <!-- Our own field types (no external code). -->
+  <script src="puzzle-grid-widget.js"></script>
 </body>
 </html>

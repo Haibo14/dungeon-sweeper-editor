@@ -29,6 +29,22 @@ la collection « Donjon »), réglages du donjon (`data/dungeon/dungeon.json`), 
 - `admin/sveltia-cms.js` et `admin/chunks/` : Sveltia CMS **0.252.0**, copié
   dans le dépôt plutôt que chargé depuis un CDN (un script externe modifié
   pourrait voler le token GitHub).
+- `admin/puzzle-grid-widget.js` : notre type de champ `puzzle-grid` (grille
+  cliquable des puzzles, chiffres, contrôle d'une solution unique), écrit à la
+  main sans dépendance. Il recopie `PuzzleData.get_errors()` et
+  `PuzzleSolver.count_solutions()` du jeu : les garder en phase.
+- `admin/vendor/immutable.es.js` : Immutable.js **5.1.9** (licence MIT,
+  `admin/vendor/immutable.LICENSE.txt`). Sveltia l'importe depuis
+  `unpkg.com/immutable@5.1.9/dist/immutable.es.js` dès qu'un type de champ
+  maison existe ; l'import map de `index.html` le redirige vers cette copie.
+  Copie tirée du commit `00ba7d3` de la branche `npm` de
+  `github.com/immutable-js/immutable-js` (le build de la release 5.1.9),
+  SHA-512 commençant par `37dcc1ff74ea28fd`, **non comparée à l'archive npm**
+  (registre inaccessible depuis la VM) : à vérifier avec la méthode de
+  « Mettre à jour Sveltia » (paquet `immutable`, fichier
+  `package/dist/immutable.es.js`). Après une mise à jour de Sveltia, relire la
+  version d'Immutable qu'il importe (`grep -o 'immutable@[0-9.]*'
+  admin/sveltia-cms.js`) et mettre à jour la copie et l'import map.
 - `.nojekyll` : GitHub Pages sert les fichiers tels quels.
 
 ## Ce qui vient encore de l'extérieur
@@ -61,6 +77,8 @@ Sans Node.js, à la main (ce que fait `npm i @sveltia/cms`) :
    `package/dist/chunks/assets/*.js` → `admin/chunks/assets/` (supprimer les
    anciens), `package/LICENSE.txt` → `admin/sveltia-cms.LICENSE.txt`.
 4. Mettre à jour le numéro de version dans ce README et dans `index.html`.
+5. Vérifier la version d'Immutable.js importée par Sveltia (voir « Contenu »,
+   `admin/vendor/`).
 
 ## Publier sur GitHub Pages
 

@@ -4789,16 +4789,10 @@ collections:
         default: false
         hint: "Coché : chargé et vérifié, mais jamais tiré en jeu."
       - name: "rows"
-        label: "Lignes"
-        label_singular: "Ligne"
-        widget: "list"
+        label: "Grille"
+        widget: "puzzle-grid"
         required: true
-        hint: "Le schéma de haut en bas, 4 × 4 au plus, toutes les lignes de même longueur, un caractère par case : * mine, # case cachée sûre, . case révélée dès le départ (avec son chiffre). Exemple : « .... » puis « #**# »."
-        field:
-          name: "row"
-          label: "Ligne"
-          widget: "string"
-          pattern: ["^[*#.]{1,4}$", "1 à 4 caractères parmi * # ."]
+        hint: "Cliquer sur une case pour changer sa sorte : révélée dès le départ (claire, avec son chiffre) → cachée sûre (grise) → mine (rouge). 4 × 4 au plus. Sous la grille : nombre de mines et vérification d'une solution unique (la même que celle des données). Écrit dans le fichier une ligne de texte par rangée : * mine, # cachée, . révélée."
       - name: "weight"
         label: "Poids"
         widget: "number"

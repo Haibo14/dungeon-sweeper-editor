@@ -150,6 +150,8 @@ collections:
                     value: "KATANA"
                   - label: "Bouclier"
                     value: "SHIELD"
+                  - label: "Bâton"
+                    value: "STAFF"
           - name: "StartingGoldPassive"
             label: "Or de départ"
             widget: "object"
@@ -165,6 +167,21 @@ collections:
                 required: false
                 default: 1
                 hint: "Pièces d'or. Vide = 1."
+          - name: "MagicPowerPassive"
+            label: "Puissance magique"
+            widget: "object"
+            hint: "Paliers de magie en plus de ceux du joueur, de l'équipement et des artéfacts."
+            fields:
+              - name: "amount"
+                label: "Points"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                default: 1
+                hint: "Vide = 1."
       - name: "starting_weapon"
         label: "Arme de départ"
         widget: "relation"
@@ -422,6 +439,24 @@ collections:
             step: 1
             required: true
             hint: "Cases parcourues par tour de combat, diagonales comprises. Toujours écrit (défaut du script : 2)."
+          - name: "magic_power"
+            label: "Puissance magique"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            max: 9
+            step: 1
+            required: true
+            hint: "Paliers de magie de chaque héros avant l'équipement et les artéfacts. Toujours écrite (défaut du script : 0)."
+          - name: "magic_per_tier"
+            label: "Magie par palier"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 999
+            step: 1
+            required: true
+            hint: "Points de magie d'un palier : chaque case sûre révélée donne 1 point, chaque erreur divise la magie par deux. Toujours écrite (défaut du script : 25)."
           - name: "reveal_range"
             label: "Portée de révélation"
             widget: "number"
@@ -528,6 +563,10 @@ collections:
           label: "Type : Bouclier"
           field: "category"
           eq: "SHIELD"
+        - name: "category_staff"
+          label: "Type : Bâton"
+          field: "category"
+          eq: "STAFF"
         - name: "rarity_r0_common"
           label: "Rareté : Commun"
           field: "rarity"
@@ -643,6 +682,8 @@ collections:
             value: "KATANA"
           - label: "Bouclier"
             value: "SHIELD"
+          - label: "Bâton"
+            value: "STAFF"
       - name: "attack"
         label: "Attaque"
         widget: "object"
@@ -1005,6 +1046,26 @@ collections:
                 required: false
                 default: 1
                 hint: "Vide = 1. Négatif = malus."
+          - name: "MagicDamageTrait"
+            label: "Dégâts magiques"
+            widget: "object"
+            hint: "Chaque coup (ricochets et zone compris) fait 1 dégât de plus par palier de magie rempli."
+            fields: []
+          - name: "MagicPowerTrait"
+            label: "Puissance magique"
+            widget: "object"
+            hint: "Puissance magique ajoutée tant que l'arme est équipée : un palier de magie de plus par point."
+            fields:
+              - name: "amount"
+                label: "Points"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                default: 1
+                hint: "Vide = 1."
       - name: "effects"
         label: "Effets de l'objet"
         label_singular: "Effet"
@@ -1333,6 +1394,16 @@ collections:
         required: false
         default: 0
         hint: "Cases ajoutées au déplacement du personnage à chaque tour de combat (négatif : ralentit), cumulées avec les autres objets ; déplacement total au moins 1. Vide = 0."
+      - name: "magic_power"
+        label: "Puissance magique"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        max: 9
+        step: 1
+        required: false
+        default: 0
+        hint: "Paliers de magie ajoutés tant que l'objet est porté, cumulés avec les autres objets et les artéfacts. Vide = 0."
       - name: "effects"
         label: "Effets de l'objet"
         label_singular: "Effet"
@@ -1899,6 +1970,21 @@ collections:
             label: "Donjon : portée de révélation"
             widget: "object"
             hint: "Cases ajoutées à la portée de révélation."
+            fields:
+              - name: "amount"
+                label: "Montant"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                default: 1
+                hint: "Vide = 1."
+          - name: "MagicPowerArtifactEffect"
+            label: "Magie : puissance magique"
+            widget: "object"
+            hint: "Puissance magique ajoutée : un palier de magie de plus par point."
             fields:
               - name: "amount"
                 label: "Montant"

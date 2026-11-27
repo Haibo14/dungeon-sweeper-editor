@@ -11,7 +11,7 @@
   const HIDDEN = "#";
   const REVEALED = ".";
   // PuzzleData.MAX_SIZE.
-  const MAX_SIZE = 4;
+  const MAX_SIZE = 5;
   const DEFAULT_SIZE = 4;
   // Click order of a cell.
   const NEXT = { [REVEALED]: HIDDEN, [HIDDEN]: MINE, [MINE]: REVEALED };
@@ -64,25 +64,68 @@
     return cells(rows, MINE).filter((mine) => isNeighbor(mine, [x, y])).length;
   }
 
+  // PuzzleSolver.choose(): the ways to choose k among n, at most cap.
+  function choose(n, k, cap) {
+    if (k < 0 || k > n) return 0;
+    k = Math.min(k, n - k);
+    let result = 1;
+    for (let i = 0; i < k; i++) {
+      result = (result * (n - i)) / (i + 1);
+      if (result >= cap) return cap;
+    }
+    return result;
+  }
+
   // PuzzleSolver.count_solutions(): the layouts of the known number of mines
   // among the hidden cells that give each revealed cell its number, up to limit.
+  // Backtracking over the cells next to a number; the others are only counted.
   function countSolutions(rows, limit) {
     limit = limit ?? 2;
     const hidden = cells(rows, MINE).concat(cells(rows, HIDDEN));
-    const mineCount = cells(rows, MINE).length;
-    const checks = cells(rows, REVEALED).map((cell) => ({
-      around: hidden.map((h, index) => (isNeighbor(h, cell) ? index : -1)).filter((index) => index >= 0),
-      target: numberAt(rows, cell[0], cell[1]),
-    }));
+    const numberCells = cells(rows, REVEALED);
+    const needed = numberCells.map((cell) => numberAt(rows, cell[0], cell[1]));
+    const open = numberCells.map(() => 0);
+    const touches = [];
+    let freeCells = 0;
+    hidden.sort((a, b) => a[1] - b[1] || a[0] - b[0]).forEach((cell) => {
+      const touched = [];
+      numberCells.forEach((number, index) => {
+        if (isNeighbor(number, cell)) {
+          touched.push(index);
+          open[index]++;
+        }
+      });
+      if (touched.length) touches.push(touched);
+      else freeCells++;
+    });
+    if (needed.some((target, index) => target > open[index])) return 0;
+    let minesLeft = cells(rows, MINE).length;
     let found = 0;
-    for (let layout = 0; layout < 1 << hidden.length; layout++) {
-      let bits = 0;
-      for (let v = layout; v; v &= v - 1) bits++;
-      if (bits !== mineCount) continue;
-      const fits = checks.every(({ around, target }) =>
-        around.reduce((count, index) => count + ((layout >> index) & 1), 0) === target);
-      if (fits && ++found >= limit) return found;
+    function run(position) {
+      if (position === touches.length) {
+        found = Math.min(limit, found + choose(freeCells, minesLeft, limit - found));
+        return;
+      }
+      const cellsAfter = touches.length - position - 1 + freeCells;
+      for (const mine of [1, 0]) {
+        if (found >= limit) return;
+        if (mine && minesLeft === 0) continue;
+        let fits = minesLeft - mine <= cellsAfter;
+        for (const index of touches[position]) {
+          open[index]--;
+          needed[index] -= mine;
+          if (needed[index] < 0 || needed[index] > open[index]) fits = false;
+        }
+        minesLeft -= mine;
+        if (fits) run(position + 1);
+        minesLeft += mine;
+        for (const index of touches[position]) {
+          open[index]++;
+          needed[index] += mine;
+        }
+      }
     }
+    run(0);
     return found;
   }
 
@@ -107,7 +150,7 @@
     return errors;
   }
 
-  window.PuzzleGrid = { MINE, HIDDEN, REVEALED, MAX_SIZE, toRows, makeRows, resize, setCell, numberAt, countSolutions, getErrors };
+  window.PuzzleGrid = { MINE, HIDDEN, REVEALED, MAX_SIZE, toRows, makeRows, resize, setCell, numberAt, choose, countSolutions, getErrors };
 
   // --- Field type ---
 

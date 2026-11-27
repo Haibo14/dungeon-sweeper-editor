@@ -4796,8 +4796,8 @@ collections:
     extension: "json"
     format: "json"
     create: true
-    slug: "puzzle_{{year}}{{month}}{{day}}{{hour}}{{minute}}{{second}}"
-    summary: "{{rows}}"
+    identifier_field: "display_name"
+    summary: "{{display_name}}"
     fields:
       - name: "design_notes"
         label: "À implémenter"
@@ -4810,11 +4810,16 @@ collections:
         required: false
         default: false
         hint: "Coché : chargé et vérifié, mais jamais tiré en jeu."
+      - name: "display_name"
+        label: "Nom"
+        widget: "string"
+        required: true
+        hint: "Nom du schéma, affiché dans la liste des puzzles (jamais en jeu). Donne aussi le nom du fichier d'un nouveau puzzle (« Big cross » → big_cross.json)."
       - name: "rows"
         label: "Grille"
         widget: "puzzle-grid"
         required: true
-        hint: "Cliquer sur une case pour changer sa sorte : révélée dès le départ (claire, avec son chiffre) → cachée sûre (grise) → mine (rouge). 4 × 4 au plus. Sous la grille : nombre de mines et vérification d'une solution unique (la même que celle des données). Écrit dans le fichier une ligne de texte par rangée : * mine, # cachée, . révélée."
+        hint: "Cliquer sur une case pour changer sa sorte : révélée dès le départ (claire, avec son chiffre) → cachée sûre (grise) → mine (rouge). 5 × 5 au plus. Sous la grille : nombre de mines et vérification d'une solution unique (la même que celle des données). Écrit dans le fichier une ligne de texte par rangée : * mine, # cachée, . révélée."
       - name: "weight"
         label: "Poids"
         widget: "number"

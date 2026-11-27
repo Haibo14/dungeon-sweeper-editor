@@ -2066,6 +2066,21 @@ collections:
                 required: false
                 default: 1
                 hint: "Vide = 1."
+          - name: "FreeRerollArtifactEffect"
+            label: "Donjon : rerolls gratuits par marchand"
+            widget: "object"
+            hint: "Rerolls offerts par chaque marchand, avant les payants (qui repartent du prix de départ)."
+            fields:
+              - name: "amount"
+                label: "Rerolls gratuits"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                max: 9
+                step: 1
+                required: false
+                default: 1
+                hint: "Vide = 1."
           - name: "ExtraChestRewardsArtifactEffect"
             label: "Donjon : récompenses en plus"
             widget: "object"

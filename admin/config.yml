@@ -3781,6 +3781,16 @@ collections:
               display_fields:
                 - "rows"
               dropdown_threshold: 0
+          - name: "puzzle_mastery_streak"
+            label: "Maîtrise d'un puzzle (réussites d'affilée)"
+            widget: "number"
+            value_type: "int"
+            min: 1
+            max: 10
+            step: 1
+            required: false
+            default: 2
+            hint: "Réussites d'affilée, sans échec entre elles, pour qu'un schéma de puzzle soit maîtrisé : il ne revient plus qu'une fois tous maîtrisés. Vide = 2."
           - name: "hazard_types"
             label: "Dangers par défaut"
             label_singular: "Danger"
@@ -4815,6 +4825,16 @@ collections:
         required: false
         default: 1.0
         hint: "Chances relatives parmi les puzzles (0 = jamais). Vide = 1."
+      - name: "difficulty"
+        label: "Difficulté"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 5
+        step: 1
+        required: false
+        default: 1
+        hint: "De 1 (facile) à 5 (difficile). Les salles puzzle proposent d'abord les schémas non maîtrisés de la plus basse difficulté. Vide = 1."
   - divider: true
   - name: "prices"
     label: "Prix"
